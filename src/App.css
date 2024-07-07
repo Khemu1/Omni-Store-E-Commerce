@@ -1,0 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  color: white;
+}
+body {
+  background-color: #f1f4f9;
+}
+.main {
+  @apply flex flex-col;
+}
+
+.nav-btn {
+  @apply rounded-full border bg-orangeish border-orangeish py-1.5 px-5 text-white transition-all hover:bg-white hover:border-white text-lg hover:text-black text-center font-inter flex items-center justify-center;
+}
+.nav-menu {
+  @apply text-white bg-orangeish absolute flex flex-col gap-3 top-[68px] right-[-15px] rounded-l-lg;
+}
+.nav-menu-link {
+  @apply transition-all hover:bg-white p-3 hover:text-black w-full text-center;
+}
