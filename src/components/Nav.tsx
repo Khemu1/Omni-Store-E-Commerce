@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 export const Nav = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const handleMenuOpen = () => {
-    setIsMenuOpen((prev) => !prev);
+    setTimeout(() => {
+      setIsMenuOpen((prev) => !prev);
+    }, 200);
   };
   return (
     <nav className="bg-light-gray p-3 w-full flex justify-between items-center">
@@ -22,9 +24,9 @@ export const Nav = () => {
       <div className="sm:flex hidden">
         {!isLoggedIn ? (
           <>
-            <button type="button" className="nav-btn text-lg">
-              Login
-            </button>
+            <Link to="/register" className="nav-btn text-lg">
+              Sign up
+            </Link>
           </>
         ) : (
           <div className="flex gap-5 items-center">
@@ -56,9 +58,9 @@ export const Nav = () => {
       <div className="sm:hidden ">
         {!isLoggedIn ? (
           <>
-            <button type="button" className="nav-btn text-lg">
-              Login
-            </button>
+            <Link to="/register" className="nav-btn text-lg">
+              Sign up
+            </Link>
           </>
         ) : (
           <div className="flex gap-5 items-center relative">
