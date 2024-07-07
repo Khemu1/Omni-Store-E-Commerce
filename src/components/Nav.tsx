@@ -28,14 +28,21 @@ export const Nav = () => {
           </>
         ) : (
           <div className="flex gap-5 items-center">
-            <Link to="/user-profile">username</Link>
-            <Link
-              to="user-orders"
-              className="nav-btn text-inter font-semibold text-lg"
-            >
-              orders
+            <Link to="user-profile" className="">
+              <img
+                src="/assets/icons/user.png"
+                alt="cart"
+                className="object-contain w-[35px]"
+              />
             </Link>
-            <Link to="user/cart" className="w-[35px]">
+            <Link to="user-orders" className="">
+              <img
+                src="/assets/icons/order.png"
+                alt="cart"
+                className="object-contain w-[35px]"
+              />
+            </Link>
+            <Link to="/user-cart" className="w-[35px]">
               <img
                 src="/assets/icons/cart.png"
                 alt="cart"
@@ -64,20 +71,25 @@ export const Nav = () => {
             </button>
             {isMenuOpen && (
               <div className="nav-menu">
-                <Link to="/user-profile" className="nav-menu-link">
-                  username
+                <Link to="user-profile" className="nav-menu-link">
+                  <img
+                    src="/assets/icons/user.png"
+                    alt="cart"
+                    className="object-contain w-[35px]"
+                  />
                 </Link>
-                <Link to="/user-orders" className="nav-menu-link">
-                  Orders
+                <Link to="user-orders" className="nav-menu-link">
+                  <img
+                    src="/assets/icons/order.png"
+                    alt="cart"
+                    className="object-contain w-[35px]"
+                  />
                 </Link>
-                <Link
-                  to="user/cart"
-                  className="nav-menu-link  flex justify-center"
-                >
+                <Link to="/user-cart" className="nav-menu-link">
                   <img
                     src="/assets/icons/cart.png"
                     alt="cart"
-                    className="object-contain w-[25px]"
+                    className="object-contain w-[35px]"
                   />
                 </Link>
               </div>

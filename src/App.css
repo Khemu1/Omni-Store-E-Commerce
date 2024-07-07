@@ -20,5 +20,10 @@ body {
   @apply text-white bg-orangeish absolute flex flex-col gap-3 top-[68px] right-[-15px] rounded-l-lg;
 }
 .nav-menu-link {
-  @apply transition-all hover:bg-white p-3 hover:text-black w-full text-center;
+  @apply hover:bg-white active:bg-white active:text-black p-3 hover:text-black w-full text-center;
+  transition-property: all;
+  transition-duration: 500ms;
+}
+
+.nav-menu-link:active {
 }
