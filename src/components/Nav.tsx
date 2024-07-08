@@ -1,16 +1,21 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-export const Nav = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+const Nav = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const handleMenuOpen = () => {
     setTimeout(() => {
       setIsMenuOpen((prev) => !prev);
     }, 200);
+    const handleScroll = (e: Event) => {
+      if (e.target instanceof HTMLElement && e.target.classList.contains("nav")) {
+        console.log()
+      }
+    }
   };
   return (
-    <nav className="bg-light-gray p-3 w-full flex justify-between items-center">
+    <nav className="nav">
       <div className="Logo flex gap-2">
         <Link to="/" className="logo flex w-[200px]">
           <img
@@ -32,21 +37,21 @@ export const Nav = () => {
           <div className="flex gap-5 items-center">
             <Link to="user-profile" className="">
               <img
-                src="/assets/icons/user.png"
+                src="/assets/icons/user.svg"
                 alt="cart"
                 className="object-contain w-[35px]"
               />
             </Link>
             <Link to="user-orders" className="">
               <img
-                src="/assets/icons/order.png"
+                src="/assets/icons/order.svg"
                 alt="cart"
                 className="object-contain w-[35px]"
               />
             </Link>
             <Link to="/user-cart" className="w-[35px]">
               <img
-                src="/assets/icons/cart.png"
+                src="/assets/icons/cart.svg"
                 alt="cart"
                 className="object-contain"
               />
@@ -75,21 +80,21 @@ export const Nav = () => {
               <div className="nav-menu">
                 <Link to="user-profile" className="nav-menu-link">
                   <img
-                    src="/assets/icons/user.png"
+                    src="/assets/icons/user.svg"
                     alt="cart"
                     className="object-contain w-[35px]"
                   />
                 </Link>
                 <Link to="user-orders" className="nav-menu-link">
                   <img
-                    src="/assets/icons/order.png"
+                    src="/assets/icons/order.svg"
                     alt="cart"
                     className="object-contain w-[35px]"
                   />
                 </Link>
                 <Link to="/user-cart" className="nav-menu-link">
                   <img
-                    src="/assets/icons/cart.png"
+                    src="/assets/icons/cart.svg"
                     alt="cart"
                     className="object-contain w-[35px]"
                   />
@@ -102,3 +107,5 @@ export const Nav = () => {
     </nav>
   );
 };
+
+export default Nav;

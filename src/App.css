@@ -1,18 +1,27 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 * {
-  color: white;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 body {
-  background-color: #f1f4f9;
+  background-color: white;
+  width: 100%;
+  height: 100%;
 }
 .main {
   @apply flex flex-col;
 }
-
+nav {
+  @apply relative z-[999] flex justify-between p-3 bg-transparent sticky top-0;
+  backdrop-filter: blur(10px);
+  box-shadow: 5px -6px 12px -1px #272626;
+}
 .nav-btn {
   @apply rounded-full border bg-orangeish border-orangeish py-1.5 px-5 text-white transition-all hover:bg-white hover:border-white text-lg hover:text-black text-center font-inter flex items-center justify-center;
 }
@@ -25,5 +34,44 @@ body {
   transition-duration: 500ms;
 }
 
-.nav-menu-link:active {
+.searchbar {
+  @apply bg-white rounded-lg  py-1 px-2 min-w-96;
+  outline: none;
+}
+.content {
+  @apply flex flex-col gap-3 mt-10 justify-center;
+}
+.filters-wrapper {
+  @apply flex flex-1;
+}
+.products-wrapper {
+  @apply grid gap-3 flex-wrap items-center;
+  @apply grid-cols-2 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-4;
+}
+.product {
+  @apply flex flex-col items-center rounded-lg bg-white flex-wrap  border overflow-hidden md:w-[300px] cursor-pointer;
+}
+.product-contents {
+  @apply flex flex-col items-center w-full p-3;
+  transition: background-color 500ms ease-in-out,
+    background-image 500ms ease-in-out;
+}
+.product:hover .product-contents {
+  background-color: hsla(161, 64%, 73%, 1);
+}
+.product_img_wrapper {
+  @apply relative flex justify-center w-full h-40 border-b-2 bg-transparent p-3;
+}
+.product_img {
+  @apply mb-2 bg-transparent;
+}
+.product_content {
+  @apply flex justify-center w-full;
+}
+
+.product_content_title {
+  @apply font-lato font-semibold text-gray-800 text-[16px] text-nowrap overflow-x-hidden text-ellipsis;
+}
+.product_price {
+  @apply font-lato text-gray-950 font-extrabold flex w-full justify-end text-[20px];
 }
