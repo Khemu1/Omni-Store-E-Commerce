@@ -9,10 +9,13 @@ const Nav = () => {
       setIsMenuOpen((prev) => !prev);
     }, 200);
     const handleScroll = (e: Event) => {
-      if (e.target instanceof HTMLElement && e.target.classList.contains("nav")) {
-        console.log()
+      if (
+        e.target instanceof HTMLElement &&
+        e.target.classList.contains("nav")
+      ) {
+        console.log();
       }
-    }
+    };
   };
   return (
     <nav className="nav">
@@ -73,7 +76,7 @@ const Nav = () => {
               <img
                 src="/assets/icons/menu.svg"
                 alt="menu"
-                className="object-contain"
+                className="object-contain w-[35px]"
               />
             </button>
             {isMenuOpen && (

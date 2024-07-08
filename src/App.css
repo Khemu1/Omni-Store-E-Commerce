@@ -23,10 +23,12 @@ nav {
   box-shadow: 5px -6px 12px -1px #272626;
 }
 .nav-btn {
-  @apply rounded-full border bg-orangeish border-orangeish py-1.5 px-5 text-white transition-all hover:bg-white hover:border-white text-lg hover:text-black text-center font-inter flex items-center justify-center;
+  @apply rounded-full border bg-black border-black py-1.5 px-5 text-white transition-all hover:bg-white hover:border-white text-lg hover:text-black text-center font-inter flex items-center justify-center;
 }
 .nav-menu {
-  @apply text-white bg-orangeish absolute flex flex-col gap-3 top-[68px] right-[-15px] rounded-l-lg;
+  @apply text-white bg-transparent absolute flex flex-col gap-3 top-[68px] right-[-15px] rounded-l-lg;
+  backdrop-filter: blur(10px);
+  box-shadow: 5px -6px 12px -1px #272626;
 }
 .nav-menu-link {
   @apply hover:bg-white active:bg-white active:text-black p-3 hover:text-black w-full text-center;
@@ -42,14 +44,22 @@ nav {
   @apply flex flex-col gap-3 mt-10 justify-center;
 }
 .filters-wrapper {
-  @apply flex flex-1;
+  @apply flex w-fit relative;
+}
+.filter_btn {
+  @apply border-2 p-1 w-[180px];
+}
+.filter_menu {
+  @apply absolute top-[100%] w-full;
+  backdrop-filter: blur(10px);
+  box-shadow: 5px -6px 12px -1px #272626;
 }
 .products-wrapper {
-  @apply grid gap-3 flex-wrap items-center;
-  @apply grid-cols-2 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-4;
+  @apply grid gap-3 flex-wrap justify-items-center;
+  @apply grid-cols-[repeat(auto-fill,minmax(350px,1fr))];
 }
 .product {
-  @apply flex flex-col items-center rounded-lg bg-white flex-wrap  border overflow-hidden md:w-[300px] cursor-pointer;
+  @apply flex flex-col items-center rounded-lg bg-white flex-wrap  border overflow-hidden w-[350px];
 }
 .product-contents {
   @apply flex flex-col items-center w-full p-3;
@@ -70,7 +80,8 @@ nav {
 }
 
 .product_content_title {
-  @apply font-lato font-semibold text-gray-800 text-[16px] text-nowrap overflow-x-hidden text-ellipsis;
+  @apply w-full text-[18px]  text-center text-nowrap overflow-x-hidden text-ellipsis font-lato font-semibold text-gray-800;
+  @apply sm:text-[16px];
 }
 .product_price {
   @apply font-lato text-gray-950 font-extrabold flex w-full justify-end text-[20px];
