@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Nav, SearchBar, Product, Filter } from "./components/index";
+import { Nav, SearchBar, Product, Filter,Footer } from "./components/index";
 import { fetchAllProducts } from "../utils/index";
 import { ProductProps } from "../types/index";
 import { filters } from "../constants/index";
@@ -43,6 +43,7 @@ function App() {
             </div>
           </div>
         </section>
+        <Footer/>
       </main>
     </Router>
   );

@@ -86,3 +86,24 @@ nav {
 .product_price {
   @apply font-lato text-gray-950 font-extrabold flex w-full justify-end text-[20px];
 }
+footer {
+  @apply flex flex-col gap-3 w-full border-t-2 p-3;
+}
+.main_info {
+  @apply flex w-full justify-between flex-wrap p-3;
+}
+.left {
+  @apply flex flex-col gap-3 mb-3;
+}
+.footer_logo {
+  @apply flex w-[170px];
+}
+.links {
+  @apply flex gap-10 p-2 flex-wrap;
+}
+.link_group {
+  @apply flex flex-col gap-2 mx-6;
+}
+.privay_terms {
+  @apply flex flex-wrap justify-between p-4 border-t;
+}

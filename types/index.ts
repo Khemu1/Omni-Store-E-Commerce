@@ -15,8 +15,17 @@ export interface FilterTypes {
   allProdcuts: ProductProps[];
 }
 
-
 interface OptionProps {
   title: string;
   value: string;
+}
+
+export interface FooterProps {
+  name: string;
+  links: Footer[];
+}
+
+export interface Footer {
+  title: string;
+  url: string;
 }
