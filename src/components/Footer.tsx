@@ -19,11 +19,8 @@ const Footer = () => {
         </div>
         <div className="links">
           {links.map((link) => (
-            <div className="link_group">
-              <p
-                key={link.name}
-                className="mb-1 text-xl font-semibold font-lato "
-              >
+            <div className="link_group" key={link.name}>
+              <p className="mb-1 text-xl font-semibold font-lato ">
                 {link.name}
               </p>
               {link.links.map(({ title, url }) => (

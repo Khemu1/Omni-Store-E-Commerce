@@ -6,6 +6,7 @@ export const fetchAllProducts = async (): Promise<ProductProps[]> => {
       method: "GET",
     });
     const result: ProductProps[] = await response.json();
+    console.log(result);
     return result;
   } catch (error) {
     console.log(error);

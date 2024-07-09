@@ -10,7 +10,7 @@
   box-sizing: border-box;
 }
 body {
-  background-color: white;
+  background-color: rgba(59, 60, 152, 0.03);
   width: 100%;
   height: 100%;
 }
@@ -59,7 +59,7 @@ nav {
   @apply grid-cols-[repeat(auto-fill,minmax(350px,1fr))];
 }
 .product {
-  @apply flex flex-col items-center rounded-lg bg-white flex-wrap  border overflow-hidden w-[350px];
+  @apply flex flex-col items-center rounded-lg bg-white  flex-wrap  border overflow-hidden w-[350px];
 }
 .product-contents {
   @apply flex flex-col items-center w-full p-3;
@@ -69,11 +69,25 @@ nav {
 .product:hover .product-contents {
   background-color: hsla(161, 64%, 73%, 1);
 }
+.product:hover .view,
+.product:hover .add_to_btn {
+  opacity: 100%;
+}
 .product_img_wrapper {
   @apply relative flex justify-center w-full h-40 border-b-2 bg-transparent p-3;
 }
+.add_to_btn {
+  @apply absolute bg-black text-white rounded-xl p-2 bottom-1 left-1 font-lato text-sm cursor-pointer;
+  transition: all 250ms ease-in-out;
+  opacity: 0%;
+}
+
 .product_img {
   @apply mb-2 bg-transparent;
+}
+.view {
+  opacity: 0%;
+  transition: all 250ms ease-in-out;
 }
 .product_content {
   @apply flex justify-center w-full;
@@ -84,7 +98,7 @@ nav {
   @apply sm:text-[16px];
 }
 .product_price {
-  @apply font-lato text-gray-950 font-extrabold flex w-full justify-end text-[20px];
+  @apply font-lato text-gray-950 font-extrabold flex w-full justify-between items-center text-[20px];
 }
 footer {
   @apply flex flex-col gap-3 w-full border-t-2 p-3;

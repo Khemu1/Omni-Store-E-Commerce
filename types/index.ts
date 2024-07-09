@@ -11,8 +11,6 @@ export interface ScrollContextTypes {
 }
 export interface FilterTypes {
   filters: OptionProps[];
-  setAllProducts: React.Dispatch<React.SetStateAction<ProductProps[]>>;
-  allProdcuts: ProductProps[];
 }
 
 interface OptionProps {

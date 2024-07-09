@@ -13,23 +13,24 @@ const Product = ({ product }: pro) => {
     <div className="product">
       <div className="product_img_wrapper">
         <img src={product.image} alt="image" className="product_img" />
-        <button
-          type="button"
-          className="absolute w-[10%]
-          bottom-0 right-[1%] z-10"
-          onClick={handleView}
-        >
-          <img src="/assets/icons/view.svg" alt="view product" />
-        </button>
       </div>
       <div className="product-contents">
         <div className="product_content">
           <div className="product_content_title">{product.title}</div>
         </div>
-        <p className="product_price ">
-          <span className="flex text-sm items-start text-gray-900 ">$</span>
-          {product.price}
-        </p>
+        <div className="product_price  mt-2">
+          <button type="button" className="relative w-[50px]">
+            <img
+              src="/public/assets/icons/add-to-cart.svg"
+              className="object-contain  w-full h-h-full top-0 bottom-0 right-0 left-0"
+            />
+          </button>
+          <div className="flex">
+            <span className="flex text-sm items-start text-gray-900 ">$</span>
+            {product.price}
+          </div>
+          <p>{product.category}</p>
+        </div>
       </div>
     </div>
   );
