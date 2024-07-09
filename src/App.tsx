@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import { Nav, SearchBar, Product, Filter, Footer } from "./components/index";
 import { fetchAllProducts } from "../utils/index"; // Corrected the import path
 import { ProductProps } from "../types/index";
@@ -8,7 +13,6 @@ import "./App.css";
 
 function App() {
   const [allProducts, setAllProducts] = useState<ProductProps[]>([]);
-
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchAllProducts();
@@ -16,7 +20,6 @@ function App() {
     };
     fetchData();
   }, []);
-  console.log(allProducts);
 
   return (
     <Router>
