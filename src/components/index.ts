@@ -3,5 +3,5 @@ import SearchBar from "./SearchBar";
 import Product from "./Product";
 import Filter from "./Filter";
 import Footer from "./Footer";
-
-export { Nav, SearchBar, Product, Filter, Footer };
+import ProductsList from "./ProductsList";
+export { Nav, SearchBar, Product, Filter, Footer, ProductsList };
