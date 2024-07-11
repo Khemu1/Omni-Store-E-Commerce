@@ -8,3 +8,7 @@ export interface ProductProps {
   description: string;
   image: string;
 }
+
+export interface SortQuery {
+  [key: string]: "asc" | "desc" | 1 | -1;
+}

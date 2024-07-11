@@ -5,18 +5,48 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/react";
-import { FilterTypes } from "../../types";
+import { FilterTypes, OptionProps } from "../../types";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import { useState, Fragment, useEffect } from "react";
 
-import { useState, Fragment } from "react";
+const Filter = ({ filters }: FilterTypes) => {
+  const navigateTo = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [selected, setSelected] = useState<OptionProps | null>(null);
 
-const Filter = ({ allProdcuts, setAllProducts, filters }: FilterTypes) => {
-  const [selected, setSelected] = useState(filters[0].value);
+  const handleFilter = (filter: OptionProps) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("sort", filter.value);
+
+    setSearchParams(params);
+    navigateTo(`?${params.toString()}`);
+  };
+
+  useEffect(() => {
+    const sortParam = searchParams.get("sort");
+    const foundFilter = filters.find((filter) => filter.value === sortParam);
+
+    if (foundFilter) {
+      setSelected(foundFilter);
+    } else {
+      setSelected(filters[0]);
+    }
+  }, [searchParams, filters]);
+
   return (
     <div className="w-fit relative">
-      <Listbox value={selected} onChange={(e) => setSelected(e)}>
+      <Listbox
+        value={selected}
+        onChange={(selectedOption: OptionProps | null) => {
+          if (selectedOption) {
+            setSelected(selectedOption);
+            handleFilter(selectedOption);
+          }
+        }}
+      >
         <div className="relative w-fit z-10">
           <ListboxButton className={"filter_btn"}>
-            <span>Sort By: {selected}</span>
+            <span>{selected?.title}</span>
           </ListboxButton>
           <Transition
             as={Fragment}
@@ -27,10 +57,10 @@ const Filter = ({ allProdcuts, setAllProducts, filters }: FilterTypes) => {
             <ListboxOptions className="filter_menu">
               {filters.map((filter) => (
                 <ListboxOption
-                  value={filter.value}
-                  key={filter.value}
+                  value={filter}
+                  key={filter.title}
                   className={({ active }) =>
-                    `relative cursor-default select-none py-2 px-4 ${
+                    `relative cursor-default select-none font-lato font-semibold text-sm py-2 px-4 ${
                       active ? "bg-blue-800 text-white" : "text-gray-900"
                     }`
                   }
@@ -41,7 +71,7 @@ const Filter = ({ allProdcuts, setAllProducts, filters }: FilterTypes) => {
                         selected ? "font-medium" : "font-light"
                       }`}
                     >
-                      {filter.value}
+                      {filter.title}
                     </span>
                   )}
                 </ListboxOption>

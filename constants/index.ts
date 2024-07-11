@@ -1,19 +1,19 @@
 export const filters = [
   {
-    title: "Name: A-Z",
-    value: "Name: A-Z",
+    title: "Sort By : Name A-Z",
+    value: "az",
   },
   {
-    title: "Name: Z-A",
-    value: "Name: Z-A",
+    title: "Sort By : Name Z-A",
+    value: "za",
   },
   {
-    title: "Price: Low to High",
-    value: "Low to High",
+    title: "Sort By : Price Low to High",
+    value: "lowtohigh",
   },
   {
-    title: "Price: High to Low",
-    value: "High to Low",
+    title: "Sort By : Price High to Low",
+    value: "hightolow",
   },
 ];
 export const footerLinks = [

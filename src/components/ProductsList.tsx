@@ -1,12 +1,33 @@
-// ProductList.tsx
-
-import Product from "./Product";
+import { ProductCard } from "./index";
 import { filters } from "../../constants/index";
 import Filter from "./Filter";
-import { ProductsListProps } from "../../types/index";
+import { useProducts } from "../../utils/index";
+import { useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
+const ProductsList = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigateTo = useNavigate();
+  useEffect(() => {
+    const sort = searchParams.get("sort");
+    const params = new URLSearchParams(searchParams);
 
-const ProductsList = ({ allProducts }: ProductsListProps) => {
+    if (!sort) {
+      params.set("sort", "az");
+    }
+    navigateTo(`?${params.toString()}`);
+  }, [searchParams, setSearchParams]);
+  const { allProducts, loading, error } =
+    useProducts(searchParams.get("sort")?.toString()) || [];
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
   return (
     <div className="content">
       <div className="filters-wrapper">
@@ -15,7 +36,7 @@ const ProductsList = ({ allProducts }: ProductsListProps) => {
       <div className="products-wrapper">
         {allProducts.length > 0 ? (
           allProducts.map((allProducts) => (
-            <Product product={allProducts} key={allProducts.id} />
+            <ProductCard product={allProducts} key={allProducts._id} />
           ))
         ) : (
           <div>Please Try Again Later</div>

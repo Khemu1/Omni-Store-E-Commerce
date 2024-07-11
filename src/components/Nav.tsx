@@ -1,26 +1,32 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 
 const Nav = () => {
+  const navigateTo = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [path, setPath] = useState<null | string>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const handleMenuOpen = () => {
-    setTimeout(() => {
-      setIsMenuOpen((prev) => !prev);
-    }, 200);
-    const handleScroll = (e: Event) => {
-      if (
-        e.target instanceof HTMLElement &&
-        e.target.classList.contains("nav")
-      ) {
-        console.log();
+
+  useEffect(() => {
+    const sortParam = searchParams.get("sort");
+    if (sortParam) {
+      setPath(`/?sort=${sortParam}`);
+    } else {
+      if (!path) {
+        setPath("/");
       }
-    };
+    }
+  }, [searchParams]);
+
+  const handleMenuOpen = () => {
+    setIsMenuOpen((prev) => !prev);
   };
+
   return (
     <nav className="nav">
       <div className="Logo flex gap-2">
-        <Link to="/" className="logo flex w-[200px]">
+        <Link to={path ?? "/"} className="logo flex w-[200px]">
           <img
             src="/assets/icons/logo.svg"
             alt="Logo"
@@ -28,14 +34,13 @@ const Nav = () => {
           />
         </Link>
       </div>
-      {/* desktop design */}
+
+      {/* Desktop design */}
       <div className="sm:flex hidden">
         {!isLoggedIn ? (
-          <>
-            <Link to="/register" className="nav-btn text-lg">
-              Sign up
-            </Link>
-          </>
+          <Link to="/register" className="nav-btn text-lg">
+            Sign up
+          </Link>
         ) : (
           <div className="flex gap-5 items-center">
             <Link to="user-profile" className="">
@@ -62,14 +67,13 @@ const Nav = () => {
           </div>
         )}
       </div>
-      {/* mobile design */}
-      <div className="sm:hidden ">
+
+      {/* Mobile design */}
+      <div className="sm:hidden">
         {!isLoggedIn ? (
-          <>
-            <Link to="/register" className="nav-btn text-lg">
-              Sign up
-            </Link>
-          </>
+          <Link to="/register" className="nav-btn text-lg">
+            Sign up
+          </Link>
         ) : (
           <div className="flex gap-5 items-center relative">
             <button type="button" onClick={handleMenuOpen}>

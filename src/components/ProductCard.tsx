@@ -1,22 +1,27 @@
 import { useState } from "react";
 import { ProductProps } from "../../types/index";
 
+import { Link } from "react-router-dom";
+
 interface pro {
   product: ProductProps;
 }
 
-const Product = ({ product }: pro) => {
+const ProductCard = ({ product }: pro) => {
   const handleView = () => {
     console.log("view");
   };
   return (
-    <div className="product">
+    <Link to={`/product?id=${product._id}`} className="product">
       <div className="product_img_wrapper">
         <img src={product.image} alt="image" className="product_img" />
       </div>
       <div className="product-contents">
-        <div className="product_content">
-          <div className="product_content_title">{product.title}</div>
+        <div className="product_content flex-col">
+          <p className="text-left font-lato font-semibold text-sm text-gray-600 mb-4 capitalize">
+            {product.category}
+          </p>
+          <p className="product_content_title">{product.title}</p>
         </div>
         <div className="product_price  mt-2">
           <button type="button" className="relative w-[50px]">
@@ -29,11 +34,10 @@ const Product = ({ product }: pro) => {
             <span className="flex text-sm items-start text-gray-900 ">$</span>
             {product.price}
           </div>
-          <p>{product.category}</p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
-export default Product;
+export default ProductCard;

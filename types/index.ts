@@ -1,5 +1,5 @@
 export interface ProductProps {
-  id: string;
+  _id: string;
   title: string;
   price: number;
   category: string;
@@ -9,13 +9,13 @@ export interface ProductProps {
   image: string;
 }
 export interface ScrollContextTypes {
-  formRef: React.RefObject<HTMLFormElement> | null; // because the default value is null;
+  formRef: React.RefObject<HTMLFormElement> | null;
 }
 export interface FilterTypes {
   filters: OptionProps[];
 }
 
-interface OptionProps {
+export interface OptionProps {
   title: string;
   value: string;
 }
@@ -31,6 +31,11 @@ export interface Footer {
 }
 export interface UseProductsResponse {
   allProducts: ProductProps[];
+  loading: boolean;
+  error: string | null;
+}
+export interface UseProductResponse {
+  product: ProductProps | null;
   loading: boolean;
   error: string | null;
 }

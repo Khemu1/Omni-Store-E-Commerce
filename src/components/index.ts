@@ -1,7 +1,20 @@
 import Nav from "./Nav";
 import SearchBar from "./SearchBar";
-import Product from "./Product";
+import ProductCard from "./ProductCard";
 import Filter from "./Filter";
 import Footer from "./Footer";
 import ProductsList from "./ProductsList";
-export { Nav, SearchBar, Product, Filter, Footer, ProductsList };
+import ProductDetails from "./ProductDetails";
+import NotFound from "./NotFound";
+import Home from "./Home";
+export {
+  Nav,
+  SearchBar,
+  ProductCard,
+  Filter,
+  Footer,
+  ProductsList,
+  ProductDetails,
+  NotFound,
+  Home
+};

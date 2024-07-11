@@ -12,11 +12,16 @@
 body {
   background-color: rgba(59, 60, 152, 0.03);
   width: 100%;
+  height: 100dvh;
+}
+#root {
   height: 100%;
 }
-.main {
-  @apply flex flex-col;
+main {
+  @apply grid gap-10 h-full;
+  grid-template-rows: auto 2fr auto;
 }
+
 nav {
   @apply relative z-[999] flex justify-between p-3 bg-transparent sticky top-0;
   backdrop-filter: blur(10px);
@@ -47,7 +52,7 @@ nav {
   @apply flex w-fit relative;
 }
 .filter_btn {
-  @apply border-2 p-1 w-[180px];
+  @apply border-2 p-1 text-left w-[200px];
 }
 .filter_menu {
   @apply absolute top-[100%] w-full;
@@ -120,4 +125,15 @@ footer {
 }
 .privay_terms {
   @apply flex flex-wrap justify-between p-4 border-t;
+}
+
+.product_details_img {
+  @apply rounded-lg bg-white overflow-hidden p-3  w-[500px];
+}
+.product_count {
+  @apply w-max text-center rounded-lg py-2;
+  background-color: rgb(214, 213, 213);
+}
+.product_count:focus-visible {
+  outline: none;
 }

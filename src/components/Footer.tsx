@@ -12,9 +12,10 @@ const Footer = () => {
             <img src="/assets/icons/logo.svg" className="object-contain" />
           </div>
           <div className="footer_rights">
-            <p className="text-md text-gray-700 font-lato">
-              OmniStore 2024 <br /> All Rights Reserved &copy;
-            </p>
+            <div className="text-md text-gray-700 font-lato">
+              <p className="font-semibold"> OmniStore 2024</p> All Rights
+              Reserved &copy;
+            </div>
           </div>
         </div>
         <div className="links">
@@ -38,7 +39,8 @@ const Footer = () => {
       </div>
       <div className="privay_terms">
         <div className="flex gap-2 text-lg font-lato text-gray-800">
-          <p>@2024 OmniStore.</p> All rights reserved
+          <p className="font-lato font-semibold">@2024 OmniStore.</p> All rights
+          reserved
         </div>
         <div className="flex gap-3 font-lato text-gray-500 text-lg">
           <Link to="/" className=" ">
