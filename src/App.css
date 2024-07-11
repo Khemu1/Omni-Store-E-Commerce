@@ -137,3 +137,7 @@ footer {
 .product_count:focus-visible {
   outline: none;
 }
+
+.dialog {
+  @apply max-w-lg space-y-4 p-3 rounded-lg bg-white;
+}

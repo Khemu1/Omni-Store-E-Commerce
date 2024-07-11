@@ -1,10 +1,12 @@
 import { useSearchParams } from "react-router-dom";
 import { useProduct } from "../../utils";
 import { useState } from "react";
+import { ImageDialog } from "./index";
 
 const ProductDetails = () => {
   const [productCount, setProdcutCount] = useState(1);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
+  const [isOpen, setIsOpen] = useState(false);
   const id = searchParams.get("id") ?? "";
   const { product, loading, error } = useProduct(id);
   if (loading) {
@@ -27,10 +29,15 @@ const ProductDetails = () => {
 
   return (
     <section className="w-full flex">
+      <ImageDialog
+        imagePath={product?.image ?? ""}
+        closeDialog={() => setIsOpen(false)}
+        isOpen={isOpen}
+      />
       <div className="flex w-full gap-80 justify-center flex-wrap">
-        <div className="product_details_img">
+        <button className="product_details_img" onClick={() => setIsOpen(true)}>
           <img src={product?.image} className="object-contain" alt="image" />
-        </div>
+        </button>
         <div className="flex flex-col gap-5 items-start  p-3 rounded-lg  w-[450px]">
           <p className="text-gray-900 mb-3 capitalize font-semibold">
             {product?.category}

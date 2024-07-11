@@ -42,3 +42,8 @@ export interface UseProductResponse {
 export interface ProductsListProps {
   allProducts: ProductProps[];
 }
+export interface DialogProps {
+  isOpen: boolean;
+  imagePath: string;
+  closeDialog: () => void;
+}

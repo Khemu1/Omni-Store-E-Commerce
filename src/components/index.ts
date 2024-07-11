@@ -7,6 +7,7 @@ import ProductsList from "./ProductsList";
 import ProductDetails from "./ProductDetails";
 import NotFound from "./NotFound";
 import Home from "./Home";
+import ImageDialog from "./ImageDialog";
 export {
   Nav,
   SearchBar,
@@ -16,5 +17,6 @@ export {
   ProductsList,
   ProductDetails,
   NotFound,
-  Home
+  Home,
+  ImageDialog
 };
