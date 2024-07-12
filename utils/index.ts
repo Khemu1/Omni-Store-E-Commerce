@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   UseProductsResponse,
   ProductProps,
@@ -7,11 +7,15 @@ import {
 } from "../types/index";
 
 export async function fetchAllProducts(
-  sortBy?: string
+  sortBy?: string,
+  search?: string
 ): Promise<ProductProps[]> {
-  const response = await fetch(`/api/products?sortBy=${sortBy}`, {
-    method: "GET",
-  });
+  const response = await fetch(
+    `/api/products?sortBy=${sortBy}&search=${search}`,
+    {
+      method: "GET",
+    }
+  );
   if (!response.ok) {
     throw new Error(`HTTP error! status: ${response.status}`);
   }
@@ -31,16 +35,17 @@ export async function fetchProduct(id: string): Promise<ProductProps> {
   return await response.json();
 }
 
-const useProducts = (sortBy?: string): UseProductsResponse => {
+const useProducts = (sortBy?: string, search?: string): UseProductsResponse => {
   const [allProducts, setAllProducts] = useState<ProductProps[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const data = await fetchAllProducts(sortBy);
+        const data = await fetchAllProducts(sortBy, search);
         setAllProducts(data);
       } catch (error: any) {
         setError(error.message || "Failed to fetch products");
@@ -50,7 +55,7 @@ const useProducts = (sortBy?: string): UseProductsResponse => {
     };
 
     fetchData();
-  }, [sortBy]);
+  }, [searchParams]);
 
   return { allProducts, loading, error };
 };

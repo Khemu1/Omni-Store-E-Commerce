@@ -11,7 +11,7 @@ const ImageDialog = ({ imagePath, isOpen, closeDialog }: DialogProps) => {
   return (
     <button>
       <Dialog open={isOpen} onClose={closeDialog}>
-        <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
+        <div className="fixed bg-gray-300 z-30 inset-0 flex w-screen items-center justify-center p-4">
           <DialogPanel className={"dialog relative"}>
             <button
               type="button"
@@ -20,8 +20,12 @@ const ImageDialog = ({ imagePath, isOpen, closeDialog }: DialogProps) => {
             >
               <img src="/assets/icons/close.svg" alt="close" />
             </button>
-            <div>
-              <img src={imagePath} alt="product image" />
+            <div className="flex  sm:w-[500px]">
+              <img
+                src={imagePath}
+                alt="product image"
+                className="object-contain w-full"
+              />
             </div>
           </DialogPanel>
         </div>

@@ -47,3 +47,8 @@ export interface DialogProps {
   imagePath: string;
   closeDialog: () => void;
 }
+export interface ProductListProps {
+  allProducts: ProductProps[];
+  loading: boolean;
+  error: string | null;
+}

@@ -1,30 +1,9 @@
 import { ProductCard } from "./index";
 import { filters } from "../../constants/index";
 import Filter from "./Filter";
-import { useProducts } from "../../utils/index";
-import { useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { ProductListProps } from "../../types/index";
 
-const ProductsList = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const navigateTo = useNavigate();
-  useEffect(() => {
-    const sort = searchParams.get("sort");
-    const params = new URLSearchParams(searchParams);
-
-    if (!sort) {
-      params.set("sort", "az");
-    }
-    navigateTo(`?${params.toString()}`);
-  }, [searchParams, setSearchParams]);
-  const { allProducts, loading, error } =
-    useProducts(searchParams.get("sort")?.toString()) || [];
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
+const ProductsList = ({ allProducts, loading, error }: ProductListProps) => {
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -33,15 +12,21 @@ const ProductsList = () => {
       <div className="filters-wrapper">
         <Filter filters={filters} />
       </div>
-      <div className="products-wrapper">
-        {allProducts.length > 0 ? (
-          allProducts.map((allProducts) => (
-            <ProductCard product={allProducts} key={allProducts._id} />
-          ))
-        ) : (
-          <div>Please Try Again Later</div>
-        )}
-      </div>
+      {loading ? (
+        <div className="font-lato font-semibold text-xl">Loading......</div>
+      ) : (
+        <div className="products-wrapper">
+          {allProducts.length > 0 ? (
+            allProducts.map((allProducts) => (
+              <ProductCard product={allProducts} key={allProducts._id} />
+            ))
+          ) : (
+            <div className="font-lato font-semibold text-xl">
+              No products found
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

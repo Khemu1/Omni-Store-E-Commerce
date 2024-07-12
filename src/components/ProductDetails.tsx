@@ -34,15 +34,15 @@ const ProductDetails = () => {
         closeDialog={() => setIsOpen(false)}
         isOpen={isOpen}
       />
-      <div className="flex w-full gap-80 justify-center flex-wrap">
+      <div className="flex w-full gap-20 justify-center flex-wrap">
         <button className="product_details_img" onClick={() => setIsOpen(true)}>
           <img src={product?.image} className="object-contain" alt="image" />
         </button>
-        <div className="flex flex-col gap-5 items-start  p-3 rounded-lg  w-[450px]">
+        <div className="flex flex-col gap-5 items-start  p-3 rounded-lg w-[350px]  sm:w-[450px]">
           <p className="text-gray-900 mb-3 capitalize font-semibold">
             {product?.category}
           </p>
-          <p className="font-lato text-2xl font-semibold text-wrap ">
+          <p className="font-lato text-2xl font-semibold text-wrap  ">
             {product?.title}
           </p>
           <p className="text-gray-800 font-lato mt-3 text-xl">
@@ -81,14 +81,13 @@ const ProductDetails = () => {
             </div>
             <button
               type="button"
-              className="bg-black text-white font-lato py-2 px-4 rounded-lg"
+              className="bg-black text-white font-lato py-1  rounded-lg sm:py-2 px-4"
             >
               Add to Cart
             </button>
           </div>
         </div>
       </div>
-      \{" "}
     </section>
   );
 };

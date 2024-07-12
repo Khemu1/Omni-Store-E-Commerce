@@ -22,8 +22,22 @@ async function getAllProducts(req, res) {
         break;
     }
   }
+  let filterQuery = {};
+  if (req.query.search && req.query.search !== "undefined") {
+    const searchQuery = req.query.search.toLowerCase().replace(/\s+/g, "");
+    const regexPattern = `\\b${searchQuery}\\b`;
+    filterQuery = {
+      $or: [
+        { title: { $regex: regexPattern, $options: "i" } },
+        { category: { $regex: regexPattern, $options: "i" } },
+        { description: { $regex: regexPattern, $options: "i" } },
+      ],
+    };
+  }
   try {
-    const products: ProductProps[] = await Product.find().sort(sortQuery);
+    const products: ProductProps[] = await Product.find(filterQuery).sort(
+      sortQuery
+    );
     if (products) {
       res.status(200).json(products);
     }
