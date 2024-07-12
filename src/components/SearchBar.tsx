@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Input } from "@headlessui/react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { fetchAllProducts } from "../../utils/index";
 
 const SearchBar = () => {
   const [searchParams, setSearchParams] = useSearchParams();
