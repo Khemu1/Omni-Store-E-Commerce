@@ -8,9 +8,6 @@ interface pro {
 }
 
 const ProductCard = ({ product }: pro) => {
-  const handleView = () => {
-    console.log("view");
-  };
   return (
     <Link to={`/product?id=${product._id}`} className="product">
       <div className="product_img_wrapper">
@@ -26,7 +23,7 @@ const ProductCard = ({ product }: pro) => {
         <div className="product_price  mt-2">
           <button type="button" className="relative w-[50px]">
             <img
-              src="/public/assets/icons/add-to-cart.svg"
+              src="/assets/icons/add-to-cart.svg"
               className="object-contain  w-full h-h-full top-0 bottom-0 right-0 left-0"
             />
           </button>

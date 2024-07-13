@@ -30,7 +30,7 @@ export interface Footer {
   url: string;
 }
 export interface UseProductsResponse {
-  allProducts: ProductProps[];
+  allProducts: ProductProps[] | [];
   loading: boolean;
   error: string | null;
 }
@@ -49,6 +49,9 @@ export interface DialogProps {
 }
 export interface ProductListProps {
   allProducts: ProductProps[];
-  loading: boolean;
-  error: string | null;
+}
+
+export interface InfoFieldProps {
+  type: string;
+  title: string;
 }

@@ -1,6 +1,11 @@
 import { SearchBar, ProductsList } from "../index";
 import { useSearchParams } from "react-router-dom";
-import { useProducts } from "../../../utils/index";
+import { fetchAllProducts } from "../../../utils/index";
+import {
+  useQuery,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -18,15 +23,35 @@ const Home = () => {
     }
   }, [searchParams, navigateTo]);
 
-  const { allProducts, loading, error } = useProducts(
-    searchParams.get("sort")?.toString() || "az",
-    searchParams.get("search")?.toString() || ""
-  );
+  const {
+    data: allProducts,
+    isLoading,
+    isPending,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: [
+      "products",
+      searchParams.get("sort"),
+      searchParams.get("search"),
+    ],
+    queryFn: () =>
+      fetchAllProducts(
+        searchParams.get("sort") || "az",
+        searchParams.get("search") || ""
+      ),
+  });
 
   return (
-    <section className="grid grid-rows[1fr 2fr] p-3">
+    <section className="grid grid-rows[1fr 2fr] p-3 my-5">
       <SearchBar />
-      <ProductsList allProducts={allProducts} loading={loading} error={error} />
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : isError ? (
+        <div>Error: {error?.message ?? "Unknown error"}</div>
+      ) : (
+        <ProductsList allProducts={allProducts ?? []} />
+      )}
     </section>
   );
 };

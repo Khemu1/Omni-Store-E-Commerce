@@ -21,7 +21,7 @@ const MyProfile = () => {
             </p>
           </div>
         </a>
-        <a href="/myprofile/login-wishlist" className="profile_card">
+        <a href="/myprofile/wishlist" className="profile_card">
           <div>
             <img src="/assets/icons/wishlist.svg" alt="" className="w-[60px]" />
           </div>
@@ -32,7 +32,7 @@ const MyProfile = () => {
             </p>
           </div>
         </a>
-        <a href="/myprofile/login-address" className="profile_card">
+        <a href="/myprofile/addresses" className="profile_card">
           <div>
             <img src="/assets/icons/address.svg" alt="" className="w-[60px]" />
           </div>
@@ -43,7 +43,7 @@ const MyProfile = () => {
             </p>
           </div>
         </a>
-        <a href="/myprofile/login-payment" className="profile_card">
+        <a href="/myprofile/payment" className="profile_card">
           <div>
             <img src="/assets/icons/payment.svg" alt="" className="w-[60px]" />
           </div>

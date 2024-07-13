@@ -23,5 +23,12 @@
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "utils", "types", "constants", "env.d.ts"]
+  "include": [
+    "src",
+    "utils",
+    "types",
+    "constants",
+    "env.d.ts",
+    "src/components/my_profile_components/InfoField.tsx"
+  ]
 }

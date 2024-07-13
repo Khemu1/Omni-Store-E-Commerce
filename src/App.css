@@ -151,9 +151,9 @@ footer {
 .inputfield_container {
   @apply flex justify-between;
 }
-.edit_button {
-  @apply border rounded-lg;
-}
 .profile_card {
   @apply flex gap-2  border-2 border-gray-500 rounded-lg w-[350px]  p-3 h-[100px] hover:bg-gray-200 transition;
+}
+.edit_button {
+  @apply text-sm h-fit py-1 px-8 bg-black text-white border rounded-lg hover:bg-white hover:text-black transition;
 }

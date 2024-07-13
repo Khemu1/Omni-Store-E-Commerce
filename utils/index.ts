@@ -6,7 +6,7 @@ import {
   UseProductResponse,
 } from "../types/index";
 
-export async function fetchAllProducts(
+ async function fetchAllProducts(
   sortBy?: string,
   search?: string
 ): Promise<ProductProps[]> {
@@ -22,7 +22,7 @@ export async function fetchAllProducts(
   return await response.json();
 }
 
-export async function fetchProduct(id: string): Promise<ProductProps> {
+ async function fetchProduct(id: string): Promise<ProductProps> {
   const response = await fetch(`/api/products/product?id=${id}`, {
     method: "GET",
   });
@@ -35,57 +35,57 @@ export async function fetchProduct(id: string): Promise<ProductProps> {
   return await response.json();
 }
 
-const useProducts = (sortBy?: string, search?: string): UseProductsResponse => {
-  const [allProducts, setAllProducts] = useState<ProductProps[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [searchParams] = useSearchParams();
+// const useProducts = (sortBy?: string, search?: string): UseProductsResponse => {
+//   const [allProducts, setAllProducts] = useState<ProductProps[]>([]);
+//   const [loading, setLoading] = useState<boolean>(true);
+//   const [error, setError] = useState<string | null>(null);
+//   const [searchParams] = useSearchParams();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const data = await fetchAllProducts(sortBy, search);
-        setAllProducts(data);
-      } catch (error: any) {
-        setError(error.message || "Failed to fetch products");
-      } finally {
-        setLoading(false);
-      }
-    };
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         setLoading(true);
+//         const data = await fetchAllProducts(sortBy, search);
+//         setAllProducts(data);
+//       } catch (error: any) {
+//         setError(error.message || "Failed to fetch products");
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
 
-    fetchData();
-  }, [searchParams]);
+//     fetchData();
+//   }, [searchParams]);
 
-  return { allProducts, loading, error };
-};
+//   return { allProducts, loading, error };
+// };
 
-const useProduct = (id: string): UseProductResponse => {
-  const [product, SetProduct] = useState<ProductProps | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const navigateTo = useNavigate();
+// const useProduct = (id: string): UseProductResponse => {
+//   const [product, SetProduct] = useState<ProductProps | null>(null);
+//   const [loading, setLoading] = useState<boolean>(true);
+//   const [error, setError] = useState<string | null>(null);
+//   const navigateTo = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const data = await fetchProduct(id);
-        SetProduct(data);
-      } catch (error: any) {
-        if (error.message === "Product not found") {
-          navigateTo("/404");
-        } else {
-          setError(error.message || "Failed to fetch product");
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [id]);
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         setLoading(true);
+//         const data = await fetchProduct(id);
+//         SetProduct(data);
+//       } catch (error: any) {
+//         if (error.message === "Product not found") {
+//           navigateTo("/404");
+//         } else {
+//           setError(error.message || "Failed to fetch product");
+//         }
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+//     fetchData();
+//   }, [id]);
 
-  return { product, loading, error };
-};
+//   return { product, loading, error };
+// };
 
-export { useProducts, useProduct };
+export { fetchProduct, fetchAllProducts };

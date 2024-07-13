@@ -13,9 +13,9 @@ import UserInfo from "./my_profile_components/UserInfo";
 import Orders from "./my_profile_components/Orders";
 import WishList from "./my_profile_components/WishList";
 import MyBasicInfo from "./my_profile_components/MyBasicInfo";
-import Password from "./my_profile_components/Password";
-import Email from "./my_profile_components/Email";
-import Username from "./my_profile_components/Username";
+import InfoField from "./my_profile_components/InfoField";
+import Addresses from "./my_profile_components/Addresses";
+import Address from "./my_profile_components/Address";
 export {
   Nav,
   SearchBar,
@@ -32,7 +32,7 @@ export {
   Orders,
   WishList,
   MyBasicInfo,
-  Email,
-  Username,
-  Password,
+  InfoField,
+  Addresses,
+  Address,
 };
