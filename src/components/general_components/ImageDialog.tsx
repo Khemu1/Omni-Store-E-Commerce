@@ -4,7 +4,7 @@ import {
   DialogPanel,
   DialogTitle,
 } from "@headlessui/react";
-import { DialogProps } from "../../types/index";
+import { DialogProps } from "../../../types/index";
 import { useState } from "react";
 
 const ImageDialog = ({ imagePath, isOpen, closeDialog }: DialogProps) => {

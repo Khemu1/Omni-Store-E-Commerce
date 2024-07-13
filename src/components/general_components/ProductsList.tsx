@@ -1,7 +1,7 @@
-import { ProductCard } from "./index";
-import { filters } from "../../constants/index";
+import { ProductCard } from "../index";
+import { filters } from "../../../constants/index";
 import Filter from "./Filter";
-import { ProductListProps } from "../../types/index";
+import { ProductListProps } from "../../../types/index";
 
 const ProductsList = ({ allProducts, loading, error }: ProductListProps) => {
   if (error) {

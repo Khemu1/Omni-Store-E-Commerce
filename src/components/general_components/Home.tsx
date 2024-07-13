@@ -1,6 +1,6 @@
-import { SearchBar, ProductsList } from "./index";
+import { SearchBar, ProductsList } from "../index";
 import { useSearchParams } from "react-router-dom";
-import { useProducts } from "../../utils/index";
+import { useProducts } from "../../../utils/index";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 

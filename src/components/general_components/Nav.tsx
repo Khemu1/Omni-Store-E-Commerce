@@ -43,7 +43,7 @@ const Nav = () => {
           </Link>
         ) : (
           <div className="flex gap-5 items-center">
-            <Link to="user-profile" className="">
+            <Link to="myprofile" className="">
               <img
                 src="/assets/icons/user.svg"
                 alt="cart"
@@ -85,7 +85,7 @@ const Nav = () => {
             </button>
             {isMenuOpen && (
               <div className="nav-menu">
-                <Link to="user-profile" className="nav-menu-link">
+                <Link to="myprofile" className="nav-menu-link">
                   <img
                     src="/assets/icons/user.svg"
                     alt="cart"

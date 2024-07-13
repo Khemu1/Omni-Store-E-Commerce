@@ -5,7 +5,7 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/react";
-import { FilterTypes, OptionProps } from "../../types";
+import { FilterTypes, OptionProps } from "../../../types";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useState, Fragment, useEffect } from "react";
 

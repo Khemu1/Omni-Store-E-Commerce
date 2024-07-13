@@ -1,7 +1,7 @@
 import { useSearchParams } from "react-router-dom";
-import { useProduct } from "../../utils";
+import { useProduct } from "../../../utils";
 import { useState } from "react";
-import { ImageDialog } from "./index";
+import { ImageDialog } from "../index";
 
 const ProductDetails = () => {
   const [productCount, setProdcutCount] = useState(1);

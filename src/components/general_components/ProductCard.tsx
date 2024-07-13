@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ProductProps } from "../../types/index";
+import { ProductProps } from "../../../types/index";
 
 import { Link } from "react-router-dom";
 
