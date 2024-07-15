@@ -10,12 +10,9 @@ import {
   MyProfile,
   MyBasicInfo,
   Addresses,
+  Register,
 } from "./components/index";
-import {
-  useQuery,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
 
 function App() {
@@ -25,17 +22,14 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Router>
         <main>
-          <Routes></Routes>
           <Nav />
           <Routes>
+            <Route path="/register" element={<Register />} />
             <Route path="/" element={<Home />} />
             <Route path="/product" element={<ProductDetails />} />
             <Route path="/myprofile" element={<MyProfile />} />
-            <Route
-              path="/myprofile/login-security"
-              element={<MyBasicInfo />}
-            ></Route>
-            <Route path="/myprofile/addresses" element={<Addresses />}></Route>
+            <Route path="/myprofile/login-security" element={<MyBasicInfo />} />
+            <Route path="/myprofile/addresses" element={<Addresses />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />

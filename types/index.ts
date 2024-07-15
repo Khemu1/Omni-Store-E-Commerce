@@ -55,3 +55,10 @@ export interface InfoFieldProps {
   type: string;
   title: string;
 }
+
+export interface RegisterProps {
+  email: string;
+  username: string;
+  password: string;
+  confirmPassword: string;
+}

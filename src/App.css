@@ -157,3 +157,6 @@ footer {
 .edit_button {
   @apply text-sm h-fit py-1 px-8 bg-black text-white border rounded-lg hover:bg-white hover:text-black transition;
 }
+.react-tel-input {
+  @apply w-full;
+}

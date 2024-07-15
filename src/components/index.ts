@@ -16,6 +16,7 @@ import MyBasicInfo from "./my_profile_components/MyBasicInfo";
 import InfoField from "./my_profile_components/InfoField";
 import Addresses from "./my_profile_components/Addresses";
 import Address from "./my_profile_components/Address";
+import Register from "./forms/Register";
 export {
   Nav,
   SearchBar,
@@ -35,4 +36,5 @@ export {
   InfoField,
   Addresses,
   Address,
+  Register,
 };
