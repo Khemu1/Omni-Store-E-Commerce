@@ -1,15 +1,19 @@
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import ReactPhoneInput from "react-phone-input-2";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterProps } from "../../../types";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import "react-phone-input-2/lib/style.css";
 import { getValidateRegisterSchema } from "../../../utils/formValidations";
 
 const Register = () => {
-  const validationSchema = getValidateRegisterSchema();
+  const [countryCode, setCountryCode] = useState("eg");
+  const validationSchema = getValidateRegisterSchema(countryCode);
 
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<RegisterProps>({
     resolver: yupResolver(validationSchema),
@@ -73,6 +77,33 @@ const Register = () => {
           {errors.confirmPassword && (
             <p className="text-red-500 text-sm">
               {errors.confirmPassword.message}
+            </p>
+          )}
+        </div>
+        <div className="flex flex-col gap-2">
+          <label htmlFor="mobileNumber">Mobile Number</label>
+          <Controller
+            control={control}
+            name="mobileNumber"
+            render={({ field: { onChange, value, ref } }) => (
+              <ReactPhoneInput
+                inputProps={{
+                  ref,
+                  name: "mobileNumber",
+                  required: true,
+                }}
+                country={"eg"}
+                value={value}
+                onChange={(phoneValue, countryData) => {
+                  setCountryCode(countryData.countryCode.toUpperCase());
+                  onChange(phoneValue);
+                }}
+              />
+            )}
+          />
+          {errors.mobileNumber && (
+            <p className="text-red-500 text-sm">
+              {errors.mobileNumber.message}
             </p>
           )}
         </div>

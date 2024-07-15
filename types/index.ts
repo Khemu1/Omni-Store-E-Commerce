@@ -61,4 +61,5 @@ export interface RegisterProps {
   username: string;
   password: string;
   confirmPassword: string;
+  mobileNumber: string;
 }

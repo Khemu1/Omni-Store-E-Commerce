@@ -16,23 +16,19 @@ export const transformYupErrorsIntoObject = (errors: Yup.ValidationError) => {
 
 const phoneUtil = PhoneNumberUtil.getInstance();
 
-const validatePhoneNumber = (
-  value: string,
-  countryCode: string
-): { isValid: boolean; countryCode: string } => {
+const validatePhoneNumber = (value: string, countryCode: string): boolean => {
   try {
     const phoneNumber: PhoneNumber = phoneUtil.parseAndKeepRawInput(
       value,
       countryCode
     );
-    const isValid = phoneUtil.isValidNumber(phoneNumber);
-    return { isValid, countryCode };
+    return phoneUtil.isValidNumber(phoneNumber);
   } catch (error) {
-    return { isValid: false, countryCode };
+    return false;
   }
 };
 
-export const getValidateRegisterSchema = () => {
+export const getValidateRegisterSchema = (countryCode: string) => {
   return Yup.object().shape({
     email: Yup.string()
       .email("Please enter a valid email")
@@ -50,5 +46,13 @@ export const getValidateRegisterSchema = () => {
       .oneOf([Yup.ref("password"), undefined], "Passwords must match")
       .required("Confirm Password is required")
       .label("Confirm Password"),
+    mobileNumber: Yup.string()
+      .required("Phone number is required")
+      .test("valid-phone", "Invalid phone number", (value) => {
+        if (!value) return false;
+        console.log("MobileNumber:", value);
+        const isValid = validatePhoneNumber(value, countryCode);
+        return isValid;
+      }),
   });
 };
