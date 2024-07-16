@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { SearchBar } from "../index";
+
 import { Link, useSearchParams, useNavigate } from "react-router-dom";
 
 const Nav = () => {
@@ -26,7 +28,7 @@ const Nav = () => {
   return (
     <nav className="nav">
       <div className="Logo flex gap-2">
-        <Link to={path ?? "/"} className="logo flex w-[200px]">
+        <Link to={path ?? "/"} className="logo flex w-[100px] sm:w-[170px]">
           <img
             src="/assets/icons/logo.svg"
             alt="Logo"
@@ -34,6 +36,7 @@ const Nav = () => {
           />
         </Link>
       </div>
+      <SearchBar />
 
       {/* Desktop design */}
       <div className="sm:flex hidden">

@@ -16,6 +16,38 @@ export const filters = [
     value: "hightolow",
   },
 ];
+export const categories = [
+  {
+    title: "Category : All",
+    value: "All",
+  },
+  {
+    title: "Category : Electronics",
+    value: "Electronics",
+  },
+  {
+    title: "Category : Women's Colthing",
+    value: "WomenColthing",
+  },
+  {
+    title: "Category : Mens'sColthing",
+    value: "MensColthing",
+  },
+  {
+    title: "Category : Jewelery",
+    value: "Jewelery",
+  },
+];
+export const layouts = [
+  {
+    title: "Grid",
+    value: "grid",
+  },
+  {
+    title: "List",
+    value: "List",
+  }
+];
 export const footerLinks = [
   {
     name: "About",

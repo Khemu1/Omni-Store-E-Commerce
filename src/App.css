@@ -12,7 +12,6 @@
 body {
   background-color: rgba(59, 60, 152, 0.03);
   width: 100%;
-  height: 100dvh;
 }
 #root {
   height: 100%;
@@ -23,7 +22,7 @@ main {
 }
 
 nav {
-  @apply relative z-[999] flex justify-between p-3 bg-transparent sticky top-0;
+  @apply z-[999] flex justify-between p-3 bg-transparent sticky top-0;
   backdrop-filter: blur(10px);
   box-shadow: 5px -6px 12px -1px #272626;
 }
@@ -40,32 +39,41 @@ nav {
   transition-property: all;
   transition-duration: 500ms;
 }
-
+.searchbar_form {
+  @apply flex m-auto bg-white rounded-3xl py-1 border-2 sm:w-[70%] overflow-hidden;
+  transition: 300ms ease-in-out;
+}
+.searchbar_form:focus-within {
+  border-bottom-color: rgb(59 130 246);
+}
 .searchbar {
-  @apply bg-white  py-1 px-2 w-[300px];
+  @apply bg-white  font-lato text-xl overflow-hidden text-ellipsis  py-1 px-2 w-full;
   outline: none;
 }
-.content {
-  @apply flex flex-col gap-3 mt-10 justify-center;
+.filters_wrapper {
+  @apply flex flex-col bg-white gap-10 relative border-2 rounded-xl py-5 px-2;
+  flex-grow: 0;
+  flex-shrink: 1;
+  height: max-content;
 }
-.filters-wrapper {
-  @apply flex w-fit relative;
+.content {
+  @apply flex flex-col gap-3  justify-center p-3;
+  flex: 2;
 }
 .filter_btn {
-  @apply border-2 p-1 text-left w-[200px];
+  @apply z-0 border-2 rounded-lg p-1 text-left w-[200px] flex justify-center;
 }
+
 .filter_menu {
-  @apply absolute top-[100%] w-full;
+  @apply absolute top-[100%] w-full z-50 rounded-lg overflow-x-hidden;
   backdrop-filter: blur(10px);
   box-shadow: 5px -6px 12px -1px #272626;
 }
 .products-wrapper {
-  @apply grid gap-3 flex-wrap justify-items-center;
-  @apply sm:grid-cols-[repeat(auto-fill,minmax(350px,1fr))];
-  @apply sm:grid-cols-[repeat(auto-fill,minmax(300px,1fr))];
+  @apply flex gap-8 flex-wrap justify-items-center justify-center;
 }
 .product {
-  @apply flex flex-col items-center rounded-lg bg-white  flex-wrap  border overflow-hidden w-[300px] sm:w-[350px];
+  @apply flex flex-col items-center rounded-lg bg-white  flex-wrap  border overflow-hidden w-[300px] sm:w-[300px];
 }
 .product-contents {
   @apply flex flex-col items-center w-full p-3;
@@ -166,4 +174,23 @@ footer {
 }
 .input_field:focus-within {
   outline: none;
+}
+.price-filter-container {
+  @apply px-4 my-6 flex flex-col gap-4;
+}
+.price-filter-container .input-range__track {
+  background-color: #ccc;
+}
+
+.price-filter-container .input-range__track--active {
+  background-color: #3498db;
+}
+
+.price-filter-container .input-range__slider {
+  background-color: #3498db;
+  border: 2px solid #3498db;
+}
+
+.price-filter-container .input-range__label-container {
+  @apply font-lato text-black font-semibold;
 }

@@ -32,10 +32,7 @@ const SearchBar = () => {
   }, [searchParams]);
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex m-auto bg-white rounded-3xl p-1"
-    >
+    <form onSubmit={handleSubmit} className="searchbar_form">
       <Input
         className="searchbar m-auto"
         type="text"

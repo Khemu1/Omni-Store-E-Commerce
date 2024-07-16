@@ -12,6 +12,7 @@ export interface ScrollContextTypes {
   formRef: React.RefObject<HTMLFormElement> | null;
 }
 export interface FilterTypes {
+  param: string;
   filters: OptionProps[];
 }
 

@@ -9,21 +9,21 @@ import { FilterTypes, OptionProps } from "../../../types";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useState, Fragment, useEffect } from "react";
 
-const Filter = ({ filters }: FilterTypes) => {
+const Filter = ({ param, filters }: FilterTypes) => {
   const navigateTo = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [selected, setSelected] = useState<OptionProps | null>(null);
 
   const handleFilter = (filter: OptionProps) => {
     const params = new URLSearchParams(searchParams);
-    params.set("sort", filter.value);
+    params.set(`${param}`, filter.value);
 
     setSearchParams(params);
     navigateTo(`?${params.toString()}`);
   };
 
   useEffect(() => {
-    const sortParam = searchParams.get("sort");
+    const sortParam = searchParams.get(`${param}`);
     const foundFilter = filters.find((filter) => filter.value === sortParam);
 
     if (foundFilter) {
@@ -44,7 +44,7 @@ const Filter = ({ filters }: FilterTypes) => {
           }
         }}
       >
-        <div className="relative w-fit z-10">
+        <div className="relative w-fit">
           <ListboxButton className={"filter_btn"}>
             <span>{selected?.title}</span>
           </ListboxButton>
@@ -60,7 +60,7 @@ const Filter = ({ filters }: FilterTypes) => {
                   value={filter}
                   key={filter.title}
                   className={({ active }) =>
-                    `relative cursor-default select-none font-lato font-semibold text-sm py-2 px-4 ${
+                    `relative cursor-default  select-none font-lato font-semibold text-sm py-2 px-4 ${
                       active ? "bg-blue-800 text-white" : "text-gray-900"
                     }`
                   }

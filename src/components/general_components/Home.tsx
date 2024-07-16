@@ -43,8 +43,7 @@ const Home = () => {
   });
 
   return (
-    <section className="grid grid-rows[1fr 2fr] p-3 my-5">
-      <SearchBar />
+    <section className="grid grid-rows[1fr 2fr]  my-5">
       {isLoading ? (
         <div>Loading...</div>
       ) : isError ? (

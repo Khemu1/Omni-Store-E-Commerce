@@ -17,6 +17,8 @@ import InfoField from "./my_profile_components/InfoField";
 import Addresses from "./my_profile_components/Addresses";
 import Address from "./my_profile_components/Address";
 import Register from "./forms/Register";
+import Login from "./forms/Login";
+import PriceFilter from "./general_components/PriceFilter";
 export {
   Nav,
   SearchBar,
@@ -37,4 +39,6 @@ export {
   Addresses,
   Address,
   Register,
+  Login,
+  PriceFilter,
 };

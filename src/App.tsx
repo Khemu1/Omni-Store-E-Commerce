@@ -11,6 +11,7 @@ import {
   MyBasicInfo,
   Addresses,
   Register,
+  Login,
 } from "./components/index";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
@@ -25,6 +26,7 @@ function App() {
           <Nav />
           <Routes>
             <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/" element={<Home />} />
             <Route path="/product" element={<ProductDetails />} />
             <Route path="/myprofile" element={<MyProfile />} />
