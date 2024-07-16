@@ -63,3 +63,10 @@ export interface RegisterProps {
   confirmPassword: string;
   mobileNumber: string;
 }
+
+export interface CountryProps {
+  countryCode: string;
+  dialCode: string;
+  format: string;
+  name: string;
+}

@@ -1,7 +1,7 @@
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import ReactPhoneInput from "react-phone-input-2";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { RegisterProps } from "../../../types";
+import { RegisterProps, CountryProps } from "../../../types";
 import { useState } from "react";
 import "react-phone-input-2/lib/style.css";
 import { getValidateRegisterSchema } from "../../../utils/formValidations";
@@ -24,13 +24,16 @@ const Register = () => {
   };
 
   return (
-    <section className="flex justify-center bg-white rounded-xl m-auto p-4 w-[500px]">
-      <form className="flex flex-col w-full" onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-col gap-2">
+    <section className=" flex justify-center bg-white rounded-xl m-auto p-4 w-[300px] sm:w-[500px]">
+      <form
+        className="flex flex-col w-[75%] gap-4"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <div className="flex flex-col gap-2 justify-center ">
           <label htmlFor="email">Email</label>
           <input
             {...register("email")}
-            className="bg-gray-100 rounded-lg py-1 px-2"
+            className="input_field"
             type="text"
             name="email"
             id="email"
@@ -43,7 +46,7 @@ const Register = () => {
           <label htmlFor="username">Username</label>
           <input
             {...register("username")}
-            className="bg-gray-100 rounded-lg py-1 px-2"
+            className="input_field"
             type="text"
             name="username"
             id="username"
@@ -56,7 +59,7 @@ const Register = () => {
           <label htmlFor="password">Password</label>
           <input
             {...register("password")}
-            className="bg-gray-100 rounded-lg py-1 px-2"
+            className="input_field"
             type="password"
             name="password"
             id="password"
@@ -69,7 +72,7 @@ const Register = () => {
           <label htmlFor="confirmPassword">Confirm Password</label>
           <input
             {...register("confirmPassword")}
-            className="bg-gray-100 rounded-lg py-1 px-2"
+            className="input_field"
             type="password"
             name="confirmPassword"
             id="confirmPassword"
@@ -91,12 +94,17 @@ const Register = () => {
                   ref,
                   name: "mobileNumber",
                   required: true,
+                  className: "input_field",
                 }}
                 country={"eg"}
                 value={value}
-                onChange={(phoneValue, countryData) => {
+                onChange={(phoneValue, countryData: CountryProps) => {
                   setCountryCode(countryData.countryCode.toUpperCase());
                   onChange(phoneValue);
+                }}
+                countryCodeEditable={false}
+                inputStyle={{
+                  paddingLeft: "45px",
                 }}
               />
             )}
@@ -109,7 +117,7 @@ const Register = () => {
         </div>
         <button
           type="submit"
-          className="bg-blue-500 text-white rounded-lg py-2 mt-4"
+          className="bg-blue-500 text-white rounded-lg py-2 mt-8 w-[75%] m-auto"
         >
           Register
         </button>
