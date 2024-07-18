@@ -1,12 +1,14 @@
-import { SearchBar, ProductsList } from "../index";
+import { SwiperS, ProductsList } from "../index";
 import { useSearchParams } from "react-router-dom";
 import { fetchAllProducts } from "../../../utils/index";
+import { swiperImages } from "../../../constants";
+
 import {
   useQuery,
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
@@ -34,16 +36,23 @@ const Home = () => {
       "products",
       searchParams.get("sort"),
       searchParams.get("search"),
+      searchParams.get("category"),
+      searchParams.get("priceRange"),
     ],
     queryFn: () =>
       fetchAllProducts(
-        searchParams.get("sort") || "az",
-        searchParams.get("search") || ""
+        searchParams.get("sort") ?? "az",
+        searchParams.get("search") ?? "",
+        searchParams.get("category") ?? "",
+        searchParams.get("priceRange") ?? ""
       ),
   });
 
   return (
-    <section className="grid grid-rows[1fr 2fr]  my-5">
+    <section className="flex flex-col w-full  my-5">
+      <div className="flex w-[100dvw]  m-auto items-center justify-center relative  overflow-hidden">
+        <SwiperS images={swiperImages} />
+      </div>
       {isLoading ? (
         <div>Loading...</div>
       ) : isError ? (

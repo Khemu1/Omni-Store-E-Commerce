@@ -2,7 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import morgan from "morgan";
-import productRouter from "./src/routes/products";
+import {productsRouter,accountRouter} from "./src/routes/index";
 
 const app = express();
 
@@ -14,5 +14,6 @@ app.use(
 
 app.use(bodyParser.json());
 app.use(morgan("dev"));
-app.use("/products", productRouter);
+app.use("/products", productsRouter);
+app.use("account",accountRouter)
 export default app;

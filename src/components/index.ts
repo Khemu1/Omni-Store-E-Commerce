@@ -19,6 +19,9 @@ import Address from "./my_profile_components/Address";
 import Register from "./forms/Register";
 import Login from "./forms/Login";
 import PriceFilter from "./general_components/PriceFilter";
+import SwiperS from "./general_components/SwiperS";
+import List from "./products_layout/List";
+import Grid from "./products_layout/Grid";
 export {
   Nav,
   SearchBar,
@@ -41,4 +44,7 @@ export {
   Register,
   Login,
   PriceFilter,
+  SwiperS,
+  List,
+  Grid,
 };

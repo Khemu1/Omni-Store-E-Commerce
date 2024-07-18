@@ -19,19 +19,19 @@ export const filters = [
 export const categories = [
   {
     title: "Category : All",
-    value: "All",
+    value: "",
   },
   {
     title: "Category : Electronics",
     value: "Electronics",
   },
   {
-    title: "Category : Women's Colthing",
-    value: "WomenColthing",
+    title: "Category : Women's",
+    value: "women",
   },
   {
-    title: "Category : Mens'sColthing",
-    value: "MensColthing",
+    title: "Category : Men's",
+    value: "men",
   },
   {
     title: "Category : Jewelery",
@@ -46,7 +46,7 @@ export const layouts = [
   {
     title: "List",
     value: "List",
-  }
+  },
 ];
 export const footerLinks = [
   {
@@ -76,4 +76,14 @@ export const footerLinks = [
       { title: "Facebook", url: "/" },
     ],
   },
+];
+export const swiperImages = [
+  {
+    path: "/assets/images/ian-schneider-TamMbr4okv4-unsplash.jpg",
+  },
+  {
+    path: "/assets/images/rachit-tank-2cFZ_FB08UM-unsplash.jpg",
+  },
+  { path: "/assets/images/pexels-karolina-grabowska-4464822.jpg" },
+  { path: "/assets/images/lum3n--RBuQ2PK_L8-unsplash.jpg" },
 ];

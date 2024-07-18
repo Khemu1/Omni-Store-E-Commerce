@@ -2,7 +2,7 @@ import Product from "../models/product";
 import { ProductProps, SortQuery } from "../types/index";
 async function getAllProducts(req, res) {
   let sortQuery: SortQuery = { title: "asc" };
-  if (req.query.sortBy || !req.query.sortBy) {
+  if (req.query.sortBy) {
     const sortBy = req.query.sortBy.toLowerCase();
     switch (sortBy) {
       case "az":
@@ -22,8 +22,9 @@ async function getAllProducts(req, res) {
         break;
     }
   }
-  let filterQuery = {};
-  if (req.query.search && req.query.search !== "undefined") {
+
+  let filterQuery: any = {};
+  if (req.query.search) {
     const searchQuery = req.query.search.toLowerCase().replace(/\s+/g, "");
     const regexPattern = `\\b${searchQuery}\\b`;
     filterQuery = {
@@ -34,6 +35,26 @@ async function getAllProducts(req, res) {
       ],
     };
   }
+
+  if (req.query.category) {
+    const category = req.query.category.toLowerCase().replace(/\s+/g, "");
+    filterQuery.category = {
+      $regex: new RegExp(
+        `\\b${category.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`,
+        "i"
+      ),
+    };
+  }
+  if (req.query.priceRange) {
+    const price = req.query.priceRange.split("-");
+    const minPrice = parseInt(price[0], 10);
+    const maxPrice = parseInt(price[1], 10);
+    filterQuery.price = {
+      $gte: minPrice,
+      $lte: maxPrice,
+    };
+  }
+
   try {
     const products: ProductProps[] = await Product.find(filterQuery).sort(
       sortQuery

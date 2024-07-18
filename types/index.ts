@@ -71,3 +71,7 @@ export interface CountryProps {
   format: string;
   name: string;
 }
+
+export interface SwiperProps {
+  path: string;
+}

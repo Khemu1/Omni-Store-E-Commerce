@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
-  UseProductsResponse,
   ProductProps,
-  UseProductResponse,
 } from "../types/index";
 
- async function fetchAllProducts(
-  sortBy?: string,
-  search?: string
+async function fetchAllProducts(
+  sortBy: string = "az",
+  search: string = "",
+  cat: string = "all",
+  price: string = ""
 ): Promise<ProductProps[]> {
   const response = await fetch(
-    `/api/products?sortBy=${sortBy}&search=${search}`,
+    `/api/products?sortBy=${sortBy}&search=${search}&category=${cat}&priceRange=${price}`,
     {
       method: "GET",
     }
@@ -22,7 +22,7 @@ import {
   return await response.json();
 }
 
- async function fetchProduct(id: string): Promise<ProductProps> {
+async function fetchProduct(id: string): Promise<ProductProps> {
   const response = await fetch(`/api/products/product?id=${id}`, {
     method: "GET",
   });

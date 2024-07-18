@@ -13,13 +13,13 @@ const PriceFilter = () => {
 
   const handlePriceButton = () => {
     const params = new URLSearchParams(searchParams);
-    params.set("price", `${price.min}-${price.max}`);
+    params.set("priceRange", `${price.min}-${price.max}`);
     setSearchParams(params);
     navigateTo(`?${params.toString()}`);
   };
 
   useEffect(() => {
-    const sortParam = searchParams.get(`price`);
+    const sortParam = searchParams.get(`priceRange`);
     if (sortParam) {
       const [min, max] = sortParam.split("-").map(Number);
       setPrice({ min, max });
@@ -28,7 +28,7 @@ const PriceFilter = () => {
     }
   }, [searchParams]);
   return (
-    <div className="price-filter-container">
+    <div className="sm:price-filter-container">
       <InputRange
         formatLabel={(value) => `${value}$`}
         maxValue={2000}
@@ -42,7 +42,7 @@ const PriceFilter = () => {
         <button
           onClick={handlePriceButton}
           type="button"
-          className="rounded-xl bg-black px-2 py-1 font-lato text-sm text-white w-max"
+          className="rounded-lg bg-black px-2 py-1 font-lato text-sm text-white w-max"
         >
           Edit Price
         </button>

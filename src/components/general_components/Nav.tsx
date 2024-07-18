@@ -72,7 +72,7 @@ const Nav = () => {
       </div>
 
       {/* Mobile design */}
-      <div className="sm:hidden">
+      <div className="sm:hidden flex items-end">
         {!isLoggedIn ? (
           <Link to="/register" className="nav-btn text-lg">
             Sign up

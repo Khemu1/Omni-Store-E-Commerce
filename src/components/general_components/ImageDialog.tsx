@@ -20,7 +20,7 @@ const ImageDialog = ({ imagePath, isOpen, closeDialog }: DialogProps) => {
             >
               <img src="/assets/icons/close.svg" alt="close" />
             </button>
-            <div className="flex  sm:w-[500px]">
+            <div className="flex z-10 sm:w-[500px]">
               <img
                 src={imagePath}
                 alt="product image"
