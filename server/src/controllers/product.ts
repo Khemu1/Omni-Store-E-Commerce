@@ -1,8 +1,10 @@
 import Product from "../models/product";
+import { Request, Response } from "express";
+
 import { ProductProps, SortQuery } from "../types/index";
-async function getAllProducts(req, res) {
+async function getAllProducts(req: Request, res: Response) {
   let sortQuery: SortQuery = { title: "asc" };
-  if (req.query.sortBy) {
+  if (req.query.sortBy && typeof req.query.sortBy === "string") {
     const sortBy = req.query.sortBy.toLowerCase();
     switch (sortBy) {
       case "az":
@@ -24,7 +26,7 @@ async function getAllProducts(req, res) {
   }
 
   let filterQuery: any = {};
-  if (req.query.search) {
+  if (req.query.search && typeof req.query.search === "string") {
     const searchQuery = req.query.search.toLowerCase().replace(/\s+/g, "");
     const regexPattern = `\\b${searchQuery}\\b`;
     filterQuery = {
@@ -36,7 +38,7 @@ async function getAllProducts(req, res) {
     };
   }
 
-  if (req.query.category) {
+  if (req.query.category && typeof req.query.category ==="string") {
     const category = req.query.category.toLowerCase().replace(/\s+/g, "");
     filterQuery.category = {
       $regex: new RegExp(
@@ -45,7 +47,7 @@ async function getAllProducts(req, res) {
       ),
     };
   }
-  if (req.query.priceRange) {
+  if (req.query.priceRange && typeof req.query.priceRange ==="string") {
     const price = req.query.priceRange.split("-");
     const minPrice = parseInt(price[0], 10);
     const maxPrice = parseInt(price[1], 10);

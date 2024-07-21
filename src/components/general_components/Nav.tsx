@@ -1,25 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SearchBar } from "../index";
-
-import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import { RootState } from "../../store/index";
+import { useSelector } from "react-redux";
+import { Link, useSearchParams } from "react-router-dom";
 
 const Nav = () => {
-  const navigateTo = useNavigate();
+  const authState = useSelector((state: RootState) => state.auth);
   const [searchParams] = useSearchParams();
-  const [path, setPath] = useState<null | string>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const sortParam = searchParams.get("sort");
-    if (sortParam) {
-      setPath(`/?sort=${sortParam}`);
-    } else {
-      if (!path) {
-        setPath("/");
-      }
-    }
-  }, [searchParams]);
+  // Compute the path based on searchParams
+  const path = searchParams.get("sort")
+    ? `/?sort=${searchParams.get("sort")}`
+    : "/";
 
   const handleMenuOpen = () => {
     setIsMenuOpen((prev) => !prev);
@@ -28,7 +21,7 @@ const Nav = () => {
   return (
     <nav className="nav">
       <div className="Logo flex gap-2">
-        <Link to={path ?? "/"} className="logo flex w-[100px] sm:w-[170px]">
+        <Link to={path} className="logo flex w-[100px] sm:w-[170px]">
           <img
             src="/assets/icons/logo.svg"
             alt="Logo"
@@ -40,23 +33,26 @@ const Nav = () => {
 
       {/* Desktop design */}
       <div className="sm:flex hidden">
-        {!isLoggedIn ? (
+        {!authState.isAuthenticated ? (
           <Link to="/register" className="nav-btn text-lg">
             Sign up
           </Link>
         ) : (
           <div className="flex gap-5 items-center">
-            <Link to="myprofile" className="">
+            <Link to="myprofile" className="flex flex-col items-center">
               <img
                 src="/assets/icons/user.svg"
-                alt="cart"
+                alt="profile"
                 className="object-contain w-[35px]"
               />
+              <p className="text-sm font-semibold overflow-hidden text-ellipsis text-nowrap">
+                {authState.user.username}
+              </p>
             </Link>
             <Link to="user-orders" className="">
               <img
                 src="/assets/icons/order.svg"
-                alt="cart"
+                alt="orders"
                 className="object-contain w-[35px]"
               />
             </Link>
@@ -67,13 +63,14 @@ const Nav = () => {
                 className="object-contain"
               />
             </Link>
+            {/* Example: Display username */}
           </div>
         )}
       </div>
 
       {/* Mobile design */}
       <div className="sm:hidden flex items-end">
-        {!isLoggedIn ? (
+        {!authState.isAuthenticated ? (
           <Link to="/register" className="nav-btn text-lg">
             Sign up
           </Link>
@@ -91,14 +88,14 @@ const Nav = () => {
                 <Link to="myprofile" className="nav-menu-link">
                   <img
                     src="/assets/icons/user.svg"
-                    alt="cart"
+                    alt="profile"
                     className="object-contain w-[35px]"
                   />
                 </Link>
                 <Link to="user-orders" className="nav-menu-link">
                   <img
                     src="/assets/icons/order.svg"
-                    alt="cart"
+                    alt="orders"
                     className="object-contain w-[35px]"
                   />
                 </Link>

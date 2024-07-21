@@ -22,7 +22,7 @@ main {
 }
 
 nav {
-  @apply z-[9] flex justify-between p-3 bg-transparent sticky top-0;
+  @apply z-[9] flex justify-between p-3 bg-transparent sticky top-0 gap-10;
   backdrop-filter: blur(10px);
   box-shadow: 5px -6px 12px -1px #272626;
 }
@@ -40,7 +40,7 @@ nav {
   transition-duration: 500ms;
 }
 .searchbar_form {
-  @apply flex m-auto bg-white rounded-3xl py-1 border-2 sm:w-[70%] overflow-hidden;
+  @apply flex flex-1 m-auto bg-white rounded-3xl py-1 border-2  overflow-hidden;
   transition: 300ms ease-in-out;
 }
 .searchbar_form:focus-within {

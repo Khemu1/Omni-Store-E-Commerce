@@ -1,7 +1,6 @@
 import * as Yup from "yup";
 import { PhoneNumberUtil, PhoneNumber } from "google-libphonenumber";
 
-// Transform Yup errors into a usable object.
 export const transformYupErrorsIntoObject = (errors: Yup.ValidationError) => {
   const validationErrors: Record<string, string> = {};
 
@@ -28,7 +27,10 @@ const validatePhoneNumber = (value: string, countryCode: string): boolean => {
   }
 };
 
-export const getValidateRegisterSchema = (countryCode: string) => {
+export const getValidateRegisterSchema = (
+  countryCode: string,
+  value: string
+) => {
   return Yup.object().shape({
     email: Yup.string()
       .email("Please enter a valid email")
@@ -42,13 +44,9 @@ export const getValidateRegisterSchema = (countryCode: string) => {
       .required("Password is required")
       .min(8, "Password should be at least 8 characters")
       .label("Password"),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password"), undefined], "Passwords must match")
-      .required("Confirm Password is required")
-      .label("Confirm Password"),
     mobileNumber: Yup.string()
       .required("Phone number is required")
-      .test("valid-phone", "Invalid phone number", (value) => {
+      .test("valid-phone", "Invalid phone number", () => {
         if (!value) return false;
         console.log("MobileNumber:", value);
         const isValid = validatePhoneNumber(value, countryCode);
@@ -58,10 +56,12 @@ export const getValidateRegisterSchema = (countryCode: string) => {
 };
 
 export const getValidateLoginSchema = () => {
-  return Yup.object().shape({
-    emailOrMobile: Yup.string()
-      .required("Please Enter your email address or mobile number")
-      .label("Email"),
-    password: Yup.string().required("Password is required"),
-  });
+  return Yup.object()
+    .shape({
+      email: Yup.string().email("Please enter a valid email").label("Email"),
+      password: Yup.string()
+        .required("Password is required")
+        .min(8, "Password should be at least 8 characters")
+        .label("Password"),
+    })
 };

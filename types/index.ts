@@ -64,6 +64,10 @@ export interface RegisterProps {
   confirmPassword: string;
   mobileNumber: string;
 }
+export interface LoginProps {
+  emailOrMobile: string;
+  password: string;
+}
 
 export interface CountryProps {
   countryCode: string;
@@ -74,4 +78,12 @@ export interface CountryProps {
 
 export interface SwiperProps {
   path: string;
+}
+export interface ErrorResponse {
+  errors: {
+    email?: string;
+    mobileNumber?: string;
+    message?: string;
+    [key: string]: string | undefined;
+  };
 }

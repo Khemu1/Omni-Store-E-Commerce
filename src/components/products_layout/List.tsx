@@ -18,10 +18,7 @@ const List = ({ product }: Pro) => {
 
   return (
     <div className="flex items-center py-4 border-b border-gray-200">
-      <div className="w-10 flex items-center justify-center">
-        <input type="checkbox" className="form-checkbox h-4 w-4" />
-      </div>
-      <div className="w-10 h-10 flex items-center justify-center">
+      <div className="w-10 h-10 flex items-center justify-center rounded-lg overflow-hidden">
         <img
           src={product.image}
           alt="product"
