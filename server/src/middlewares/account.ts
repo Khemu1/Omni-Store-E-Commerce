@@ -1,3 +1,4 @@
+import { ValidationError } from "yup";
 import {
   getValidateLoginSchema,
   getValidateRegisterSchema,
@@ -21,8 +22,13 @@ export async function validateLogin(
     );
     next();
   } catch (errors) {
-    console.error("Validation errors:", errors);
-    res.status(400).json({ errors: transformYupErrorsIntoObject(errors) });
+    if (errors instanceof ValidationError) {
+      console.error("Validation errors:", errors);
+      res.status(400).json({ errors: transformYupErrorsIntoObject(errors) });
+    } else {
+      console.error("Unexpected error:", errors);
+      res.status(500).json({ errors: "Internal server error" });
+    }
   }
 }
 
@@ -45,7 +51,12 @@ export async function validateRegister(
     );
     next();
   } catch (errors) {
-    console.error("Validation errors:", errors);
-    res.status(400).json({ errors: transformYupErrorsIntoObject(errors) });
+    if (errors instanceof ValidationError) {
+      console.error("Validation errors:", errors);
+      res.status(400).json({ errors: transformYupErrorsIntoObject(errors) });
+    } else {
+      console.error("Unexpected error:", errors);
+      res.status(500).json({ errors: "Internal server error" });
+    }
   }
 }

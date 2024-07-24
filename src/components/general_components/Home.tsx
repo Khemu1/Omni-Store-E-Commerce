@@ -1,16 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { useValidateUser } from "../../hooks/authHooks";
 import { fetchAllProducts } from "../../../utils/index";
 import { SwiperS, ProductsList } from "../index";
 import { swiperImages } from "../../../constants";
-import { UseSelector } from "react-redux";
-import { RootState } from "../../store";
-import { useSelector } from "react-redux";
+
 
 const Home = () => {
-  useValidateUser();
   const [searchParams] = useSearchParams();
   const navigateTo = useNavigate();
 

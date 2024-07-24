@@ -37,7 +37,7 @@ const Register = () => {
     );
   };
   return (
-    <section className=" flex justify-center bg-white rounded-xl m-auto p-4 w-[300px] sm:w-[500px]">
+    <section className=" flex justify-center bg-white rounded-3xl shadow-[0px_0px_15px_rgba(0,0,0,.3)] m-auto py-8 w-[300px] sm:w-[400px]">
       <form
         className="flex flex-col w-[75%] gap-4"
         onSubmit={handleSubmit(onSubmit)}
@@ -115,7 +115,6 @@ const Register = () => {
                   setCountryCode(countryData.countryCode.toUpperCase());
                   onChange(phoneValue);
                 }}
-                countryCodeEditable={false}
                 inputStyle={{
                   paddingLeft: "45px",
                 }}

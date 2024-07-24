@@ -22,6 +22,12 @@ import PriceFilter from "./general_components/PriceFilter";
 import SwiperS from "./general_components/SwiperS";
 import List from "./products_layout/List";
 import Grid from "./products_layout/Grid";
+import EditEmail from "./edit_components/EditEmail";
+import EditMobile from "./edit_components/EditMobile";
+import EditUsername from "./edit_components/EditUsername";
+import EditPassword from "./edit_components/EditPassword";
+import PrivateLayout from "./layouts/PrivateLayout";
+import PublicLayout from "./layouts/PublicLayout";
 export {
   Nav,
   SearchBar,
@@ -47,4 +53,10 @@ export {
   SwiperS,
   List,
   Grid,
+  EditEmail,
+  EditMobile,
+  EditUsername,
+  EditPassword,
+  PrivateLayout,
+  PublicLayout,
 };

@@ -5,6 +5,8 @@ import { LoginProps, RegisterProps } from "../types/index";
 export interface ResponseProps {
   id: string;
   username: string;
+  email: string;
+  mobileNumber: string;
 }
 
 export const loginUser = async (data: LoginProps): Promise<ResponseProps> => {
@@ -36,7 +38,7 @@ export const registerUser = async (
 };
 export const validateUser = async (): Promise<ResponseProps> => {
   try {
-    const response = await axiosInstance.get("/account/user-info", {
+    const response = await axiosInstance.get("/account/user-basic-info", {
       headers: {
         "Cache-Control": "no-cache",
       },

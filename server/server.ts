@@ -10,7 +10,11 @@ async function startServer() {
       console.log(`Server is running on http://localhost:${PORT}`);
     });
   } catch (error) {
-    console.error("Error starting server:", error.message);
+    if (error instanceof Error) {
+      console.error("Error starting server:", error.message);
+    } else {
+      console.error("An unexpected error occurred:", error);
+    }
   }
 }
 

@@ -1,10 +1,13 @@
-import mongoose from "mongoose";
-import User from "../models/accounts";
+// express.d.ts
+import { Request } from "express";
 
 declare global {
   namespace Express {
     interface Request {
-      user: typeof User;
+      user?: {
+        id: string;
+        username?: string;
+      };
     }
   }
 }

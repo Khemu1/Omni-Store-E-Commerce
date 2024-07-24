@@ -1,10 +1,6 @@
-import { useState } from "react";
-import { MyBasicInfo, WishList, Orders } from "../index";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
 const MyProfile = () => {
   return (
-    <section className="flex justify-center font-lato items-center">
+    <section className="flex  justify-center font-lato items-center my-10">
       <div className="flex flex-wrap gap-3 justify-center sm:w-[1000px] sm:gap-10">
         <a href="/myprofile/login-security" className="profile_card">
           <div>

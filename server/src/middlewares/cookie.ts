@@ -14,13 +14,6 @@ const accessTokenOptions: CookieOptions = {
   sameSite: "strict",
 };
 
-const refreshTokenOptions: CookieOptions = {
-  httpOnly: true,
-  secure: false, // Set to true in production
-  maxAge: 604800000, // 7 days
-  sameSite: "strict",
-};
-
 export const authenticateToken = async (
   req: Request,
   res: Response,
@@ -42,7 +35,6 @@ export const authenticateToken = async (
             const newAccessToken = jwt.sign(
               {
                 userId: decodedRefreshToken.userId,
-                username: decodedRefreshToken.username,
               },
               accessTokenSecret,
               { expiresIn: "1h" }

@@ -28,7 +28,7 @@ const PriceFilter = () => {
     }
   }, [searchParams]);
   return (
-    <div className="sm:price-filter-container">
+    <div className="price-filter-container">
       <InputRange
         formatLabel={(value) => `${value}$`}
         maxValue={2000}

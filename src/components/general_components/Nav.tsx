@@ -34,8 +34,8 @@ const Nav = () => {
       {/* Desktop design */}
       <div className="sm:flex hidden">
         {!authState.isAuthenticated ? (
-          <Link to="/register" className="nav-btn text-lg">
-            Sign up
+          <Link to="/login" className="nav-btn text-lg">
+            Sign In
           </Link>
         ) : (
           <div className="flex gap-5 items-center">

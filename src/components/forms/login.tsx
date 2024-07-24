@@ -30,9 +30,9 @@ const Login = () => {
   };
 
   return (
-    <section className="flex justify-center bg-white rounded-xl m-auto p-4 w-[300px] sm:w-[500px]">
+    <section className="flex justify-center items-center bg-white rounded-3xl shadow-[0px_0px_15px_rgba(0,0,0,.3)] h-[400px] w-[300px] sm:w-[400px]">
       <form
-        className="flex flex-col w-[75%] gap-4"
+        className="flex flex-col w-[75%] gap-4 p-4"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex flex-col gap-2 justify-center">
@@ -72,8 +72,7 @@ const Login = () => {
         {error && (
           <div className="text-red-500 text-sm flex justify-center">
             {(error as AxiosError<ErrorResponse>)?.response?.data?.errors
-              ?.message ||
-              "An unexpected error occurred."}
+              ?.message || "An unexpected error occurred."}
           </div>
         )}
         {isSuccess && <p className="text-green-500">Login successful!</p>}

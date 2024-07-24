@@ -1,11 +1,8 @@
 import {
-  Description,
   Dialog,
   DialogPanel,
-  DialogTitle,
 } from "@headlessui/react";
 import { DialogProps } from "../../../types/index";
-import { useState } from "react";
 
 const ImageDialog = ({ imagePath, isOpen, closeDialog }: DialogProps) => {
   return (

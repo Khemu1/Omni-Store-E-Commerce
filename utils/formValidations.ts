@@ -54,6 +54,7 @@ export const getValidateRegisterSchema = (countryCode: string) => {
         const isValid = validatePhoneNumber(value, countryCode);
         return isValid;
       }),
+    countryCode: Yup.string().required("Country Code is required"),
   });
 };
 
@@ -63,5 +64,51 @@ export const getValidateLoginSchema = () => {
       .required("Please Enter your email address or mobile number")
       .label("Email"),
     password: Yup.string().required("Password is required"),
+  });
+};
+
+export const getUsernameSchema = () => {
+  return Yup.object().shape({
+    username: Yup.string()
+      .required("Please enter a valid username")
+      .min(5, "Username should be at least 5 characters")
+      .label("Username"),
+  });
+};
+
+export const getEmailSchema = () => {
+  return Yup.object().shape({
+    email: Yup.string()
+      .email("Please enter a valid email")
+      .required("Email is required")
+      .label("Email"),
+  });
+};
+
+export const getPasswordSchema = () => {
+  return Yup.object().shape({
+    currentPassword: Yup.string().required(
+      "Please Enter your current password"
+    ),
+    newPassword: Yup.string()
+      .required("Password is required")
+      .min(8, "Password should be at least 8 characters")
+      .label("Password"),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("newPassword"), undefined], "Passwords must match")
+      .required("Confirm Password is required")
+      .label("Confirm Password"),
+  });
+};
+
+export const getMobileNumberSchema = (mobileNumber: string, countryCode: string) => {
+  return Yup.object().shape({
+    mobileNumber: Yup.string()
+      .required("Phone number is required")
+      .test("valid-phone", "Invalid phone number", () => {
+        if (!mobileNumber) return false;
+        const isValid = validatePhoneNumber(mobileNumber, countryCode);
+        return isValid;
+      }),
   });
 };

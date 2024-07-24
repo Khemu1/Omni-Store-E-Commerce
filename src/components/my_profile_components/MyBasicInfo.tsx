@@ -1,16 +1,39 @@
-import React from "react";
 import { InfoField } from "../index";
+import { useAccountInfo } from "../../hooks/profile";
 
 const MyBasicInfo = () => {
+  const { data: accountInfo } = useAccountInfo();
+  console.log(accountInfo);
+
+  // Define the types for each field
+  const fieldTypes: { [key: string]: string } = {
+    email: "email",
+    username: "text",
+    password: "password",
+    mobileNumber: "tel",
+  };
+  // used bracket notation to determine the values at runtime
+  const keys = accountInfo ? Object.keys(accountInfo) : [];
+
   return (
-    <section className="flex justify-center font-lato ">
-      <div className="border bg-white border-gray-300 rounded-lg p-3 sm:w-[400px] sm:p-5 gap-6">
-        <h2 className="text-xl mb-3 font-semibold">Basic Info</h2>
-        <div className="flex flex-col gap-5">
-          <InfoField title={"Email"} type={"email"} />
-          <InfoField title={"Username"} type={"text"} />
-          <InfoField title={"Password"} type={"password"} />
-          <InfoField title={"Mobile Number"} type={"tel"} />
+    <section className="flex justify-center font-lato flex-col items-center my-10">
+      <div className="border-2 border-gray-300 rounded-lg sm:w-[400px] gap-6">
+        <div className="info flex flex-col">
+          {accountInfo &&
+            keys.map((key, index) => (
+              <InfoField
+                key={key}
+                value={(accountInfo[key] as string) || "empty"}
+                type={fieldTypes[key] || "text"}
+                name={key.charAt(0).toUpperCase() + key.slice(1)}
+                style={
+                  index === keys.length - 1
+                    ? "last_inputfield_container"
+                    : undefined
+                }
+                to={key}
+              />
+            ))}
         </div>
       </div>
     </section>

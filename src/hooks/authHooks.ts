@@ -23,8 +23,8 @@ export const useLogin = () => {
       console.error("Login Error:", error);
     },
     onSuccess: (response: ResponseProps) => {
-      const { username, id } = response;
-      dispatch(login({ username, id }));
+      const { username, id, email, mobileNumber } = response;
+      dispatch(login({ username, id, email, mobileNumber }));
     },
   });
 };
@@ -37,8 +37,8 @@ export const useRegister = () => {
       console.error("Register Error:", error);
     },
     onSuccess(response: ResponseProps) {
-      const { username, id } = response;
-      dispatch(registerUserAction({ username, id }));
+      const { username, id, email, mobileNumber } = response;
+      dispatch(registerUserAction({ username, id, email, mobileNumber }));
     },
   });
 };
@@ -54,8 +54,8 @@ export const useValidateUser = () => {
 
   useEffect(() => {
     if (query.isSuccess) {
-      const { username, id } = query.data;
-      dispatch(setUser({ username, id }));
+      const { username, id, email, mobileNumber } = query.data;
+      dispatch(setUser({ username, id, email, mobileNumber }));
     } else if (query.isError) {
       const error = query.error as Error;
       if (error.message.includes("401")) {

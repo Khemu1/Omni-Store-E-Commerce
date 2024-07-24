@@ -54,7 +54,10 @@ export interface ProductListProps {
 
 export interface InfoFieldProps {
   type: string;
-  title: string;
+  value: string;
+  name: string;
+  to: string;
+  style?: string;
 }
 
 export interface RegisterProps {
@@ -63,6 +66,7 @@ export interface RegisterProps {
   password: string;
   confirmPassword: string;
   mobileNumber: string;
+  countryCode: string;
 }
 export interface LoginProps {
   emailOrMobile: string;
@@ -86,4 +90,39 @@ export interface ErrorResponse {
     message?: string;
     [key: string]: string | undefined;
   };
+}
+
+export interface AccountInfoProps {
+  email: string;
+  username: string;
+  mobileNumber: string;
+  password: string;
+  [key: string]: string;
+}
+interface AccountAddress {
+  street: string;
+  zipCode: string;
+  city: string;
+  country: string;
+}
+
+export interface UpdateEmail {
+  email: string;
+}
+
+export interface UpdatePassword {
+  old: string;
+  password: string;
+}
+
+export interface UpdateMobileNumber {
+  mobileNumber: string;
+}
+export interface AccountAddressesProps {
+  addresses: AccountAddress[];
+}
+
+export interface UpdatePasswordProps {
+  currentPassword: string;
+  newPassword: string;
 }
