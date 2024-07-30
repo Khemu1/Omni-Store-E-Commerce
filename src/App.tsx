@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import {
-
   ProductDetails,
   NotFound,
   Home,
@@ -15,12 +14,17 @@ import {
   EditPassword,
   PublicLayout,
   PrivateLayout,
+  WishListView,
+  OrderListView,
+  Cart,
+  ProfileLayout,
 } from "./components/index";
-import { useValidateUser } from "./hooks/authHooks";
 import "./App.css";
+import { useAccountInfo } from "./hooks/profile";
 
 function App() {
-  useValidateUser();
+  useAccountInfo();
+
   return (
     <Router>
       <Routes>
@@ -34,13 +38,8 @@ function App() {
         <Route element={<PrivateLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/product" element={<ProductDetails />} />
-          <Route path="/myprofile" element={<MyProfile />} />
-          <Route path="/myprofile/login-security" element={<MyBasicInfo />} />
-          <Route path="/myprofile/addresses" element={<Addresses />} />
-          <Route path="/myprofile/edit-email" element={<EditEmail />} />
-          <Route path="/myprofile/edit-mobileNumber" element={<EditMobile />} />
-          <Route path="/myprofile/edit-username" element={<EditUsername />} />
-          <Route path="/myprofile/edit-password" element={<EditPassword />} />
+          <Route path="/myprofile/*" element={<ProfileLayout />} />
+          <Route path="/user-cart" element={<Cart />} />
         </Route>
 
         {/* Catch-All Route */}

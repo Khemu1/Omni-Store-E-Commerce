@@ -6,14 +6,10 @@ import {
   validateUser,
 } from "../../utils/auth";
 import { useDispatch } from "react-redux";
-import {
-  login,
-  registerUser as registerUserAction,
-  logout,
-  setUser,
-} from "../store/authSlice";
+import { login, registerUser as registerUserAction } from "../store/authSlice";
 import { LoginProps, RegisterProps } from "../../types";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const useLogin = () => {
   const dispatch = useDispatch();
@@ -44,7 +40,7 @@ export const useRegister = () => {
 };
 
 export const useValidateUser = () => {
-  const dispatch = useDispatch();
+  const navigateTo = useNavigate();
 
   const query = useQuery({
     queryKey: ["validateUser"],
@@ -53,16 +49,10 @@ export const useValidateUser = () => {
   });
 
   useEffect(() => {
-    if (query.isSuccess) {
-      const { username, id, email, mobileNumber } = query.data;
-      dispatch(setUser({ username, id, email, mobileNumber }));
-    } else if (query.isError) {
-      const error = query.error as Error;
-      if (error.message.includes("401")) {
-        dispatch(logout());
-      }
+    if (query.isError) {
+      navigateTo("/login");
     }
-  }, [query.data, query.error, query.isSuccess, query.isError, dispatch]);
+  }, [navigateTo, query.isError]);
 
-  return query;
+  return query; // provides access to the query's state and methods in the component that calls the hook
 };

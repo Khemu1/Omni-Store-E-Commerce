@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ReactPhoneInput from "react-phone-input-2";
 import { CountryProps } from "../../../types";
 import { getMobileNumberSchema } from "../../../utils/formValidations";

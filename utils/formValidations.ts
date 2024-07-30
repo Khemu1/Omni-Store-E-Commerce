@@ -101,7 +101,10 @@ export const getPasswordSchema = () => {
   });
 };
 
-export const getMobileNumberSchema = (mobileNumber: string, countryCode: string) => {
+export const getMobileNumberSchema = (
+  mobileNumber: string,
+  countryCode: string
+) => {
   return Yup.object().shape({
     mobileNumber: Yup.string()
       .required("Phone number is required")
@@ -110,5 +113,17 @@ export const getMobileNumberSchema = (mobileNumber: string, countryCode: string)
         const isValid = validatePhoneNumber(mobileNumber, countryCode);
         return isValid;
       }),
+  });
+};
+
+export const getAddressSchema = () => {
+  return Yup.object().shape({
+    name: Yup.string().required("Full name is required"),
+    street: Yup.string().required("Street is required"),
+    city: Yup.string().required("City is required"),
+    country: Yup.string().required("Country is required"),
+    zipCode: Yup.string()
+      .required("Zip Code is required")
+      .matches(/^[0-9]{5}$/, "Zip Code should be a 5-digit number"),
   });
 };

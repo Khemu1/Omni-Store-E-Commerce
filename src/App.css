@@ -22,7 +22,7 @@ main {
 }
 
 nav {
-  @apply z-[9] flex justify-between p-3 bg-transparent sticky top-0 gap-10;
+  @apply z-[999] flex justify-between p-3 bg-transparent sticky top-0 gap-10;
   backdrop-filter: blur(10px);
   box-shadow: 5px -6px 12px -1px #272626;
 }
@@ -128,7 +128,7 @@ nav {
   @apply sm:text-[16px];
 }
 .product_price {
-  @apply font-lato text-gray-950 font-extrabold flex w-full justify-between items-center text-[20px];
+  @apply font-lato text-gray-950 font-extrabold flex w-full justify-end items-center text-[20px] mt-2;
 }
 .list_menu {
   @apply absolute right-0 bg-white shadow-lg rounded-lg p-2 z-[40];
@@ -187,7 +187,9 @@ footer {
 .edit_button {
   @apply text-sm h-fit py-1 px-8 bg-black text-white border rounded-lg hover:bg-white hover:text-black transition;
 }
-
+.input_field_conatiner {
+  @apply flex flex-col gap-2 justify-center;
+}
 .react-tel-input {
   @apply w-full;
 }
@@ -266,4 +268,14 @@ footer {
 .swiper-pagination-bullet-active {
   background-color: blue;
   opacity: 1;
+}
+
+.create_address_box {
+  @apply flex flex-col justify-center items-center h-[200px] w-[250px] border-4 cursor-pointer rounded-lg;
+}
+.address_box {
+  @apply flex flex-col  items-start h-[200px] w-[250px] border  shadow-[0px_0px_15px_rgba(0,0,0,.3)] rounded-lg;
+}
+.address_box_field {
+  @apply flex items-center gap-2 overflow-hidden text-nowrap text-ellipsis w-[90%]
 }

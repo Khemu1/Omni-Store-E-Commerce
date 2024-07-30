@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
 import { ProductProps } from "../../../types/index";
+import { useAddToCart } from "../../hooks/product";
 import Grid from "../products_layout/Grid";
 import List from "../products_layout/List";
 
@@ -10,12 +9,30 @@ interface pro {
 }
 
 const ProductCard = ({ product, layout }: pro) => {
+  const { error, handleAddToCart } = useAddToCart();
+
+  const handleCartClick = async () => {
+    try {
+      handleAddToCart(product._id);
+    } catch (error) {
+      console.error("Failed to add product to cart:", error);
+    }
+  };
   return (
     <>
       {layout === "grid" ? (
-        <Grid product={product} />
+        <Grid
+          product={product}
+          handleCartClick={handleCartClick}
+          handleCartClickError={error}
+        />
       ) : (
-        <List product={product} />
+        <List
+          product={product}
+          type={"normal"}
+          handleCartClick={handleCartClick}
+          handleCartClickError={error}
+        />
       )}
     </>
   );

@@ -1,6 +1,12 @@
 import User from "../models/accounts";
 import { Request, Response, CookieOptions } from "express";
 import jwt from "jsonwebtoken";
+import WishList from "../models/wishlist";
+import Product from "../models/product";
+import { CartProps, ProductProps, WishListProps } from "../types";
+import Cart from "../models/cart";
+import Address from "../models/address";
+import { AddressProps } from "../types/index";
 
 const accessTokenSecret =
   process.env.JWT_ACCESS_SECRET || "your-access-token-secret";
@@ -101,35 +107,17 @@ export async function loginUser(req: Request, res: Response) {
   }
 }
 
-export async function getUserBasicInfo(req: Request, res: Response) {
-  try {
-    if (!req.user) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-    const { id } = req.user;
-    const user = await User.findById(id);
-
-    if (user) {
-      return res
-        .status(200)
-        .json({ username: user.username, id: user._id, email: user.email ,mobileNumber : user.mobileNumber});
-    }
-    return res.status(404).json({ message: "User not found" });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Server error" });
-  }
-}
 export async function getUserInfo(req: Request, res: Response) {
   try {
-    if (!req.user) {
+    const user = req.user;
+    if (!user || !user._id || typeof user._id.toString() !== "string") {
       return res.status(401).json({ message: "Unauthorized" });
     }
-    const { id } = req.user;
-    const user = await User.findById(id);
+    const findUser = await User.findById(user._id);
 
-    if (user) {
-      const { username, email, password, mobileNumber } = user;
+    if (findUser) {
+      const { username, email, password, mobileNumber } = findUser;
+
       return res.status(200).json({ username, email, password, mobileNumber });
     }
 
@@ -142,16 +130,20 @@ export async function getUserInfo(req: Request, res: Response) {
 
 export async function updateUsername(req: Request, res: Response) {
   try {
-    if (!req.user) {
+    const user = req.user;
+    if (!user || !user._id || typeof user._id.toString() !== "string") {
       return res.status(401).json({ message: "Unauthorized" });
     }
-    const { id } = req.user;
     const { username } = req.body;
 
-    const user = await User.findByIdAndUpdate(id, { username }, { new: true });
+    const findUser = await User.findByIdAndUpdate(
+      user._id,
+      { username },
+      { new: true }
+    );
 
-    if (user) {
-      return res.status(200).json({ username: user.username });
+    if (findUser) {
+      return res.status(200).json({ username: findUser.username });
     }
 
     return res.status(404).json({ message: "User not found" });
@@ -163,16 +155,20 @@ export async function updateUsername(req: Request, res: Response) {
 
 export async function updateEmail(req: Request, res: Response) {
   try {
-    if (!req.user) {
+    const user = req.user;
+    if (!user || !user._id || typeof user._id.toString() !== "string") {
       return res.status(401).json({ message: "Unauthorized" });
     }
-    const { id } = req.user;
     const { email } = req.body;
 
-    const user = await User.findByIdAndUpdate(id, { email }, { new: true });
+    const findUser = await User.findByIdAndUpdate(
+      user._id,
+      { email },
+      { new: true }
+    );
 
     if (user) {
-      return res.status(200).json({ email: user.email });
+      return res.status(200).json({ email: findUser.email });
     }
 
     return res.status(404).json({ message: "User not found" });
@@ -184,16 +180,16 @@ export async function updateEmail(req: Request, res: Response) {
 
 export async function updatePassword(req: Request, res: Response) {
   try {
-    if (!req.user) {
+    const user = req.user;
+    if (!user || !user._id || typeof user._id.toString() !== "string") {
       return res.status(401).json({ message: "Unauthorized" });
     }
-    const { id } = req.user;
     const { currentPassword, newPassword } = req.body;
 
-    const findUser = await User.findById(id).select("password");
+    const findUser = await User.findById(user._id).select("password");
     if (findUser.password === currentPassword) {
       const updatedUser = await User.findByIdAndUpdate(
-        id,
+        user._id,
         { password: newPassword },
         { new: true }
       );
@@ -212,25 +208,203 @@ export async function updatePassword(req: Request, res: Response) {
 
 export async function updateMobileNumber(req: Request, res: Response) {
   try {
-    if (!req.user) {
+    const user = req.user;
+    if (!user || !user._id || typeof user._id.toString() !== "string") {
       return res.status(401).json({ message: "Unauthorized" });
     }
-    const { id } = req.user;
     const { mobileNumber } = req.body;
 
-    const user = await User.findByIdAndUpdate(
-      id,
+    const findUser = await User.findByIdAndUpdate(
+      user._id,
       { mobileNumber },
       { new: true }
     );
 
     if (user) {
-      return res.status(200).json({ mobileNumber: user.mobileNumber });
+      return res.status(200).json({ mobileNumber: findUser.mobileNumber });
     }
 
     return res.status(404).json({ message: "User not found" });
   } catch (error) {
     console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}
+
+export async function getWishList(req: Request, res: Response) {
+  try {
+    const user = req.user;
+    if (!user || !user._id || typeof user._id.toString() !== "string") {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const wishList: WishListProps[] = await WishList.find({
+      userId: user._id,
+    });
+    const products: ProductProps[] = [];
+
+    for (const wish of wishList) {
+      const product: ProductProps | null = await Product.findById(
+        wish.productId
+      );
+      if (product) {
+        products.push(product);
+      }
+    }
+
+    return res.status(200).json({ wishlist: products });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
+export async function getCartItems(req: Request, res: Response) {
+  try {
+    const user = req.user;
+    if (!user || !user._id || typeof user._id.toString() !== "string") {
+      return res
+        .status(401)
+        .json({ message: "somthing is wrong with user form cart" });
+    }
+    const cartItems: CartProps[] = await Cart.find({
+      userId: user._id,
+    });
+    const products: ProductProps[] = [];
+    for (const item of cartItems) {
+      const product: ProductProps | null = await Product.findById(
+        item.productId
+      ).lean();
+      if (product)
+        products.push({
+          ...product,
+          totalPrice: item.price,
+          quantity: item.quantity,
+        });
+    }
+    return res.status(200).json({ cartItems: products });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+}
+
+export async function addAddress(req: Request, res: Response) {
+  try {
+    const address = req.address;
+    const user = req.user;
+
+    if (!address || !user) {
+      return res
+        .status(400)
+        .json({ message: "Address or user information is missing" });
+    }
+
+    const allAddresses = await Address.find({ userId: user._id });
+
+    const isDefault = allAddresses.length === 0;
+
+    const newAddress = new Address({
+      ...address,
+      userId: user._id,
+      default: isDefault,
+    });
+
+    await newAddress.save();
+
+    return res
+      .status(201)
+      .json({ message: "Address added successfully", address: newAddress });
+  } catch (error) {
+    console.error("Error adding address:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}
+
+export async function getAddresses(req: Request, res: Response) {
+  try {
+    const user = req.user;
+    if (!user || !user._id || typeof user._id.toString() !== "string") {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const addresses: AddressProps[] | [] = await Address.find({
+      userId: user._id,
+    });
+
+    return res.status(200).json({ addresses });
+  } catch (error) {
+    console.error("Error getting addresses:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}
+
+export async function setAddressAsDefault(req: Request, res: Response) {
+  try {
+    const { id: addressId } = req.query;
+    const user = req.user;
+    if (!addressId || !user || typeof user._id.toString() !== "string") {
+      return res
+        .status(400)
+        .json({ message: "Address ID or user information is missing" });
+    }
+    await Address.updateMany(
+      { userId: user._id, default: true },
+      { $set: { default: false } }
+    );
+    const address = await Address.findByIdAndUpdate(
+      addressId,
+      { default: true },
+      { new: true }
+    );
+
+    if (!address) {
+      return res.status(404).json({ message: "Address not found" });
+    }
+
+    return res.status(200).json({ message: "Address set as default", address });
+  } catch (error) {
+    console.error("Error setting address as default:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}
+
+export async function getAddress(req: Request, res: Response) {
+  try {
+    const { id: addressId } = req.query;
+    if (
+      !addressId ||
+      typeof addressId !== "string" ||
+      addressId.length !== 24
+    ) {
+      return res.status(400).json({ message: "Invalid address ID" });
+    }
+    const address = await Address.findById(addressId);
+    return res.status(200).json(address);
+  } catch (error) {
+    console.error("Error getting address:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}
+
+export async function updateAddress(req: Request, res: Response) {
+  try {
+    const { id: addressId, address: newAddress } = req.body;
+    console.log(req.body);
+    if (
+      !addressId ||
+      typeof addressId !== "string" ||
+      addressId.length !== 24 ||
+      !newAddress
+    ) {
+      return res
+        .status(400)
+        .json({ message: "Invalid address id or new address" });
+    }
+    const address = await Address.findByIdAndUpdate(addressId, newAddress);
+    return res.status(200).json(address);
+  } catch (error) {
+    console.error("Error getting address:", error);
     return res.status(500).json({ message: "Server error" });
   }
 }

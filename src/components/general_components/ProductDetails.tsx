@@ -4,27 +4,55 @@ import { useState } from "react";
 import { ImageDialog } from "../index";
 import { useQuery } from "@tanstack/react-query";
 import { ProductProps } from "../../../types";
+import { ThreeDots } from "react-loader-spinner";
+import { useToggleWishList } from "../../hooks/product";
+
 const ProductDetails = () => {
-  const navigatoTo = useNavigate();
+  const { handleToggle } = useToggleWishList();
+  const navigateTo = useNavigate();
+  const [wish, SetWish] = useState<boolean>(false);
   const [productCount, setProductCount] = useState(1);
   const [searchParams] = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const id = searchParams.get("id") ?? "";
   const {
-    isPending,
+    isLoading: isPending,
     isError,
     data: product,
-    error,
   } = useQuery<ProductProps>({
     queryKey: ["product", id],
     queryFn: () => fetchProduct(id),
   });
 
+  const handleWishToggle = async () => {
+    try {
+      if (product?._id) {
+        await handleToggle(product._id);
+        SetWish((prev) => !prev);
+      }
+    } catch (error) {
+      console.error("Failed to toggle wishlist:", error);
+    }
+  };
+
   if (isPending) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        <ThreeDots
+          height="30"
+          width="30"
+          radius="9"
+          color="#000000"
+          ariaLabel="three-dots-loading"
+          visible={true}
+        />
+      </>
+    );
   }
+
   if (isError) {
-    navigatoTo("/404");
+    navigateTo("/404");
+    return null;
   }
 
   const handleIncrease = () => {
@@ -32,6 +60,7 @@ const ProductDetails = () => {
       setProductCount((prev) => prev + 1);
     }
   };
+
   const handleDecrease = () => {
     if (productCount > 1) {
       setProductCount((prev) => prev - 1);
@@ -39,7 +68,7 @@ const ProductDetails = () => {
   };
 
   return (
-    <section className="w-full flex">
+    <section className="w-full flex my-10">
       <ImageDialog
         imagePath={product?.image ?? ""}
         closeDialog={() => setIsOpen(false)}
@@ -65,7 +94,7 @@ const ProductDetails = () => {
               <p className="font-extrabold"> {product?.price}</p>
             </div>
             <div className="flex items-end">
-              <button type="button">
+              <button type="button" onClick={handleWishToggle}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="28"
@@ -76,7 +105,7 @@ const ProductDetails = () => {
                 >
                   <path
                     d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z"
-                    fill="red"
+                    fill={wish ? "red" : "none"}
                   />
                 </svg>
               </button>
@@ -96,7 +125,6 @@ const ProductDetails = () => {
                 />
               </button>
               <input value={productCount} readOnly className="product_count" />
-
               <button
                 type="button"
                 className="w-[15px]"

@@ -42,7 +42,7 @@ const Register = () => {
         className="flex flex-col w-[75%] gap-4"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="flex flex-col gap-2 justify-center ">
+        <div className="input_field_conatiner ">
           <label htmlFor="email">Email</label>
           <input
             {...register("email")}
@@ -55,7 +55,7 @@ const Register = () => {
             <p className="text-red-500 text-sm">{errors.email.message}</p>
           )}
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="input_field_conatiner">
           <label htmlFor="username">Username</label>
           <input
             {...register("username")}
@@ -68,7 +68,7 @@ const Register = () => {
             <p className="text-red-500 text-sm">{errors.username.message}</p>
           )}
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="input_field_conatiner">
           <label htmlFor="password">Password</label>
           <input
             {...register("password")}
@@ -81,7 +81,7 @@ const Register = () => {
             <p className="text-red-500 text-sm">{errors.password.message}</p>
           )}
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="input_field_conatiner">
           <label htmlFor="confirmPassword">Confirm Password</label>
           <input
             {...register("confirmPassword")}
@@ -96,7 +96,7 @@ const Register = () => {
             </p>
           )}
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="input_field_conatiner">
           <label htmlFor="mobileNumber">Mobile Number</label>
           <Controller
             control={control}

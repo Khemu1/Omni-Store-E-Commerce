@@ -9,9 +9,7 @@ import NotFound from "./general_components/NotFound";
 import Home from "./general_components/Home";
 import ImageDialog from "./general_components/ImageDialog";
 import MyProfile from "./my_profile_components/MyProfile";
-import UserInfo from "./my_profile_components/UserInfo";
-import Orders from "./my_profile_components/Orders";
-import WishList from "./my_profile_components/WishList";
+import WishListView from "./my_profile_components/WishListView";
 import MyBasicInfo from "./my_profile_components/MyBasicInfo";
 import InfoField from "./my_profile_components/InfoField";
 import Addresses from "./my_profile_components/Addresses";
@@ -28,6 +26,13 @@ import EditUsername from "./edit_components/EditUsername";
 import EditPassword from "./edit_components/EditPassword";
 import PrivateLayout from "./layouts/PrivateLayout";
 import PublicLayout from "./layouts/PublicLayout";
+import OrderList from "./my_profile_components/OrderListView";
+import OrderListView from "./my_profile_components/OrderList";
+import Cart from "./my_profile_components/Cart";
+import CartQunatity from "./general_components/CartQunatity";
+import ProfileLayout from "./layouts/ProfileLayout";
+import NewAddress from "./my_profile_components/NewAddress";
+import EditAddress from "./my_profile_components/EditAddress";
 export {
   Nav,
   SearchBar,
@@ -40,9 +45,7 @@ export {
   Home,
   ImageDialog,
   MyProfile,
-  UserInfo,
-  Orders,
-  WishList,
+  WishListView,
   MyBasicInfo,
   InfoField,
   Addresses,
@@ -59,4 +62,11 @@ export {
   EditPassword,
   PrivateLayout,
   PublicLayout,
+  OrderList,
+  OrderListView,
+  Cart,
+  CartQunatity,
+  ProfileLayout,
+  NewAddress,
+  EditAddress,
 };

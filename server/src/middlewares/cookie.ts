@@ -68,7 +68,7 @@ export const authenticateToken = async (
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
-
+      console.log("got use from cookie");
       req.user = user;
       next();
     } catch (accessError) {
