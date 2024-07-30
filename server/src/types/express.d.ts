@@ -5,8 +5,15 @@ declare global {
   namespace Express {
     interface Request {
       user?: {
-        id: string;
+        _id: string;
         username?: string;
+      };
+      address?: {
+        name: string;
+        street: string;
+        city: string;
+        country: string;
+        zipCode: string;
       };
     }
   }

@@ -1,8 +1,4 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import {
-  ProductProps,
-} from "../types/index";
+import { ProductProps } from "../types/index";
 
 async function fetchAllProducts(
   sortBy: string = "az",

@@ -1,4 +1,6 @@
+
 const MyProfile = () => {
+
   return (
     <section className="flex  justify-center font-lato items-center my-10">
       <div className="flex flex-wrap gap-3 justify-center sm:w-[1000px] sm:gap-10">
@@ -17,7 +19,7 @@ const MyProfile = () => {
             </p>
           </div>
         </a>
-        <a href="/myprofile/wishlist" className="profile_card">
+        <a href="/myprofile/display-wishlist" className="profile_card">
           <div>
             <img src="/assets/icons/wishlist.svg" alt="" className="w-[60px]" />
           </div>
@@ -25,6 +27,17 @@ const MyProfile = () => {
             <p className="font-semibold">Your WishList</p>
             <p className="text-gray-600 text-wrap">
               Manage items in your withlist
+            </p>
+          </div>
+        </a>
+        <a href="/myprofile/display-orderlist" className="profile_card">
+          <div>
+            <img src="/assets/icons/order.svg" alt="" className="w-[60px]" />
+          </div>
+          <div className="flex flex-col">
+            <p className="font-semibold">Your Orders</p>
+            <p className="text-gray-600 text-wrap">
+              Manage items in your Order List
             </p>
           </div>
         </a>

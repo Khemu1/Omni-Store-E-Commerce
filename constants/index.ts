@@ -16,6 +16,32 @@ export const filters = [
     value: "hightolow",
   },
 ];
+export const quantities = [
+  {
+    title: "Qty : Delete",
+    value: 0,
+  },
+  {
+    title: "Qty : 1",
+    value: 1,
+  },
+  {
+    title: "Qty : 2",
+    value: 2,
+  },
+  {
+    title: "Qty : 3",
+    value: 3,
+  },
+  {
+    title: "Qty : 4",
+    value: 4,
+  },
+  {
+    title: "Qty : 5",
+    value: 5,
+  },
+];
 export const categories = [
   {
     title: "Category : All",

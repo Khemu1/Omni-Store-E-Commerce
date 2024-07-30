@@ -65,3 +65,15 @@ export const getValidateLoginSchema = () => {
         .label("Password"),
     })
 };
+
+export const getAddressSchema = () => {
+  return Yup.object().shape({
+    name: Yup.string().required("Full name is Required"),
+    street: Yup.string().required("street is required"),
+    country: Yup.string().required("Country is required"),
+    city: Yup.string().required("City is required"),
+    zipCode: Yup.string()
+      .required("Zip Code is required")
+      .matches(/^[0-9]{5}$/, "Zip Code should be a 5-digit number"),
+  });
+};

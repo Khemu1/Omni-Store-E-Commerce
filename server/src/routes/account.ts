@@ -15,11 +15,7 @@ accountRouter.post(
   accountMiddleware.validateLogin,
   accountController.loginUser
 );
-accountRouter.get(
-  "/user-basic-info",
-  authenticateToken,
-  accountController.getUserBasicInfo
-);
+accountRouter.get("/validate", accountMiddleware.validateCurrentUser);
 accountRouter.get(
   "/user-info",
   authenticateToken,
@@ -44,6 +40,45 @@ accountRouter.patch(
   "/update-user-mobileNumber",
   authenticateToken,
   accountController.updateMobileNumber
+);
+accountRouter.get(
+  "/user-wishlist",
+  authenticateToken,
+  accountController.getWishList
+);
+accountRouter.get(
+  "/user-cart",
+  authenticateToken,
+  accountController.getCartItems
+);
+
+accountRouter.post(
+  "/add-address",
+  authenticateToken,
+  accountMiddleware.validateAddress,
+  accountController.addAddress
+);
+accountRouter.get(
+  "/get-addresses",
+  authenticateToken,
+  accountController.getAddresses
+);
+accountRouter.post(
+  "/set-address-default",
+  authenticateToken,
+  accountController.setAddressAsDefault
+);
+
+accountRouter.get(
+  "/get-address",
+  authenticateToken,
+  accountController.getAddress
+);
+
+accountRouter.patch(
+  "/update-address",
+  authenticateToken,
+  accountController.updateAddress
 );
 accountRouter.post("/logout", (req, res) => {
   res.clearCookie("jwt");

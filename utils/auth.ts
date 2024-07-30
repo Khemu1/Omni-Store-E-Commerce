@@ -38,7 +38,7 @@ export const registerUser = async (
 };
 export const validateUser = async (): Promise<ResponseProps> => {
   try {
-    const response = await axiosInstance.get("/account/user-basic-info", {
+    const response = await axiosInstance.get("/account/validate", {
       headers: {
         "Cache-Control": "no-cache",
       },

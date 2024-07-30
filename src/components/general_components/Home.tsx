@@ -4,9 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchAllProducts } from "../../../utils/index";
 import { SwiperS, ProductsList } from "../index";
 import { swiperImages } from "../../../constants";
-
+import { useAccountInfo } from "../../hooks/profile";
 
 const Home = () => {
+
   const [searchParams] = useSearchParams();
   const navigateTo = useNavigate();
 

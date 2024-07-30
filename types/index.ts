@@ -7,6 +7,9 @@ export interface ProductProps {
   rating: number;
   description: string;
   image: string;
+  have: boolean;
+  totalPrice: number;
+  quantity: number;
 }
 export interface ScrollContextTypes {
   formRef: React.RefObject<HTMLFormElement> | null;
@@ -51,6 +54,8 @@ export interface DialogProps {
 export interface ProductListProps {
   allProducts: ProductProps[];
 }
+
+export type Products = ProductProps[];
 
 export interface InfoFieldProps {
   type: string;
@@ -125,4 +130,22 @@ export interface AccountAddressesProps {
 export interface UpdatePasswordProps {
   currentPassword: string;
   newPassword: string;
+}
+
+export interface AddressFormProps {
+  street: string;
+  city: string;
+  name: string;
+  zipCode: string;
+  country: string;
+}
+
+export interface AddressProps {
+  _id: string;
+  street: string;
+  city: string;
+  name: string;
+  zipCode: string;
+  country: string;
+  default: boolean;
 }
