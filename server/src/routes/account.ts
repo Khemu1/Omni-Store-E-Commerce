@@ -80,6 +80,7 @@ accountRouter.patch(
   authenticateToken,
   accountController.updateAddress
 );
+accountRouter.get("/get-checkout-data", authenticateToken, accountController.getCheckoutData);
 accountRouter.post("/logout", (req, res) => {
   res.clearCookie("jwt");
   res.clearCookie("refresh");

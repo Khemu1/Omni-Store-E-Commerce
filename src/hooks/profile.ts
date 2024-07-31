@@ -29,6 +29,7 @@ import {
 import { dsiplayCartItems } from "../../utils/cart";
 import { validateUser } from "../../utils/auth";
 import { getAddresses } from "../../utils/ProfileAPIs";
+import { getCheckoutData } from "../../utils/checkout";
 interface ErrorObject {
   message: string;
 }
@@ -423,4 +424,25 @@ export const useUpdateAddress = () => {
     }
   }, [success]);
   return { loading, error, handleUpdateAddress, success };
+};
+
+export const useGetCheckoutData = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [data, setData] = useState([]);
+  const [error, setError] = useState<string | null>(null);
+  const handleGetcheckoutData = async () => {
+    try {
+      setLoading(true);
+      setData(await getCheckoutData());
+    } catch (error) {
+      if (error instanceof AxiosError && error.response?.data.message) {
+        setError(error.response?.data.message);
+      }
+      setError("Server Error");
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  return { loading, error, handleGetcheckoutData, data };
 };

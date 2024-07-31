@@ -3,13 +3,14 @@ import { ThreeDots } from "react-loader-spinner";
 import List from "../products_layout/List";
 import { ProductProps } from "../../../types";
 import { useDsiplayCartList } from "../../hooks/profile";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
-  const [products, setProducts] = useState<ProductProps[] | []>([]);
+  const [products, setProducts] = useState<ProductProps[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const { loading, error, data, handleDisplayCartList } = useDsiplayCartList();
 
-  const calcTotalPrice = () => {
+  const calcTotalPrice = (products: ProductProps[]) => {
     let total = 0;
     products.forEach((product) => {
       total += product.price * product?.quantity;
@@ -19,12 +20,13 @@ const Cart = () => {
 
   useEffect(() => {
     handleDisplayCartList();
-    calcTotalPrice();
   }, []);
 
   useEffect(() => {
-    setProducts(data);
-    calcTotalPrice();
+    if (data) {
+      setProducts(data);
+      calcTotalPrice(data);
+    }
   }, [data]);
 
   return (
@@ -44,25 +46,28 @@ const Cart = () => {
       ) : products.length === 0 ? (
         <div>Start adding products to your cart</div>
       ) : (
-        products.map((product) => (
-          <List
-            method={handleDisplayCartList}
-            type={"cart"}
-            product={product}
-            key={product._id}
-            updatePrice={calcTotalPrice}
-          />
-        ))
+        <>
+          {products.map((product) => (
+            <List
+              method={handleDisplayCartList}
+              type={"cart"}
+              product={product}
+              key={product._id}
+              updatePrice={() => calcTotalPrice(products)}
+            />
+          ))}
+          <div className="flex w-full justify-between mt-4 font-lato">
+            <button
+              type="button"
+              className="text-sm bg-black text-white p-2 rounded-xl"
+            >
+              <Link to="/checkout"></Link>
+              Proceed To Buy
+            </button>
+            <p>Total Price : ${totalPrice}</p>
+          </div>
+        </>
       )}
-      <div className="flex w-full justify-between mt-4 font-lato">
-        <button
-          type="button"
-          className="text-sm bg-black text-white p-2 rounded-xl"
-        >
-          Proceed To Buy
-        </button>
-        <p>Total Price : ${totalPrice}</p>
-      </div>
     </section>
   );
 };

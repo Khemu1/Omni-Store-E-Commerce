@@ -33,6 +33,10 @@ import CartQunatity from "./general_components/CartQunatity";
 import ProfileLayout from "./layouts/ProfileLayout";
 import NewAddress from "./my_profile_components/NewAddress";
 import EditAddress from "./my_profile_components/EditAddress";
+import Checkout from "./general_components/Checkout";
+import Cards from "./my_profile_components/Cards";
+import Card from "./my_profile_components/Card";
+import NewCard from "./my_profile_components/NewCard";
 export {
   Nav,
   SearchBar,
@@ -69,4 +73,5 @@ export {
   ProfileLayout,
   NewAddress,
   EditAddress,
+  Checkout,
 };

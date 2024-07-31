@@ -408,3 +408,42 @@ export async function updateAddress(req: Request, res: Response) {
     return res.status(500).json({ message: "Server error" });
   }
 }
+
+export async function getCheckoutData(req: Request, res: Response) {
+  try {
+    const user = req.user;
+    if (!user) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    const [cartItems, defaultAddress] = await Promise.all([
+      Cart.find({ userId: user._id }).lean(),
+      Address.findOne({ userId: user._id, default: true }),
+    ]);
+
+    if (!cartItems || !defaultAddress) {
+      return res
+        .status(404)
+        .json({ message: "Cart items or default address not found" });
+    }
+
+    const products: ProductProps[] = (
+      await Promise.all(  // somthing new
+        cartItems.map(async (item) => {
+          const product = await Product.findById(item.productId).lean();
+          if (product) {
+            return {
+              ...product,
+              totalPrice: item.price,
+              quantity: item.quantity,
+            } as ProductProps;
+          }
+          return null;
+        })
+      )
+    ).filter((product): product is ProductProps => product !== null); // better Approach
+    return res.status(200).json({ products, defaultAddress });
+  } catch (error) {
+    console.error("Error getting checkout data:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}

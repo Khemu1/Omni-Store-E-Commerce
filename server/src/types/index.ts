@@ -7,8 +7,8 @@ export interface ProductProps {
   rating: number;
   description: string;
   image: string;
-  totalPrice?: number;
-  quantity?: number;
+  totalPrice: number;
+  quantity: number;
 }
 
 export interface WishListProps {

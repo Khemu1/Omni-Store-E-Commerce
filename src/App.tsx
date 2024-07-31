@@ -3,21 +3,13 @@ import {
   ProductDetails,
   NotFound,
   Home,
-  MyProfile,
-  MyBasicInfo,
-  Addresses,
   Register,
   Login,
-  EditEmail,
-  EditMobile,
-  EditUsername,
-  EditPassword,
   PublicLayout,
   PrivateLayout,
-  WishListView,
-  OrderListView,
   Cart,
   ProfileLayout,
+  Checkout,
 } from "./components/index";
 import "./App.css";
 import { useAccountInfo } from "./hooks/profile";
@@ -39,6 +31,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/product" element={<ProductDetails />} />
           <Route path="/myprofile/*" element={<ProfileLayout />} />
+          <Route path="/checkout" element={<Checkout />} />
           <Route path="/user-cart" element={<Cart />} />
         </Route>
 

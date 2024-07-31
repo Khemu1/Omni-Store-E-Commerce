@@ -14,6 +14,7 @@ import {
   EditAddress,
 } from "../index";
 import { useValidateUser } from "../../hooks/authHooks";
+import Cards from "../my_profile_components/Cards";
 
 const ProfileLayout = () => {
   useValidateUser();
@@ -31,6 +32,7 @@ const ProfileLayout = () => {
       <Route path="edit-mobileNumber" element={<EditMobile />} />
       <Route path="edit-username" element={<EditUsername />} />
       <Route path="edit-password" element={<EditPassword />} />
+      <Route path="payment" element={<Cards />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
