@@ -49,7 +49,7 @@ const Nav = () => {
                 {authState.user.username}
               </p>
             </Link>
-            <Link to="user-orders" className="">
+            <Link to="/myprofile/display-orderlist" className="">
               <img
                 src="/assets/icons/order.svg"
                 alt="orders"

@@ -4,19 +4,12 @@ import List from "../products_layout/List";
 import { ProductProps } from "../../../types";
 import { useDsiplayCartList } from "../../hooks/profile";
 import { Link } from "react-router-dom";
+import { calcTotalPrice } from "../../../utils/cart";
 
 const Cart = () => {
   const [products, setProducts] = useState<ProductProps[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const { loading, error, data, handleDisplayCartList } = useDsiplayCartList();
-
-  const calcTotalPrice = (products: ProductProps[]) => {
-    let total = 0;
-    products.forEach((product) => {
-      total += product.price * product?.quantity;
-    });
-    setTotalPrice(total);
-  };
 
   useEffect(() => {
     handleDisplayCartList();
@@ -25,7 +18,7 @@ const Cart = () => {
   useEffect(() => {
     if (data) {
       setProducts(data);
-      calcTotalPrice(data);
+      calcTotalPrice(data, setTotalPrice);
     }
   }, [data]);
 
@@ -53,16 +46,18 @@ const Cart = () => {
               type={"cart"}
               product={product}
               key={product._id}
-              updatePrice={() => calcTotalPrice(products)}
+              updatePrice={() => calcTotalPrice(products, setTotalPrice)}
             />
           ))}
           <div className="flex w-full justify-between mt-4 font-lato">
-            <button
-              type="button"
-              className="text-sm bg-black text-white p-2 rounded-xl"
-            >
-              <Link to="/checkout"></Link>
-              Proceed To Buy
+            <button type="button">
+              <Link
+                to="/checkout"
+                className="text-sm bg-black text-white p-2 rounded-xl"
+              >
+                {" "}
+                Proceed To Buy
+              </Link>
             </button>
             <p>Total Price : ${totalPrice}</p>
           </div>

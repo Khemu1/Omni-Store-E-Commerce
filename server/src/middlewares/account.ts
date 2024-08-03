@@ -1,6 +1,7 @@
 import { ValidationError } from "yup";
 import {
   getAddressSchema,
+  getCardSchema,
   getValidateLoginSchema,
   getValidateRegisterSchema,
   transformYupErrorsIntoObject,
@@ -8,7 +9,7 @@ import {
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import User from "../models/accounts";
-import { count } from "console";
+import { CardFormProps } from "../types";
 const accessTokenSecret =
   process.env.JWT_ACCESS_SECRET || "your-access-token-secret";
 
@@ -123,6 +124,32 @@ export async function validateAddress(
       { abortEarly: false }
     );
     req.address = { name, street, city, zipCode, country };
+    next();
+  } catch (errors) {
+    if (errors instanceof ValidationError) {
+      console.error("Validation errors:", errors);
+      res.status(400).json({ errors: transformYupErrorsIntoObject(errors) });
+    } else {
+      console.error("Unexpected error:", errors);
+      res.status(500).json({ errors: "Internal server error" });
+    }
+  }
+}
+
+export async function validateCard(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { name, number, type, cvc, expiry }: CardFormProps = req.body;
+    await getCardSchema().validate(
+      {
+        name,
+        number,
+        type,
+        cvc,
+        expiry,
+      },
+      { abortEarly: false }
+    );
+    req.card = { name, number, type, expiry, cvc };
     next();
   } catch (errors) {
     if (errors instanceof ValidationError) {

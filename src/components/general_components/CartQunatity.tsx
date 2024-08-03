@@ -7,6 +7,7 @@ import {
 } from "@headlessui/react";
 import { quantities } from "../../../constants";
 import { Fragment, useEffect, useState } from "react";
+import { ThreeDots } from "react-loader-spinner";
 
 interface CartQuantityProps {
   quantity: {
@@ -17,8 +18,9 @@ interface CartQuantityProps {
   id: string;
   success: boolean;
   error: null | string;
-  refresh?: () => Promise<void> |undefined;
+  refresh?: () => Promise<void> | undefined;
   updatePrice?: () => void | undefined;
+  loading: boolean;
 }
 
 const CartQuantity = ({
@@ -29,6 +31,7 @@ const CartQuantity = ({
   error,
   refresh,
   updatePrice,
+  loading,
 }: CartQuantityProps) => {
   const [selected, setSelected] = useState<{
     title: string;
@@ -43,34 +46,53 @@ const CartQuantity = ({
     const initialSelection = quantities.find((q) => q.value === quantity.value);
     setSelected(initialSelection || null);
     setOriginalQuantity(quantity.value);
-    if (updatePrice) updatePrice();
+    const update = async () => {
+      if (updatePrice) updatePrice();
+    };
+    update();
   }, [quantity]);
 
   const handleSelect = async (
     selectedOption: { title: string; value: number } | null
   ) => {
-    if (selectedOption) {
-      if (selectedOption.value === originalQuantity) {
-        return;
+    try {
+      if (selectedOption) {
+        if (selectedOption.value === originalQuantity) {
+          return;
+        }
+        setSelected(selectedOption);
+        await handleQuantityChange(id, selectedOption.value);
+        if (refresh) await refresh();
       }
-      setSelected(selectedOption);
-      await handleQuantityChange(id, selectedOption.value);
-      if (!success) {
-        const revertSelection = quantities.find(
-          (q) => q.value === originalQuantity
-        );
-        setSelected(revertSelection || null);
-      }
-      if (refresh) await refresh();
+    } catch (error) {
+      const revertSelection = quantities.find(
+        (q) => q.value === originalQuantity
+      );
+      setSelected(revertSelection || null);
     }
   };
 
   return (
     <div className="w-fit relative">
-      <Listbox value={selected} onChange={handleSelect}>
+      <Listbox value={selected} onChange={handleSelect} disabled={loading}>
         <div className="relative w-fit">
           <ListboxButton className="w-[100px] border-2 rounded-lg">
-            <span>{selected ? selected.title : "Select quantity"}</span>
+            <span className="flex justify-center">
+              {loading ? (
+                <ThreeDots
+                  height="30"
+                  width="30"
+                  radius="9"
+                  color="#000000"
+                  ariaLabel="three-dots-loading"
+                  visible={true}
+                />
+              ) : selected ? (
+                selected.title
+              ) : (
+                "Select quantity"
+              )}
+            </span>
           </ListboxButton>
           <Transition
             as={Fragment}

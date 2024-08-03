@@ -14,17 +14,12 @@ const OrdersSchema = new mongoose.Schema({
     },
   ],
   totalPrice: { type: Number, required: true },
-  orderStatus: {
-    type: String,
+  AddressId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Address",
     required: true,
-    enum: ["Pending", "Processing", "Shipped", "Delivered", "Canceled"],
   },
-  deliveryAddress: { type: String, required: true },
-  paymentMethod: {
-    type: String,
-    required: true,
-    enum: ["Cash On Delivery", "Online Payment"],
-  },
+  cardId: { type: mongoose.Schema.Types.ObjectId, ref: "Card", required: true },
   orderDate: { type: Date, default: Date.now },
 });
 

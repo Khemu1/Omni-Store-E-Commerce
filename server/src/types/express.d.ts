@@ -15,6 +15,13 @@ declare global {
         country: string;
         zipCode: string;
       };
+      card?: {
+        name: string;
+        number: string;
+        type: string;
+        cvc: string;
+        expiry: string;
+      };
     }
   }
 }

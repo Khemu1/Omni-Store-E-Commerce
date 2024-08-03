@@ -3,10 +3,19 @@ import { Request, Response, CookieOptions } from "express";
 import jwt from "jsonwebtoken";
 import WishList from "../models/wishlist";
 import Product from "../models/product";
-import { CartProps, ProductProps, WishListProps } from "../types";
+import Order from "../models/orders";
+
+import {
+  CardFormProps,
+  CardProps,
+  CartProps,
+  ProductProps,
+  WishListProps,
+} from "../types";
 import Cart from "../models/cart";
 import Address from "../models/address";
 import { AddressProps } from "../types/index";
+import Card from "../models/cards";
 
 const accessTokenSecret =
   process.env.JWT_ACCESS_SECRET || "your-access-token-secret";
@@ -110,7 +119,7 @@ export async function loginUser(req: Request, res: Response) {
 export async function getUserInfo(req: Request, res: Response) {
   try {
     const user = req.user;
-    if (!user || !user._id || typeof user._id.toString() !== "string") {
+    if (!user || typeof user._id.toString() !== "string") {
       return res.status(401).json({ message: "Unauthorized" });
     }
     const findUser = await User.findById(user._id);
@@ -409,25 +418,238 @@ export async function updateAddress(req: Request, res: Response) {
   }
 }
 
+export async function deleteAddress(req: Request, res: Response) {
+  try {
+    const user = req.user;
+    const { id } = req.query;
+
+    if (!user || !id || typeof id !== "string" || id.length !== 24) {
+      return res.status(400).json({ message: "Invalid user or address ID" });
+    }
+
+    const addressToDelete = await Address.findById(id);
+
+    if (
+      !addressToDelete ||
+      addressToDelete.userId.toString() !== user._id.toString()
+    ) {
+      return res.status(404).json({ message: "Address not found" });
+    }
+
+    await Address.findByIdAndDelete(id);
+
+    if (addressToDelete.default) {
+      const remainingAddresses = await Address.find({ userId: user._id });
+
+      if (remainingAddresses.length > 0) {
+        const newDefaultAddress = remainingAddresses[0];
+        newDefaultAddress.default = true;
+        await newDefaultAddress.save();
+      }
+    }
+
+    return res.status(200).json({ message: "Address deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting address:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}
+
+export async function addCard(req: Request, res: Response) {
+  try {
+    const user = req.user;
+    const card = req.card;
+    if (!user || !card) {
+      return res
+        .status(400)
+        .json({ message: "User or card information is missing" });
+    }
+
+    const [allCards, serach] = await Promise.all([
+      Card.find({ userId: user._id }),
+      Card.findOne({ userId: user._id, number: card.number }),
+    ]);
+
+    if (serach) {
+      return res.status(400).json({ message: "Card already exists" });
+    }
+    if (allCards.length === 0) {
+      const newCard = await new Card({
+        userId: user._id,
+        ...card,
+        default: true,
+      });
+      newCard.save();
+      return res
+        .status(201)
+        .json({ message: "Card added successfully", newCard });
+    }
+
+    const newCard = await new Card({
+      userId: user._id,
+      ...card,
+    });
+    newCard.save();
+    return res
+      .status(201)
+      .json({ message: "Card added successfully", newCard });
+  } catch (error) {
+    console.error("Error adding card:", error);
+    return res.status(500).json({ message: "Server error", error });
+  }
+}
+export async function getCards(req: Request, res: Response) {
+  try {
+    const user = req.user;
+    if (!user) {
+      return res.status(401).json({ message: "Invalid user data" });
+    }
+
+    const [cardsData] = await Promise.all([
+      Card.find({ userId: user._id }).select("-cvc").lean(),
+    ]);
+
+    const cards: CardProps[] = cardsData as CardProps[];
+
+    const maskNumber = (number: string) => "•••• •••• •••• " + number.slice(-4);
+
+    const maskedCards = cards.map((card) => ({
+      ...card,
+      number: maskNumber(card.number),
+    }));
+
+    const defaultCard = maskedCards.find((card) => card.default === true);
+
+    return res.status(200).json({ cards: maskedCards, defaultCard });
+  } catch (error) {
+    console.error("Error getting cards:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}
+export async function getCard(req: Request, res: Response) {
+  try {
+    const user = req.user;
+    const { id: cardId } = req.query;
+    if (!user) {
+      return res.status(401).json({ message: "Invalid user data" });
+    }
+
+    const cardData = await Card.findOne({ _id: cardId, userId: user._id })
+      .select("-userId -type")
+      .lean();
+
+    return res.status(200).json(cardData);
+  } catch (error) {
+    console.error("Error getting cards:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}
+
+export async function setCardDefault(req: Request, res: Response) {
+  try {
+    const user = req.user;
+    const { id } = req.body;
+    if (!user || !id) {
+      return res.status(400).json({ message: "Invalid user or card ID" });
+    }
+    await Card.updateMany({ userId: user._id }, { $set: { default: false } });
+    await Card.findByIdAndUpdate(id, { $set: { default: true } });
+    return res.status(200).json({ message: "Card set as default" });
+  } catch (error) {
+    console.error("Error setting card as default:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}
+
+export async function updateCard(req: Request, res: Response) {
+  try {
+    const user = req.user;
+    const { id: cardId } = req.query;
+    const { name, number, cvc, expiry, type }: CardFormProps = req.body;
+    if (
+      !user ||
+      typeof user._id.toString() !== "string" ||
+      typeof cardId !== "string" ||
+      cardId.length !== 24
+    ) {
+      return res.status(401).json({ message: "Invalid user data" });
+    }
+    await Card.findByIdAndUpdate(cardId, {
+      name,
+      number,
+      cvc,
+      expiry,
+      type,
+    });
+    return res.status(200).json({ message: "Card updated successfully" });
+  } catch (error) {
+    console.error("Error updating card:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}
+
+export async function deleteCard(req: Request, res: Response) {
+  try {
+    const user = req.user;
+    const { id } = req.query;
+
+    if (!user || !id || typeof id !== "string" || id.length !== 24) {
+      return res.status(400).json({ message: "Invalid user or card ID" });
+    }
+
+    const cardToDelete = await Card.findById(id);
+
+    if (
+      !cardToDelete ||
+      cardToDelete.userId.toString() !== user._id.toString()
+    ) {
+      return res.status(404).json({ message: "Card not found" });
+    }
+
+    await Card.findByIdAndDelete(id);
+
+    if (cardToDelete.default) {
+      const remainingCards = await Card.find({ userId: user._id });
+
+      if (remainingCards.length > 0) {
+        const newDefaultCard = remainingCards[0];
+        newDefaultCard.default = true;
+        await newDefaultCard.save();
+      }
+    }
+
+    return res.status(200).json({ message: "Card deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting card:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}
+
 export async function getCheckoutData(req: Request, res: Response) {
   try {
     const user = req.user;
     if (!user) {
       return res.status(401).json({ message: "Unauthorized" });
     }
-    const [cartItems, defaultAddress] = await Promise.all([
+    const [cartItems, addresses, allCards] = await Promise.all([
       Cart.find({ userId: user._id }).lean(),
-      Address.findOne({ userId: user._id, default: true }),
+      Address.find({ userId: user._id }).select("-country  -zipcode").lean(),
+      Card.find({ userId: user._id }).select("-cvc -userId").lean(),
     ]);
 
-    if (!cartItems || !defaultAddress) {
+    if (
+      cartItems.length === 0 ||
+      addresses.length === 0 ||
+      allCards.length === 0
+    ) {
       return res
         .status(404)
-        .json({ message: "Cart items or default address not found" });
+        .json({ message: "Missing Address , products or credit card" });
     }
 
     const products: ProductProps[] = (
-      await Promise.all(  // somthing new
+      await Promise.all(
+        // somthing new
         cartItems.map(async (item) => {
           const product = await Product.findById(item.productId).lean();
           if (product) {
@@ -441,9 +663,89 @@ export async function getCheckoutData(req: Request, res: Response) {
         })
       )
     ).filter((product): product is ProductProps => product !== null); // better Approach
-    return res.status(200).json({ products, defaultAddress });
+
+    const cards = allCards as CardProps[];
+    const maskedCards = cards.map((card) => ({
+      ...card,
+      number: "•••• •••• •••• " + card.number.slice(-4),
+    }));
+    return res.status(200).json({ products, addresses, cards: maskedCards });
   } catch (error) {
     console.error("Error getting checkout data:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+}
+
+export async function createOrder(req: Request, res: Response) {
+  try {
+    const user = req.user;
+    if (!user || !user._id || typeof user._id.toString() !== "string") {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    // Retrieve the products in the user's cart
+    const cartItems = await Cart.find({ userId: user._id });
+    if (!cartItems || cartItems.length === 0) {
+      return res.status(400).json({ message: "Cart is empty" });
+    }
+
+    // Retrieve the address and card details from the request body
+    const { addressId, cardId } = req.body;
+    if (!addressId || !cardId) {
+      return res
+        .status(400)
+        .json({ message: "Address or card information is missing" });
+    }
+
+    const address = await Address.findById(addressId);
+    const card = await Card.findById(cardId);
+
+    if (!address || !card) {
+      return res.status(404).json({ message: "Address or card not found" });
+    }
+
+    // Calculate the total price
+    let totalPrice = 0;
+    const products = [];
+
+    for (const item of cartItems) {
+      const product = await Product.findById(item.productId).lean();
+      if (!product) {
+        return res
+          .status(404)
+          .json({ message: `Product with ID ${item.productId} not found` });
+      }
+
+      const totalItemPrice = item.price * item.quantity;
+      totalPrice += totalItemPrice;
+
+      products.push({
+        productId: item.productId,
+        quantity: item.quantity,
+        price: item.price,
+      });
+    }
+
+    // Create a new order
+    const newOrder = new Order({
+      userId: user._id,
+      products,
+      totalPrice,
+      AddressId: addressId,
+      cardId: cardId,
+      orderDate: new Date(),
+    });
+
+    await newOrder.save();
+
+    // Clear the user's cart
+    await Cart.deleteMany({ userId: user._id });
+
+    return res
+      .status(201)
+      .json({ message: "Order created successfully", order: newOrder._id });
+  } catch (error) {
+    console.error("Error creating order:", error);
     return res.status(500).json({ message: "Server error" });
   }
 }

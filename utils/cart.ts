@@ -36,3 +36,14 @@ export const changeCartAmount = async (id: string, quantity: number) => {
     throw error;
   }
 };
+
+export const calcTotalPrice = (
+  products: ProductProps[],
+  setTotalPrice: React.Dispatch<React.SetStateAction<number>>
+) => {
+  let total = 0;
+  products.forEach((product) => {
+    total += product.price * product.quantity;
+  });
+  setTotalPrice(parseFloat(total.toFixed(2)));
+};

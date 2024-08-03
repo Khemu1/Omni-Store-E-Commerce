@@ -37,3 +37,20 @@ export interface AddressProps {
   zipCode: string;
   defult: boolean;
 }
+
+export interface CardFormProps {
+  number: string;
+  expiry: string;
+  cvc: string;
+  name: string;
+  type: string;
+}
+
+export interface CardProps {
+  _id: string;
+  number: string;
+  expiry: string;
+  name: string;
+  type: string;
+  default: boolean;
+}

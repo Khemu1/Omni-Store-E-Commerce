@@ -2,12 +2,14 @@ import { ThreeDots } from "react-loader-spinner";
 import { AddressProps } from "../../../types";
 import { useSetAddressesAsDefault } from "../../hooks/profile";
 import { Link } from "react-router-dom";
+import { useDeleteAddress } from "../../hooks/profile";
 
 interface Address {
   address: AddressProps;
   refresh: () => Promise<void>;
 }
 const Address = ({ address, refresh }: Address) => {
+  const { handleDeleteAddress, error: deleteError } = useDeleteAddress();
   const {
     handleSetAddressesAsDefault,
     loading: settingDefault,
@@ -19,6 +21,14 @@ const Address = ({ address, refresh }: Address) => {
       await refresh();
     } catch (error) {
       console.error(error);
+    }
+  };
+  const handleDelete = async () => {
+    try {
+      await handleDeleteAddress(address._id);
+      refresh();
+    } catch (error) {
+      console.log(error);
     }
   };
   const neededKeys = ["name", "street", "country", "city", "zipCode"];
@@ -60,7 +70,16 @@ const Address = ({ address, refresh }: Address) => {
         ) : (
           <>
             <button type="button" className="text-blue-400 hover:text-blue-600">
-              <Link to={`/myprofile/addresses/edit-address?id=${address._id}`}>Edit</Link>
+              <Link to={`/myprofile/addresses/edit-address?id=${address._id}`}>
+                Edit
+              </Link>
+            </button>
+            <button
+              type="button"
+              onClick={handleDelete}
+              className="text-blue-400 hover:text-blue-600"
+            >
+              Delete
             </button>
             {!address.default && (
               <button
@@ -75,7 +94,12 @@ const Address = ({ address, refresh }: Address) => {
         )}
         {setDefaultError && (
           <p className="text-red-600 text-sm mt-2">
-            Failed to set address as default
+            Failed to set address as default, please try again later
+          </p>
+        )}
+        {deleteError && (
+          <p className="text-red-600 text-sm mt-2">
+            Failed to set address as default, please try again later
           </p>
         )}
       </div>

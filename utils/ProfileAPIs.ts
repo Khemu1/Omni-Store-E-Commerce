@@ -134,3 +134,13 @@ export const updateAddress = async (id: string, address: AddressFormProps) => {
     throw error;
   }
 };
+
+export const deleteAddress = async (id: string) => {
+  try {
+    const response = await axiosInstance.delete(`/account/delete-address?id=${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Failed to get addresses:", error);
+    throw error;
+  }
+};

@@ -15,7 +15,7 @@ import InfoField from "./my_profile_components/InfoField";
 import Addresses from "./my_profile_components/Addresses";
 import Address from "./my_profile_components/Address";
 import Register from "./forms/Register";
-import Login from "./forms/Login";
+import Login from "./forms/login";
 import PriceFilter from "./general_components/PriceFilter";
 import SwiperS from "./general_components/SwiperS";
 import List from "./products_layout/List";
@@ -33,10 +33,14 @@ import CartQunatity from "./general_components/CartQunatity";
 import ProfileLayout from "./layouts/ProfileLayout";
 import NewAddress from "./my_profile_components/NewAddress";
 import EditAddress from "./my_profile_components/EditAddress";
-import Checkout from "./general_components/Checkout";
+import Checkout from "./checkout/Checkout";
 import Cards from "./my_profile_components/Cards";
 import Card from "./my_profile_components/Card";
 import NewCard from "./my_profile_components/NewCard";
+import EditCard from "./my_profile_components/EditCard";
+import CheckoutAddress from "./checkout/CheckoutAddress";
+import CheckoutCard from "./checkout/CheckoutCard";
+import CheckoutProducts from "./checkout/CheckoutProducts";
 export {
   Nav,
   SearchBar,
@@ -74,4 +78,11 @@ export {
   NewAddress,
   EditAddress,
   Checkout,
+  Cards,
+  Card,
+  NewCard,
+  EditCard,
+  CheckoutAddress,
+  CheckoutCard,
+  CheckoutProducts,
 };

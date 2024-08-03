@@ -80,7 +80,47 @@ accountRouter.patch(
   authenticateToken,
   accountController.updateAddress
 );
-accountRouter.get("/get-checkout-data", authenticateToken, accountController.getCheckoutData);
+accountRouter.delete(
+  "/delete-address",
+  authenticateToken,
+  accountController.deleteAddress
+);
+
+accountRouter.post(
+  "/add-card",
+  authenticateToken,
+  accountMiddleware.validateCard,
+  accountController.addCard
+);
+accountRouter.get("/get-cards", authenticateToken, accountController.getCards);
+accountRouter.get("/get-card", authenticateToken, accountController.getCard);
+accountRouter.patch(
+  "/update-card",
+  authenticateToken,
+  accountController.updateCard
+);
+accountRouter.patch(
+  "/set-card-default",
+  authenticateToken,
+  accountController.setCardDefault
+);
+accountRouter.delete(
+  "/delete-card",
+  authenticateToken,
+  accountController.deleteCard
+);
+
+accountRouter.get(
+  "/get-checkout-data",
+  authenticateToken,
+  accountController.getCheckoutData
+);
+accountRouter.post(
+  "/add-order",
+  authenticateToken,
+  accountController.createOrder
+);
+
 accountRouter.post("/logout", (req, res) => {
   res.clearCookie("jwt");
   res.clearCookie("refresh");

@@ -149,3 +149,44 @@ export interface AddressProps {
   country: string;
   default: boolean;
 }
+
+export interface CardFormProps {
+  number: string;
+  expiry: string;
+  cvc: string;
+  name: string;
+  type: string;
+}
+
+export interface CardProps {
+  _id: string;
+  number: string;
+  expiry: string;
+  name: string;
+  type: string;
+  default: boolean;
+}
+
+export interface Cards {
+  cards: CardProps[];
+  defaultCard: CardProps;
+}
+
+export interface CheckOutProps {
+  cards: CardProps[];
+  addresses: AddressProps[];
+  products: ProductProps[];
+}
+export interface CreateOrderProps {
+  addressId: string;
+  cardId: string;
+}
+
+export interface OrderProps {
+  _id: string;
+  products: ProductProps[];
+  totalPrice: number;
+  address: AddressProps;
+  card: CardProps;
+  createdAt: Date;
+}

@@ -29,6 +29,7 @@ const List = ({
     handleChangeCartAmount,
     success,
     error: changeError,
+    loading
   } = useChangeCartAmount();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -96,6 +97,7 @@ const List = ({
           error={changeError}
           refresh={method}
           updatePrice={updatePrice}
+          loading={loading}
         />
       )}
       {type !== "cart" && (

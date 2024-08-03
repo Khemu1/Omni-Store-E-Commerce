@@ -277,5 +277,35 @@ footer {
   @apply flex flex-col  items-start h-[200px] w-[250px] border  shadow-[0px_0px_15px_rgba(0,0,0,.3)] rounded-lg;
 }
 .address_box_field {
-  @apply flex items-center gap-2 overflow-hidden text-nowrap text-ellipsis w-[90%]
+  @apply flex items-center gap-2 overflow-hidden text-nowrap text-ellipsis w-[90%];
+}
+.visa {
+  background: linear-gradient(25deg, #0f509e, #1399cd);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+.mastercard {
+  background: linear-gradient(25deg, #fbfbfb, #e8e9e5);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.defaultCard {
+  @apply flex justify-center items-center bg-white  w-[240px] h-[140px] rounded-r-lg relative z-[1] overflow-hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.defaultCard::before {
+  position: absolute;
+  content: "";
+  position: absolute;
+  left: calc(0% - 10px);
+
+  width: 20px;
+  height: 100%;
+  background-color: gold;
+  z-index: -1;
+}
+
+.onDsiplayCard {
+  @apply flex flex-col gap-2 justify-center items-center bg-white w-[280px] h-[210px] rounded-lg;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }

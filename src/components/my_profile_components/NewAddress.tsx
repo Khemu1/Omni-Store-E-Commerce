@@ -107,14 +107,7 @@ const NewAddress = () => {
           {errors.zipCode && (
             <p className="text-red-500 text-sm">{errors.zipCode.message}</p>
           )}
-          <div className="flex justify-center">
-            {success && (
-              <p className="text-green-600 text-sm">
-                Address added successfully.
-              </p>
-            )}
-            {error && <p className="text-red-600 text-sm">{error}</p>}
-          </div>
+
           <button
             type="submit"
             className="mt-2 text-white text-lg bg-black w-max m-auto px-6 rounded-xl"
@@ -124,7 +117,7 @@ const NewAddress = () => {
                 height="30"
                 width="30"
                 radius="9"
-                color="#000000"
+                color="#FFFFFF"
                 ariaLabel="three-dots-loading"
                 visible={true}
               />
@@ -132,6 +125,14 @@ const NewAddress = () => {
               "Save"
             )}
           </button>
+          <div className="flex justify-center">
+            {success && (
+              <p className="text-green-600 text-sm">
+                Address added successfully.
+              </p>
+            )}
+            {error && <p className="text-red-600 text-sm">{error}</p>}
+          </div>
         </form>
       </div>
     </section>

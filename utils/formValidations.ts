@@ -127,3 +127,28 @@ export const getAddressSchema = () => {
       .matches(/^[0-9]{5}$/, "Zip Code should be a 5-digit number"),
   });
 };
+
+export const getCardSchema = () => {
+  return Yup.object().shape({
+    name: Yup.string().required("Name on card is required"),
+    type: Yup.string()
+      .required("Type is required")
+      .test(
+        "is-valid-type",
+        "Type must be either visa or master card",
+        (value) => value === "visa" || value === "mastercard"
+      ),
+    cvc: Yup.string()
+      .required("CVC is required")
+      .matches(/^\d{3,4}$/, "CVC must be 3 or 4 digits"),
+    expiry: Yup.string()
+      .required("Expiry date is required")
+      .matches(
+        /^(0[1-9]|1[0-2])\/?([0-9]{2})$/,
+        "Expiry date must be in MM/YY format"
+      ),
+    number: Yup.string()
+      .required("Card number is required")
+      .matches(/^\d{16}$/, "Card number must be 16 digits"),
+  });
+};
