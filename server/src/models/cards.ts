@@ -7,6 +7,7 @@ const CardSchema = new mongoose.Schema({
   expiry: { type: String, required: true },
   cvc: { type: String, required: true },
   number: { type: String, required: true, unique: true },
+  last4Numbers: { type: String, required: true },
   default: { type: Boolean, required: true, default: false },
 });
 

@@ -4,13 +4,13 @@ import { getOrders } from "../../utils/order";
 import { OrderProps } from "../../types";
 import axios from "axios";
 
-export const useGetCheckoutData = () => {
+export const useGetOrders = () => {
   const navigateTo = useNavigate();
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [data, setData] = useState<OrderProps | null>(null);
+  const [data, setData] = useState<OrderProps[] | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const handleGetCheckoutData = async () => {
+  const handleGetOrders = async () => {
     try {
       setLoading(true);
       setError(null);
@@ -32,5 +32,5 @@ export const useGetCheckoutData = () => {
       return () => clearTimeout(timer);
     }
   }, [error]);
-  return { loading, error, handleGetCheckoutData, data };
+  return { loading, error, handleGetOrders, data };
 };

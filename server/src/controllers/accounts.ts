@@ -477,6 +477,7 @@ export async function addCard(req: Request, res: Response) {
       const newCard = await new Card({
         userId: user._id,
         ...card,
+        last4Numbers: card.number.slice(-4),
         default: true,
       });
       newCard.save();
@@ -487,6 +488,7 @@ export async function addCard(req: Request, res: Response) {
 
     const newCard = await new Card({
       userId: user._id,
+      last4Numbers: card.number.slice(-4),
       ...card,
     });
     newCard.save();
@@ -679,17 +681,15 @@ export async function getCheckoutData(req: Request, res: Response) {
 export async function createOrder(req: Request, res: Response) {
   try {
     const user = req.user;
-    if (!user || !user._id || typeof user._id.toString() !== "string") {
+    if (!user || !user._id) {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    // Retrieve the products in the user's cart
     const cartItems = await Cart.find({ userId: user._id });
     if (!cartItems || cartItems.length === 0) {
       return res.status(400).json({ message: "Cart is empty" });
     }
 
-    // Retrieve the address and card details from the request body
     const { addressId, cardId } = req.body;
     if (!addressId || !cardId) {
       return res
@@ -697,48 +697,58 @@ export async function createOrder(req: Request, res: Response) {
         .json({ message: "Address or card information is missing" });
     }
 
-    const address = await Address.findById(addressId);
-    const card = await Card.findById(cardId);
+    const address: AddressProps | null = await Address.findById(
+      addressId
+    ).lean();
+    const card: CardProps | null = await Card.findById(cardId).lean();
 
     if (!address || !card) {
       return res.status(404).json({ message: "Address or card not found" });
     }
 
-    // Calculate the total price
     let totalPrice = 0;
     const products = [];
 
     for (const item of cartItems) {
-      const product = await Product.findById(item.productId).lean();
+      const product: ProductProps | null = await Product.findById(
+        item.productId
+      ).lean();
       if (!product) {
         return res
           .status(404)
           .json({ message: `Product with ID ${item.productId} not found` });
       }
 
-      const totalItemPrice = item.price * item.quantity;
-      totalPrice += totalItemPrice;
+      const totalItemPrice = product.price * item.quantity;
+      totalPrice += parseFloat(totalItemPrice.toFixed(2));
 
       products.push({
-        productId: item.productId,
+        _id: product._id,
         quantity: item.quantity,
-        price: item.price,
+        price: product.price,
+        title: product.title,
+        image: product.image,
       });
     }
 
-    // Create a new order
     const newOrder = new Order({
       userId: user._id,
       products,
       totalPrice,
-      AddressId: addressId,
-      cardId: cardId,
+      address: {
+        name: address.name,
+        street: address.street,
+        city: address.city,
+      },
+      card: {
+        name: card.name,
+        last4Numbers: card.number.slice(-4),
+        type: card.type,
+      },
       orderDate: new Date(),
     });
 
     await newOrder.save();
-
-    // Clear the user's cart
     await Cart.deleteMany({ userId: user._id });
 
     return res
@@ -747,5 +757,37 @@ export async function createOrder(req: Request, res: Response) {
   } catch (error) {
     console.error("Error creating order:", error);
     return res.status(500).json({ message: "Server error" });
+  }
+}
+
+export async function getOrders(req: Request, res: Response) {
+  try {
+    const user = req.user;
+    if (!user) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const orders = await Order.find({ userId: user._id })
+      .populate({
+        path: "products", // Correct path to the product reference
+        model: "Product",
+      })
+      .populate({
+        path: "address", // Populate the addressId field
+        model: "Address",
+        select: "name street city -_id", // Select specific fields to return
+      })
+      .populate({
+        path: "card", // Populate the cardId field
+        model: "Card",
+        select: "name type last4Numbers -_id", // Select specific fields to return
+      })
+      .lean();
+
+    // Send the response
+    return res.status(200).json(orders);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 }

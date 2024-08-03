@@ -3,7 +3,7 @@ import {
   MyProfile,
   MyBasicInfo,
   WishListView,
-  OrderListView,
+  Orders,
   Addresses,
   EditEmail,
   EditMobile,
@@ -26,7 +26,7 @@ const ProfileLayout = () => {
       <Route path="/" element={<MyProfile />} />
       <Route path="login-security" element={<MyBasicInfo />} />
       <Route path="display-wishlist" element={<WishListView />} />
-      <Route path="display-orderlist" element={<OrderListView />} />
+      <Route path="display-orderlist" element={<Orders />} />
       <Route path="addresses" element={<Addresses />} />
       <Route path="addresses/new-address" element={<NewAddress />} />
       <Route path="addresses/edit-address" element={<EditAddress />} />

@@ -31,7 +31,7 @@ export interface SortQuery {
 
 export interface AddressProps {
   _id: string;
-  addressLine: string;
+  street: string;
   city: string;
   name: string;
   zipCode: string;

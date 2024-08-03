@@ -82,15 +82,7 @@ async function getAllProducts(req: Request, res: Response) {
 
 async function getProduct(req: Request, res: Response) {
   try {
-    let user: { _id: string } | null = null;
-    const { refresh, jwt: token } = req.cookies;
-    if (token && refresh) {
-      const decodedAccessToken = jwt.verify(token, accessTokenSecret) as {
-        userId: string;
-      };
-      user = await User.findById(decodedAccessToken.userId).lean();
-    }
-
+    const user = req.user;
     const { id } = req.query;
 
     if (!id || typeof id !== "string" || id.length !== 24) {
@@ -128,8 +120,9 @@ async function toggleWishList(req: Request, res: Response) {
     }
 
     const { id } = req.query;
+    console.log(id);
     if (!id || typeof id !== "string" || id.length !== 24) {
-      return res.status(404).json({ message: "Product not found" });
+      return res.status(404).json({ message: "Product not found,ttttttt" });
     }
     const existingWishListItem = await WishList.findOne({
       userId: user._id,

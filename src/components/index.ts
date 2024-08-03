@@ -26,8 +26,8 @@ import EditUsername from "./edit_components/EditUsername";
 import EditPassword from "./edit_components/EditPassword";
 import PrivateLayout from "./layouts/PrivateLayout";
 import PublicLayout from "./layouts/PublicLayout";
-import OrderList from "./my_profile_components/OrderListView";
-import OrderListView from "./my_profile_components/OrderList";
+import Orders from "./orders/Orders";
+import Order from "./orders/Order";
 import Cart from "./my_profile_components/Cart";
 import CartQunatity from "./general_components/CartQunatity";
 import ProfileLayout from "./layouts/ProfileLayout";
@@ -41,6 +41,7 @@ import EditCard from "./my_profile_components/EditCard";
 import CheckoutAddress from "./checkout/CheckoutAddress";
 import CheckoutCard from "./checkout/CheckoutCard";
 import CheckoutProducts from "./checkout/CheckoutProducts";
+import ProductOrder from "./orders/ProductOrder";
 export {
   Nav,
   SearchBar,
@@ -70,8 +71,8 @@ export {
   EditPassword,
   PrivateLayout,
   PublicLayout,
-  OrderList,
-  OrderListView,
+  Orders,
+  Order,
   Cart,
   CartQunatity,
   ProfileLayout,
@@ -85,4 +86,5 @@ export {
   CheckoutAddress,
   CheckoutCard,
   CheckoutProducts,
+  ProductOrder,
 };

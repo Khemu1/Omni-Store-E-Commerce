@@ -1,28 +1,56 @@
 import mongoose from "mongoose";
 
-const OrdersSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+const orderSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   products: [
     {
-      productId: {
+      _id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
         required: true,
       },
-      quantity: { type: Number, required: true },
-      price: { type: Number, required: true },
+      quantity: {
+        type: Number,
+        required: true,
+      },
+      price: {
+        type: Number,
+        required: true,
+      },
+      title: {
+        type: String,
+        required: true,
+      },
+      image: {
+        type: String,
+        required: true,
+      },
     },
   ],
-  totalPrice: { type: Number, required: true },
-  AddressId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Address",
+  address: {
+    name: { type: String, required: true },
+    street: { type: String, required: true },
+    city: { type: String, required: true },
+  },
+  card: {
+    name: { type: String, required: true },
+    last4Numbers: { type: String, required: true },
+    type: { type: String, required: true },
+  },
+  totalPrice: {
+    type: Number,
     required: true,
   },
-  cardId: { type: mongoose.Schema.Types.ObjectId, ref: "Card", required: true },
-  orderDate: { type: Date, default: Date.now },
+  orderDate: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
-const Order = mongoose.models.Order || mongoose.model("Order", OrdersSchema);
+const Order = mongoose.models.Order || mongoose.model("Order", orderSchema);
 
 export default Order;

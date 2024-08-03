@@ -120,6 +120,11 @@ accountRouter.post(
   authenticateToken,
   accountController.createOrder
 );
+accountRouter.get(
+  "/get-orders",
+  authenticateToken,
+  accountController.getOrders
+);
 
 accountRouter.post("/logout", (req, res) => {
   res.clearCookie("jwt");
