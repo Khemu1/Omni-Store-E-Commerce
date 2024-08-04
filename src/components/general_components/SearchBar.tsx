@@ -41,13 +41,6 @@ const SearchBar = () => {
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Search by title, category or description"
       />
-      <button type="submit">
-        <img
-          src="/assets/icons/magnifying-glass.svg"
-          alt="magnifying glass"
-          className="object-contain"
-        />
-      </button>
     </form>
   );
 };

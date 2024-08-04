@@ -1,5 +1,5 @@
 import { ProductProps } from "../../../types/index";
-import { useAddToCart } from "../../hooks/product";
+import { useAddToCart } from "../../hooks/cart";
 import Grid from "../products_layout/Grid";
 import List from "../products_layout/List";
 
@@ -21,11 +21,7 @@ const ProductCard = ({ product, layout }: pro) => {
   return (
     <>
       {layout === "grid" ? (
-        <Grid
-          product={product}
-          handleCartClick={handleCartClick}
-          handleCartClickError={error}
-        />
+        <Grid product={product} />
       ) : (
         <List
           product={product}

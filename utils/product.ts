@@ -7,7 +7,7 @@ async function fetchAllProducts(
   price: string = ""
 ): Promise<ProductProps[]> {
   const response = await fetch(
-    `/api/products?sortBy=${sortBy}&search=${search}&category=${cat}&priceRange=${price}`,
+    `/api/product?sortBy=${sortBy}&search=${search}&category=${cat}&priceRange=${price}`,
     {
       method: "GET",
     }
@@ -19,7 +19,7 @@ async function fetchAllProducts(
 }
 
 async function fetchProduct(id: string): Promise<ProductProps> {
-  const response = await fetch(`/api/products/product?id=${id}`, {
+  const response = await fetch(`/api/product/product?id=${id}`, {
     method: "GET",
   });
   if (!response.ok) {

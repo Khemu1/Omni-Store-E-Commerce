@@ -3,7 +3,7 @@ import axiosInstance from "./axiosInstance";
 
 export async function displayWishList(): Promise<ProductProps[] | []> {
   try {
-    const response = await axiosInstance.get("/account/user-wishlist");
+    const response = await axiosInstance.get("/wishlist/user-wishlist");
     console.log(response.data.wishlist);
 
     return response.data.wishlist;
@@ -16,7 +16,7 @@ export async function displayWishList(): Promise<ProductProps[] | []> {
 export const toggleWishListProduct = async (id: string) => {
   try {
     const response = await axiosInstance.post(
-      `/products/toggle-wishlist?id=${id}`
+      `/wishlist/toggle-wishlist?id=${id}`
     );
     return response.data;
   } catch (error) {
@@ -28,11 +28,21 @@ export const toggleWishListProduct = async (id: string) => {
 export const removeWishListItem = async (id: string) => {
   try {
     const response = await axiosInstance.delete(
-      `/products/remove-from-wishlist?id=${id}`
+      `/wishlist/remove-from-wishlist?id=${id}`
     );
     return response.data;
   } catch (error) {
     console.error("Failed to remove wish list item:", error);
+    throw error;
+  }
+};
+
+export const clearWishList = () => {
+  try {
+    const response = axiosInstance.delete("/wishlist/clear-wishlist");
+    return response;
+  } catch (error) {
+    console.error("Failed to clear wish list:", error);
     throw error;
   }
 };

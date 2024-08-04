@@ -1,13 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { fetchAllProducts } from "../../../utils/index";
+import { fetchAllProducts } from "../../../utils/product";
 import { SwiperS, ProductsList } from "../index";
 import { swiperImages } from "../../../constants";
-import { useAccountInfo } from "../../hooks/profile";
+import { ThreeDots } from "react-loader-spinner";
 
 const Home = () => {
-
   const [searchParams] = useSearchParams();
   const navigateTo = useNavigate();
 
@@ -45,13 +44,24 @@ const Home = () => {
 
   return (
     <section className="flex flex-col w-full my-5">
-      <div className="flex w-[100dvw] m-auto items-center justify-center relative overflow-hidden">
+      <div className="flex w-[100dvw] h-[800px] m-auto items-center justify-center relative overflow-hidden">
         <SwiperS images={swiperImages} />
       </div>
       {productsLoading ? (
-        <div>Loading products...</div>
+        <div className="flex m-auto my-5">
+          <ThreeDots
+            height="100"
+            width="100"
+            radius="10"
+            color="#000"
+            ariaLabel="three-dots-loading"
+            visible={true}
+          />
+        </div>
       ) : productsError ? (
-        <div>Error loading products: {error?.message ?? "Unknown error"}</div>
+        <div className="m-auto text-2xl text-red-600 font-semibold font-lato my-5">
+          Error Loading Products, Please Try Again Later
+        </div>
       ) : (
         <ProductsList allProducts={allProducts ?? []} />
       )}

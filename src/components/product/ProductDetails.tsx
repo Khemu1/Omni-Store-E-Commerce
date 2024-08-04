@@ -1,20 +1,22 @@
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { fetchProduct } from "../../../utils";
-import { useState } from "react";
+import { fetchProduct } from "../../../utils/product";
+import { useEffect, useState } from "react";
 import { ImageDialog } from "../index";
 import { useQuery } from "@tanstack/react-query";
 import { ProductProps } from "../../../types";
 import { ThreeDots } from "react-loader-spinner";
-import { useToggleWishList } from "../../hooks/product";
+import { useToggleWishList } from "../../hooks/wishlist";
+import { useAddToCart } from "../../hooks/cart";
 
 const ProductDetails = () => {
   const { handleToggle } = useToggleWishList();
   const navigateTo = useNavigate();
-  const [wish, SetWish] = useState<boolean>(false);
+  const [wish, setWish] = useState<boolean>(false);
   const [productCount, setProductCount] = useState(1);
   const [searchParams] = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const id = searchParams.get("id") ?? "";
+
   const {
     isLoading: isPending,
     isError,
@@ -24,29 +26,37 @@ const ProductDetails = () => {
     queryFn: () => fetchProduct(id),
   });
 
+  const { error, handleAddToCart, loading, success } = useAddToCart();
+
   const handleWishToggle = async () => {
     try {
       if (product?._id) {
         await handleToggle(product._id);
-        SetWish((prev) => !prev);
+        setWish((prev) => !prev);
       }
     } catch (error) {
       console.error("Failed to toggle wishlist:", error);
     }
   };
 
+  useEffect(() => {
+    if (product) {
+      setWish(product.have);
+    }
+  }, [product]);
+
   if (isPending) {
     return (
-      <>
+      <div className="flex justify-center my-5">
         <ThreeDots
-          height="30"
-          width="30"
-          radius="9"
+          height="100"
+          width="100"
+          radius="10"
           color="#000000"
           ariaLabel="three-dots-loading"
           visible={true}
         />
-      </>
+      </div>
     );
   }
 
@@ -64,6 +74,16 @@ const ProductDetails = () => {
   const handleDecrease = () => {
     if (productCount > 1) {
       setProductCount((prev) => prev - 1);
+    }
+  };
+
+  const handleAdd = async () => {
+    try {
+      if (product && product._id) {
+        await handleAddToCart(product._id, productCount);
+      }
+    } catch (error) {
+      console.error("Failed to add product to cart:", error);
     }
   };
 
@@ -90,8 +110,7 @@ const ProductDetails = () => {
           </p>
           <div className="flex w-full justify-between text-2xl font-lato">
             <div>
-              <span className="flex items-start text-base">$</span>
-              <p className="font-extrabold"> {product?.price}</p>
+              <p className="font-extrabold">${product?.price}</p>
             </div>
             <div className="flex items-end">
               <button type="button" onClick={handleWishToggle}>
@@ -139,11 +158,30 @@ const ProductDetails = () => {
             </div>
             <button
               type="button"
-              className="bg-black text-white font-lato py-1 rounded-lg sm:py-2 px-4"
+              className="font-semibold bg-blue-600 text-white font-lato py-1 rounded-lg sm:py-2 px-4 w-[116.6px] h-[40px] flex justify-center items-center"
+              onClick={handleAdd}
             >
-              Add to Cart
+              {loading ? (
+                <ThreeDots
+                  height="50"
+                  width="50"
+                  radius="9"
+                  color="#ffffff"
+                  ariaLabel="three-dots-loading"
+                  visible={true}
+                />
+              ) : success ? (
+                <img
+                  src="/assets/icons/checkmark.svg"
+                  alt="Product Added"
+                  className="w-[24px] h-[24px] object-contain"
+                />
+              ) : (
+                "Add To Cart"
+              )}
             </button>
           </div>
+          {error && <p className="text-sm text-red-600 text-center">{error}</p>}
         </div>
       </div>
     </section>

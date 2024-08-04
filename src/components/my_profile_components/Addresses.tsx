@@ -9,6 +9,7 @@ const Addresses = () => {
     loading: loadingAddresses,
     handleGetAddresses,
     data: addresses,
+    error,
   } = useGetAddresses();
   useEffect(() => {
     handleGetAddresses();
@@ -16,14 +17,20 @@ const Addresses = () => {
   return (
     <section className="flex justify-center font-lato my-8">
       {loadingAddresses ? (
-        <ThreeDots
-          height="30"
-          width="30"
-          radius="9"
-          color="#000000"
-          ariaLabel="three-dots-loading"
-          visible={true}
-        />
+        <div className="flex justify-center my-5">
+          <ThreeDots
+            height="100"
+            width="100"
+            radius="9"
+            color="#000000"
+            ariaLabel="three-dots-loading"
+            visible={true}
+          />
+        </div>
+      ) : error ? (
+        <div className="flex justify-center text-red-600 font-semibold text-2xl">
+          {error}
+        </div>
       ) : (
         <>
           <div className="flex flex-col">

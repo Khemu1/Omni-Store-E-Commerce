@@ -3,7 +3,15 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import morgan from "morgan";
-import { productsRouter, accountRouter } from "./src/routes/index";
+import {
+  accountRouter,
+  productsRouter,
+  wishListRouter,
+  orderRouter,
+  cardRouter,
+  checkoutRouter,
+} from "./src/routes/index";
+import cartRouter from "./src/routes/cart";
 
 const app = express();
 app.use(
@@ -16,6 +24,16 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
 
-app.use("/products", productsRouter);
+app.use("/product", productsRouter);
 app.use("/account", accountRouter);
+app.use("/wishlist", wishListRouter);
+app.use("/order", orderRouter);
+app.use("/paytment-method", cardRouter);
+app.use("/checkout", checkoutRouter);
+app.use("/cart", cartRouter);
+
+
+
+
+
 export default app;

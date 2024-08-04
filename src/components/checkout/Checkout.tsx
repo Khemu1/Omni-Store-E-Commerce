@@ -5,9 +5,8 @@ import CheckoutCard from "./CheckoutCard";
 import CheckoutAddress from "./CheckoutAddress";
 import CheckoutProducts from "./CheckoutProducts";
 import { calcTotalPrice } from "../../../utils/cart";
-import { useCreateOrder } from "../../hooks/checkout";
+import { useCreateOrder } from "../../hooks/order";
 import { ThreeDots } from "react-loader-spinner";
-import { CheckOutProps } from "../../../types";
 
 const Checkout = () => {
   useValidateUser();
@@ -74,7 +73,7 @@ const Checkout = () => {
         <h2>Checkout</h2>
       </div>
       {getDataloading ? (
-        <div className="flex justify-center">
+        <div className="flex justify-center w-full">
           <ThreeDots
             height="50"
             width="50"

@@ -144,3 +144,12 @@ export const deleteAddress = async (id: string) => {
     throw error;
   }
 };
+
+export const signout = async () => { 
+  try {
+    await axiosInstance.post("/account/logout");
+  } catch (error) {
+    console.error("Failed to sign out:", error);
+    throw error;
+  }
+}

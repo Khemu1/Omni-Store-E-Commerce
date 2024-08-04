@@ -1,7 +1,6 @@
 import { ValidationError } from "yup";
 import {
   getAddressSchema,
-  getCardSchema,
   getValidateLoginSchema,
   getValidateRegisterSchema,
   transformYupErrorsIntoObject,
@@ -9,7 +8,7 @@ import {
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import User from "../models/accounts";
-import { CardFormProps } from "../types";
+import { nextTick } from "process";
 const accessTokenSecret =
   process.env.JWT_ACCESS_SECRET || "your-access-token-secret";
 
@@ -136,28 +135,41 @@ export async function validateAddress(
   }
 }
 
-export async function validateCard(req: Request, res: Response, next: NextFunction) {
+export async function isLoggedIn(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   try {
-    const { name, number, type, cvc, expiry }: CardFormProps = req.body;
-    await getCardSchema().validate(
-      {
-        name,
-        number,
-        type,
-        cvc,
-        expiry,
-      },
-      { abortEarly: false }
-    );
-    req.card = { name, number, type, expiry, cvc };
-    next();
-  } catch (errors) {
-    if (errors instanceof ValidationError) {
-      console.error("Validation errors:", errors);
-      res.status(400).json({ errors: transformYupErrorsIntoObject(errors) });
-    } else {
-      console.error("Unexpected error:", errors);
-      res.status(500).json({ errors: "Internal server error" });
+    const accessToken = req.cookies.jwt;
+
+    if (!accessToken) {
+      return next();
     }
+
+    try {
+      const decodedAccessToken: any = jwt.verify(
+        accessToken,
+        accessTokenSecret
+      );
+
+      if (!decodedAccessToken) {
+        return next();
+      }
+
+      const user = await User.findById(decodedAccessToken.userId);
+
+      if (user) {
+        req.user = user;
+      }
+
+      next();
+    } catch (accessError) {
+      console.error("Access token verification error:", accessError);
+      next();
+    }
+  } catch (error) {
+    console.error("Token verification error:", error);
+    next();
   }
 }

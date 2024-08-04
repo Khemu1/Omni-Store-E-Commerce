@@ -49,6 +49,7 @@ export interface CardFormProps {
 export interface CardProps {
   _id: string;
   number: string;
+  last4Numbers: string;
   expiry: string;
   name: string;
   type: string;

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ProductProps } from "../../../types/index";
-import { useChangeCartAmount } from "../../hooks/product";
+import { useChangeCartAmount } from "../../hooks/cart";
 import { CartQunatity } from "../index";
 
 interface Pro {

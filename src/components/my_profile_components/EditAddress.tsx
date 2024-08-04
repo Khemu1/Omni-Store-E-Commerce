@@ -196,7 +196,7 @@ const EditAddress = () => {
               </div>
               <button
                 type="submit"
-                className="mt-2 text-white text-lg bg-black w-max m-auto px-6 rounded-xl"
+                className="flex justify-center w-full mt-2 text-white text-lg bg-blue-600 py-1 px-6 rounded-xl"
               >
                 {updateAddressLoading ? (
                   <ThreeDots

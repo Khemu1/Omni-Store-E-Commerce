@@ -1,6 +1,5 @@
 import { InfoFieldProps } from "../../../types";
 import { useNavigate } from "react-router-dom";
-import BounceLoader from "react-spinners/BounceLoader";
 
 const InfoField = ({ type, value, name, style, to }: InfoFieldProps) => {
   const navigateTo = useNavigate();

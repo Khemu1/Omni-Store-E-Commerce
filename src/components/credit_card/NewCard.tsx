@@ -9,7 +9,7 @@ import {
   transformYupErrorsIntoObject,
 } from "../../../utils/formValidations";
 import { ThreeDots } from "react-loader-spinner";
-import { useAddCard } from "../../hooks/profile";
+import { useAddCard } from "../../hooks/card";
 
 const getCardType = (number: string) => {
   // Remove spaces and dashes from the card number

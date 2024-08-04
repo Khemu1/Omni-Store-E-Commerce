@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { CardProps } from "../../../types";
-import { useSetCardDefault } from "../../hooks/profile";
-import { useDeleteCard } from "../../hooks/profile";
+import { useSetCardDefault } from "../../hooks/card";
+import { useDeleteCard } from "../../hooks/card";
 interface c {
   card: CardProps;
   onDisplay: boolean;

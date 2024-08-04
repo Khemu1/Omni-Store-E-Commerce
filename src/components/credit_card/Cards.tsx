@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useGetCards } from "../../hooks/profile";
+import { useGetCards } from "../../hooks/card";
 import { ThreeDots } from "react-loader-spinner";
 import { Card } from "../index";
 const Cards = () => {
@@ -14,16 +14,20 @@ const Cards = () => {
   return (
     <section className="flex justify-center my-9 font-lato">
       {loading ? (
-        <ThreeDots
-          height="30"
-          width="30"
-          radius="9"
-          color="#000000"
-          ariaLabel="three-dots-loading"
-          visible={true}
-        />
+        <div className="flex justify-center my-5">
+          <ThreeDots
+            height="100"
+            width="100"
+            radius="9"
+            color="#000000"
+            ariaLabel="three-dots-loading"
+            visible={true}
+          />
+        </div>
       ) : error ? (
-        <div>${error}</div>
+        <div className="flex justify-center text-red-600 font-semibold text-2xl">
+          {error}
+        </div>
       ) : data && data.cards.length > 0 ? (
         <div className="flex flex-col">
           <h2 className="font-semibold text-2xl mb-2">Cards</h2>

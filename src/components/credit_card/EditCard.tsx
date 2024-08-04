@@ -9,7 +9,7 @@ import {
   transformYupErrorsIntoObject,
 } from "../../../utils/formValidations";
 import { ThreeDots } from "react-loader-spinner";
-import { useUpdateCard, useGetCard } from "../../hooks/profile";
+import { useUpdateCard, useGetCard } from "../../hooks/card";
 import { useSearchParams } from "react-router-dom";
 
 const getCardType = (number: string) => {
@@ -176,16 +176,20 @@ const EditCard = () => {
   return (
     <div className="flex flex-col max-w-md mx-auto px-2 py-6 sm:px-4 bg-white shadow-md rounded-lg my-9 gap-6 ">
       {getCardLoading ? (
-        <ThreeDots
-          height="30"
-          width="30"
-          radius="9"
-          color="#000000"
-          ariaLabel="three-dots-loading"
-          visible={true}
-        />
+        <div className="flex justify-center my-5">
+          <ThreeDots
+            height="100"
+            width="100"
+            radius="9"
+            color="#000000"
+            ariaLabel="three-dots-loading"
+            visible={true}
+          />
+        </div>
       ) : getCardError ? (
-        <div className="text-sm text-red-600 font-semibold">{getCardError}</div>
+        <div className="flex justify-center text-red-600 font-semibold text-2xl">
+          {getCardError}
+        </div>
       ) : (
         <>
           <Cards
@@ -259,10 +263,10 @@ const EditCard = () => {
               )}
             </div>
 
-            <div className="flex justify-centers">
+            <div className="flex justify-centers w-full">
               <button
                 type="submit"
-                className="mt-2 text-white text-lg bg-black w-max m-auto px-6 rounded-xl"
+                className="flex justify-center w-full mt-2 text-white text-lg bg-blue-600 py-1 px-6 rounded-xl"
               >
                 {updateLoading ? (
                   <ThreeDots
@@ -279,9 +283,9 @@ const EditCard = () => {
               </button>
             </div>
             <div className="flex justify-center">
-              {UpdateError && <div className="text-red-500">{UpdateError}</div>}
+              {UpdateError && <div className="text-red-500 font-semibold">{UpdateError}</div>}
               {cardChangeError && (
-                <div className="text-red-500">{cardChangeError}</div>
+                <div className="text-red-500 font-semibold">{cardChangeError}</div>
               )}
 
               {success && (

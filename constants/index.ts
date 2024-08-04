@@ -110,6 +110,5 @@ export const swiperImages = [
   {
     path: "/assets/images/rachit-tank-2cFZ_FB08UM-unsplash.jpg",
   },
-  { path: "/assets/images/pexels-karolina-grabowska-4464822.jpg" },
   { path: "/assets/images/lum3n--RBuQ2PK_L8-unsplash.jpg" },
 ];

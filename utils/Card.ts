@@ -3,7 +3,9 @@ import axiosInstance from "./axiosInstance";
 
 export const getCheckoutData = async () => {
   try {
-    const response = await axiosInstance.get("/account/get-checkout-data");
+    const response = await axiosInstance.get(
+      "/paytment-method/get-checkout-data"
+    );
     return response.data;
   } catch (error) {
     console.error("Failed to get checkout data:", error);
@@ -13,7 +15,10 @@ export const getCheckoutData = async () => {
 
 export const addCard = async (card: CardFormProps) => {
   try {
-    const response = await axiosInstance.post("/account/add-card", card);
+    const response = await axiosInstance.post(
+      "/paytment-method/add-card",
+      card
+    );
     return response.data;
   } catch (error) {
     console.error("Failed to add card:", error);
@@ -23,7 +28,7 @@ export const addCard = async (card: CardFormProps) => {
 
 export const getCards = async (signal?: AbortSignal) => {
   try {
-    const response = await axiosInstance.get("/account/get-cards", {
+    const response = await axiosInstance.get("/paytment-method/get-cards", {
       signal,
     });
     return response.data;
@@ -35,9 +40,12 @@ export const getCards = async (signal?: AbortSignal) => {
 
 export const setCardDefault = async (id: string) => {
   try {
-    const response = await axiosInstance.patch("/account/set-card-default", {
-      id,
-    });
+    const response = await axiosInstance.patch(
+      "/paytment-method/set-card-default",
+      {
+        id,
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Failed to get cards:", error);
@@ -46,7 +54,9 @@ export const setCardDefault = async (id: string) => {
 };
 export const getCard = async (id: string) => {
   try {
-    const response = await axiosInstance.get(`/account/get-card?id=${id}`);
+    const response = await axiosInstance.get(
+      `/paytment-method/get-card?id=${id}`
+    );
     return response.data;
   } catch (error) {
     console.error("Failed to get card:", error);
@@ -56,7 +66,7 @@ export const getCard = async (id: string) => {
 export const updateCard = async (id: string, card: CardFormProps) => {
   try {
     const response = await axiosInstance.patch(
-      `/account/update-card?id=${id}`,
+      `/paytment-method/update-card?id=${id}`,
       card
     );
     return response.data;
@@ -69,7 +79,7 @@ export const updateCard = async (id: string, card: CardFormProps) => {
 export const deleteCard = async (id: string) => {
   try {
     const response = await axiosInstance.delete(
-      `/account/delete-card?id=${id}`
+      `/paytment-method/delete-card?id=${id}`
     );
     return response.data;
   } catch (error) {

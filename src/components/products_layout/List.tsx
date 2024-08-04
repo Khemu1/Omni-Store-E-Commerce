@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
 import { ProductProps } from "../../../types/index";
-import { useState } from "react";
-import {
-  useRemoveWishListItem,
-  useChangeCartAmount,
-} from "../../hooks/product";
+import { useState, useRef, useEffect } from "react";
+import { useAddToCart, useChangeCartAmount } from "../../hooks/cart";
+import { useRemoveWishListItem } from "../../hooks/wishlist";
 import { CartQunatity } from "../index";
+import { ThreeDots } from "react-loader-spinner";
 
 interface Pro {
   product: ProductProps;
@@ -24,21 +23,48 @@ const List = ({
   handleCartClick,
   handleCartClickError,
 }: Pro) => {
+  const {
+    error: addError,
+    handleAddToCart,
+    loading: addLoading,
+    success: addSuccess,
+  } = useAddToCart();
+
   const { handleRemove } = useRemoveWishListItem();
   const {
     handleChangeCartAmount,
     success,
     error: changeError,
-    loading
+    loading,
   } = useChangeCartAmount();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState<string | null>(null);
+  const productMenuRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
-  const handleMenuOpen = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.stopPropagation();
-    setIsMenuOpen((prev) => !prev);
+  const handleMenuOpen = (id: string) => {
+    setTimeout(() => {
+      setIsMenuOpen((prev) => (prev === id ? null : id));
+    }, 100);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        productMenuRef.current &&
+        !productMenuRef.current.contains(event.target as Node) &&
+        menuButtonRef.current &&
+        !menuButtonRef.current.contains(event.target as Node)
+      ) {
+        setIsMenuOpen(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleRemoveWishlistItem = async () => {
     await handleRemove(product._id);
@@ -54,9 +80,9 @@ const List = ({
     }
   };
 
-  const handleAddToCart = async () => {
+  const AddToCart = async () => {
     try {
-      if (handleCartClick) await handleCartClick();
+      await handleAddToCart(product._id);
     } catch (error) {
       console.error("Error adding to cart:", error);
     }
@@ -104,13 +130,17 @@ const List = ({
         <div className="relative">
           <button
             type="button"
-            onClick={handleMenuOpen}
+            onClick={() => handleMenuOpen(product._id)}
             className="flex items-center justify-center w-10 h-10 bg-gray-100 rounded-full hover:bg-gray-200"
+            ref={menuButtonRef}
           >
             <img src="/assets/icons/menu.svg" alt="menu" className="w-5 h-5" />
           </button>
-          {isMenuOpen && (
-            <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+          {isMenuOpen === product._id && (
+            <div
+              ref={productMenuRef}
+              className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10"
+            >
               {type === "wish" && (
                 <button
                   type="button"
@@ -132,18 +162,33 @@ const List = ({
               {type !== "cart" && (
                 <button
                   type="button"
-                  className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
-                  onClick={handleAddToCart}
+                  className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 m-auto"
+                  onClick={AddToCart}
                 >
-                  Add to Cart
+                  {addLoading ? (
+                    <ThreeDots
+                      height="24"
+                      width="24"
+                      radius="9"
+                      color="#000"
+                      ariaLabel="three-dots-loading"
+                      visible={true}
+                    />
+                  ) : addSuccess ? (
+                    <img
+                      src="/assets/icons/checkmark-black.svg"
+                      alt="Product Added"
+                      className="w-[24px] h-[24px] object-contain"
+                    />
+                  ) : (
+                    "Add To Cart"
+                  )}
                 </button>
               )}
             </div>
           )}
-          {handleCartClickError && (
-            <div className="text-red-500 text-center">
-              {handleCartClickError}
-            </div>
+          {addError && (
+            <div className="text-red-500 text-center">{addError}</div>
           )}
         </div>
       )}

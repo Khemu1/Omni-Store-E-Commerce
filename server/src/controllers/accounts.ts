@@ -1,21 +1,8 @@
 import User from "../models/accounts";
 import { Request, Response, CookieOptions } from "express";
 import jwt from "jsonwebtoken";
-import WishList from "../models/wishlist";
-import Product from "../models/product";
-import Order from "../models/orders";
-
-import {
-  CardFormProps,
-  CardProps,
-  CartProps,
-  ProductProps,
-  WishListProps,
-} from "../types";
-import Cart from "../models/cart";
 import Address from "../models/address";
 import { AddressProps } from "../types/index";
-import Card from "../models/cards";
 
 const accessTokenSecret =
   process.env.JWT_ACCESS_SECRET || "your-access-token-secret";
@@ -119,7 +106,11 @@ export async function loginUser(req: Request, res: Response) {
 export async function getUserInfo(req: Request, res: Response) {
   try {
     const user = req.user;
-    if (!user || typeof user._id.toString() !== "string") {
+    if (
+      !user ||
+      typeof user._id.toString() !== "string" ||
+      user._id.toString().length !== 24
+    ) {
       return res.status(401).json({ message: "Unauthorized" });
     }
     const findUser = await User.findById(user._id);
@@ -140,7 +131,12 @@ export async function getUserInfo(req: Request, res: Response) {
 export async function updateUsername(req: Request, res: Response) {
   try {
     const user = req.user;
-    if (!user || !user._id || typeof user._id.toString() !== "string") {
+    if (
+      !user ||
+      !user._id ||
+      typeof user._id.toString() !== "string" ||
+      user._id.toString().length !== 24
+    ) {
       return res.status(401).json({ message: "Unauthorized" });
     }
     const { username } = req.body;
@@ -165,7 +161,12 @@ export async function updateUsername(req: Request, res: Response) {
 export async function updateEmail(req: Request, res: Response) {
   try {
     const user = req.user;
-    if (!user || !user._id || typeof user._id.toString() !== "string") {
+    if (
+      !user ||
+      !user._id ||
+      typeof user._id.toString() !== "string" ||
+      user._id.toString().length !== 24
+    ) {
       return res.status(401).json({ message: "Unauthorized" });
     }
     const { email } = req.body;
@@ -190,7 +191,12 @@ export async function updateEmail(req: Request, res: Response) {
 export async function updatePassword(req: Request, res: Response) {
   try {
     const user = req.user;
-    if (!user || !user._id || typeof user._id.toString() !== "string") {
+    if (
+      !user ||
+      !user._id ||
+      typeof user._id.toString() !== "string" ||
+      user._id.toString().length !== 24
+    ) {
       return res.status(401).json({ message: "Unauthorized" });
     }
     const { currentPassword, newPassword } = req.body;
@@ -218,7 +224,12 @@ export async function updatePassword(req: Request, res: Response) {
 export async function updateMobileNumber(req: Request, res: Response) {
   try {
     const user = req.user;
-    if (!user || !user._id || typeof user._id.toString() !== "string") {
+    if (
+      !user ||
+      !user._id ||
+      typeof user._id.toString() !== "string" ||
+      user._id.toString().length !== 24
+    ) {
       return res.status(401).json({ message: "Unauthorized" });
     }
     const { mobileNumber } = req.body;
@@ -237,64 +248,6 @@ export async function updateMobileNumber(req: Request, res: Response) {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Server error" });
-  }
-}
-
-export async function getWishList(req: Request, res: Response) {
-  try {
-    const user = req.user;
-    if (!user || !user._id || typeof user._id.toString() !== "string") {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    const wishList: WishListProps[] = await WishList.find({
-      userId: user._id,
-    });
-    const products: ProductProps[] = [];
-
-    for (const wish of wishList) {
-      const product: ProductProps | null = await Product.findById(
-        wish.productId
-      );
-      if (product) {
-        products.push(product);
-      }
-    }
-
-    return res.status(200).json({ wishlist: products });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
-  }
-}
-
-export async function getCartItems(req: Request, res: Response) {
-  try {
-    const user = req.user;
-    if (!user || !user._id || typeof user._id.toString() !== "string") {
-      return res
-        .status(401)
-        .json({ message: "somthing is wrong with user form cart" });
-    }
-    const cartItems: CartProps[] = await Cart.find({
-      userId: user._id,
-    });
-    const products: ProductProps[] = [];
-    for (const item of cartItems) {
-      const product: ProductProps | null = await Product.findById(
-        item.productId
-      ).lean();
-      if (product)
-        products.push({
-          ...product,
-          totalPrice: item.price,
-          quantity: item.quantity,
-        });
-    }
-    return res.status(200).json({ cartItems: products });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
   }
 }
 
@@ -333,7 +286,12 @@ export async function addAddress(req: Request, res: Response) {
 export async function getAddresses(req: Request, res: Response) {
   try {
     const user = req.user;
-    if (!user || !user._id || typeof user._id.toString() !== "string") {
+    if (
+      !user ||
+      !user._id ||
+      typeof user._id.toString() !== "string" ||
+      user._id.toString().length !== 24
+    ) {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
@@ -352,7 +310,12 @@ export async function setAddressAsDefault(req: Request, res: Response) {
   try {
     const { id: addressId } = req.query;
     const user = req.user;
-    if (!addressId || !user || typeof user._id.toString() !== "string") {
+    if (
+      !addressId ||
+      !user ||
+      typeof user._id.toString() !== "string" ||
+      user._id.toString().length !== 24
+    ) {
       return res
         .status(400)
         .json({ message: "Address ID or user information is missing" });
@@ -452,342 +415,5 @@ export async function deleteAddress(req: Request, res: Response) {
   } catch (error) {
     console.error("Error deleting address:", error);
     return res.status(500).json({ message: "Server error" });
-  }
-}
-
-export async function addCard(req: Request, res: Response) {
-  try {
-    const user = req.user;
-    const card = req.card;
-    if (!user || !card) {
-      return res
-        .status(400)
-        .json({ message: "User or card information is missing" });
-    }
-
-    const [allCards, serach] = await Promise.all([
-      Card.find({ userId: user._id }),
-      Card.findOne({ userId: user._id, number: card.number }),
-    ]);
-
-    if (serach) {
-      return res.status(400).json({ message: "Card already exists" });
-    }
-    if (allCards.length === 0) {
-      const newCard = await new Card({
-        userId: user._id,
-        ...card,
-        last4Numbers: card.number.slice(-4),
-        default: true,
-      });
-      newCard.save();
-      return res
-        .status(201)
-        .json({ message: "Card added successfully", newCard });
-    }
-
-    const newCard = await new Card({
-      userId: user._id,
-      last4Numbers: card.number.slice(-4),
-      ...card,
-    });
-    newCard.save();
-    return res
-      .status(201)
-      .json({ message: "Card added successfully", newCard });
-  } catch (error) {
-    console.error("Error adding card:", error);
-    return res.status(500).json({ message: "Server error", error });
-  }
-}
-export async function getCards(req: Request, res: Response) {
-  try {
-    const user = req.user;
-    if (!user) {
-      return res.status(401).json({ message: "Invalid user data" });
-    }
-
-    const [cardsData] = await Promise.all([
-      Card.find({ userId: user._id }).select("-cvc").lean(),
-    ]);
-
-    const cards: CardProps[] = cardsData as CardProps[];
-
-    const maskNumber = (number: string) => "•••• •••• •••• " + number.slice(-4);
-
-    const maskedCards = cards.map((card) => ({
-      ...card,
-      number: maskNumber(card.number),
-    }));
-
-    const defaultCard = maskedCards.find((card) => card.default === true);
-
-    return res.status(200).json({ cards: maskedCards, defaultCard });
-  } catch (error) {
-    console.error("Error getting cards:", error);
-    return res.status(500).json({ message: "Server error" });
-  }
-}
-export async function getCard(req: Request, res: Response) {
-  try {
-    const user = req.user;
-    const { id: cardId } = req.query;
-    if (!user) {
-      return res.status(401).json({ message: "Invalid user data" });
-    }
-
-    const cardData = await Card.findOne({ _id: cardId, userId: user._id })
-      .select("-userId -type")
-      .lean();
-
-    return res.status(200).json(cardData);
-  } catch (error) {
-    console.error("Error getting cards:", error);
-    return res.status(500).json({ message: "Server error" });
-  }
-}
-
-export async function setCardDefault(req: Request, res: Response) {
-  try {
-    const user = req.user;
-    const { id } = req.body;
-    if (!user || !id) {
-      return res.status(400).json({ message: "Invalid user or card ID" });
-    }
-    await Card.updateMany({ userId: user._id }, { $set: { default: false } });
-    await Card.findByIdAndUpdate(id, { $set: { default: true } });
-    return res.status(200).json({ message: "Card set as default" });
-  } catch (error) {
-    console.error("Error setting card as default:", error);
-    return res.status(500).json({ message: "Server error" });
-  }
-}
-
-export async function updateCard(req: Request, res: Response) {
-  try {
-    const user = req.user;
-    const { id: cardId } = req.query;
-    const { name, number, cvc, expiry, type }: CardFormProps = req.body;
-    if (
-      !user ||
-      typeof user._id.toString() !== "string" ||
-      typeof cardId !== "string" ||
-      cardId.length !== 24
-    ) {
-      return res.status(401).json({ message: "Invalid user data" });
-    }
-    await Card.findByIdAndUpdate(cardId, {
-      name,
-      number,
-      cvc,
-      expiry,
-      type,
-    });
-    return res.status(200).json({ message: "Card updated successfully" });
-  } catch (error) {
-    console.error("Error updating card:", error);
-    return res.status(500).json({ message: "Server error" });
-  }
-}
-
-export async function deleteCard(req: Request, res: Response) {
-  try {
-    const user = req.user;
-    const { id } = req.query;
-
-    if (!user || !id || typeof id !== "string" || id.length !== 24) {
-      return res.status(400).json({ message: "Invalid user or card ID" });
-    }
-
-    const cardToDelete = await Card.findById(id);
-
-    if (
-      !cardToDelete ||
-      cardToDelete.userId.toString() !== user._id.toString()
-    ) {
-      return res.status(404).json({ message: "Card not found" });
-    }
-
-    await Card.findByIdAndDelete(id);
-
-    if (cardToDelete.default) {
-      const remainingCards = await Card.find({ userId: user._id });
-
-      if (remainingCards.length > 0) {
-        const newDefaultCard = remainingCards[0];
-        newDefaultCard.default = true;
-        await newDefaultCard.save();
-      }
-    }
-
-    return res.status(200).json({ message: "Card deleted successfully" });
-  } catch (error) {
-    console.error("Error deleting card:", error);
-    return res.status(500).json({ message: "Server error" });
-  }
-}
-
-export async function getCheckoutData(req: Request, res: Response) {
-  try {
-    const user = req.user;
-    if (!user) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-    const [cartItems, addresses, allCards] = await Promise.all([
-      Cart.find({ userId: user._id }).lean(),
-      Address.find({ userId: user._id }).select("-country  -zipcode").lean(),
-      Card.find({ userId: user._id }).select("-cvc -userId").lean(),
-    ]);
-
-    if (
-      cartItems.length === 0 ||
-      addresses.length === 0 ||
-      allCards.length === 0
-    ) {
-      return res
-        .status(404)
-        .json({ message: "Missing Address , products or credit card" });
-    }
-
-    const products: ProductProps[] = (
-      await Promise.all(
-        // somthing new
-        cartItems.map(async (item) => {
-          const product = await Product.findById(item.productId).lean();
-          if (product) {
-            return {
-              ...product,
-              totalPrice: item.price,
-              quantity: item.quantity,
-            } as ProductProps;
-          }
-          return null;
-        })
-      )
-    ).filter((product): product is ProductProps => product !== null); // better Approach
-
-    const cards = allCards as CardProps[];
-    const maskedCards = cards.map((card) => ({
-      ...card,
-      number: "•••• •••• •••• " + card.number.slice(-4),
-    }));
-    return res.status(200).json({ products, addresses, cards: maskedCards });
-  } catch (error) {
-    console.error("Error getting checkout data:", error);
-    return res.status(500).json({ message: "Server error" });
-  }
-}
-
-export async function createOrder(req: Request, res: Response) {
-  try {
-    const user = req.user;
-    if (!user || !user._id) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    const cartItems = await Cart.find({ userId: user._id });
-    if (!cartItems || cartItems.length === 0) {
-      return res.status(400).json({ message: "Cart is empty" });
-    }
-
-    const { addressId, cardId } = req.body;
-    if (!addressId || !cardId) {
-      return res
-        .status(400)
-        .json({ message: "Address or card information is missing" });
-    }
-
-    const address: AddressProps | null = await Address.findById(
-      addressId
-    ).lean();
-    const card: CardProps | null = await Card.findById(cardId).lean();
-
-    if (!address || !card) {
-      return res.status(404).json({ message: "Address or card not found" });
-    }
-
-    let totalPrice = 0;
-    const products = [];
-
-    for (const item of cartItems) {
-      const product: ProductProps | null = await Product.findById(
-        item.productId
-      ).lean();
-      if (!product) {
-        return res
-          .status(404)
-          .json({ message: `Product with ID ${item.productId} not found` });
-      }
-
-      const totalItemPrice = product.price * item.quantity;
-      totalPrice += parseFloat(totalItemPrice.toFixed(2));
-
-      products.push({
-        _id: product._id,
-        quantity: item.quantity,
-        price: product.price,
-        title: product.title,
-        image: product.image,
-      });
-    }
-
-    const newOrder = new Order({
-      userId: user._id,
-      products,
-      totalPrice,
-      address: {
-        name: address.name,
-        street: address.street,
-        city: address.city,
-      },
-      card: {
-        name: card.name,
-        last4Numbers: card.number.slice(-4),
-        type: card.type,
-      },
-      orderDate: new Date(),
-    });
-
-    await newOrder.save();
-    await Cart.deleteMany({ userId: user._id });
-
-    return res
-      .status(201)
-      .json({ message: "Order created successfully", order: newOrder._id });
-  } catch (error) {
-    console.error("Error creating order:", error);
-    return res.status(500).json({ message: "Server error" });
-  }
-}
-
-export async function getOrders(req: Request, res: Response) {
-  try {
-    const user = req.user;
-    if (!user) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    const orders = await Order.find({ userId: user._id })
-      .populate({
-        path: "products", // Correct path to the product reference
-        model: "Product",
-      })
-      .populate({
-        path: "address", // Populate the addressId field
-        model: "Address",
-        select: "name street city -_id", // Select specific fields to return
-      })
-      .populate({
-        path: "card", // Populate the cardId field
-        model: "Card",
-        select: "name type last4Numbers -_id", // Select specific fields to return
-      })
-      .lean();
-
-    // Send the response
-    return res.status(200).json(orders);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Internal Server Error" });
   }
 }

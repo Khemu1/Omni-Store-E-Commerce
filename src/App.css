@@ -29,13 +29,15 @@ nav {
 .nav-btn {
   @apply rounded-full border bg-black border-black py-1.5 px-5 text-white transition-all hover:bg-white hover:border-white text-lg hover:text-black text-center font-inter flex items-center justify-center;
 }
+.nav-btn_signout {
+  @apply rounded-full border bg-black border-black py-1 px-3 text-white transition-all hover:bg-white hover:border-white text-lg hover:text-black text-center font-inter flex items-center justify-center;
+}
 .nav-menu {
-  @apply text-white bg-transparent absolute flex flex-col gap-3 top-[68px] right-[-15px] rounded-l-lg;
-  backdrop-filter: blur(10px);
-  box-shadow: 5px -6px 12px -1px #272626;
+  @apply w-[150px] text-white bg-white absolute flex flex-col items-center py-4 gap-3 top-[68px] right-[-15px] rounded-l-lg;
+  box-shadow: -5px 0px 12px 4px #272626;
 }
 .nav-menu-link {
-  @apply hover:bg-white active:bg-white active:text-black p-3 hover:text-black w-full text-center;
+  @apply flex justify-center hover:bg-white active:bg-white active:text-black p-3 hover:text-black w-full text-center;
   transition-property: all;
   transition-duration: 500ms;
 }
@@ -74,7 +76,7 @@ nav {
   @apply grid grid-cols-1 gap-5;
 }
 .product {
-  @apply flex flex-col items-center rounded-lg bg-white  flex-wrap  border overflow-hidden w-[200px] sm:w-[250px] hover:scale-[1.02];
+  @apply flex flex-col items-center rounded-lg bg-white  flex-wrap  border overflow-hidden w-[300px] sm:w-[250px] hover:scale-[1.02];
   transition: 350ms ease-in-out;
 }
 .product_list {
@@ -246,10 +248,10 @@ footer {
   overflow: hidden;
 }
 .swiper_image {
-  max-width: 1635px;
-  max-height: 1000px;
-  object-fit: contain;
+  width: 95%;
+  height: 100%;
   border-radius: 10px;
+
 }
 
 .swiper-pagination {
@@ -308,4 +310,45 @@ footer {
 .onDsiplayCard {
   @apply flex flex-col gap-2 justify-center items-center bg-white w-[280px] h-[210px] rounded-lg;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.arrow {
+  @apply absolute  top-[50%];
+  right: calc(0% - 35px);
+  transition: 250ms ease-in-out;
+  background: transparent;
+  transform: rotate(90deg);
+}
+.arrow_phone {
+  @apply absolute  top-[50%];
+  right: calc(0% - 35px);
+  transition: 250ms ease-in-out;
+  background: transparent;
+  transform: rotate(90deg);
+}
+
+.sidebar_filter_menu {
+  @apply hidden sm:flex flex-col w-max bg-white gap-10 rounded-xl py-5 px-5 z-10  h-max absolute;
+  box-shadow: 5px 0px 12px -1px #272626;
+  left: -255px;
+  transition: 250ms ease-in-out;
+}
+
+.phone_sidebar_filter_menu {
+  @apply sm:hidden flex-col w-max bg-white gap-10 rounded-xl py-5 px-5 z-10  h-max absolute;
+  box-shadow: 5px 0px 12px -1px #272626;
+  left: 0px;
+  transition: 250ms ease-in-out;
+}
+
+.phone_sidebar_filter_menu_closed {
+  left: -255px;
+}
+
+.arrow:hover .sidebar_filter_menu,
+.sidebar_filter_menu:hover {
+  left: 0px;
+}
+.sidebar_filter_menu_hidden {
+  display: none;
 }

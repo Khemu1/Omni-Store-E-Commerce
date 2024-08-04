@@ -20,16 +20,18 @@ const Orders = () => {
       <h2 className="font-extrabold text-2xl mb-5">My orders</h2>
       <div>
         {loading ? (
-          <ThreeDots
-            height="70"
-            width="70"
-            radius="9"
-            color="#000000"
-            ariaLabel="three-dots-loading"
-            visible={true}
-          />
+          <div className="flex justify-center my-5">
+            <ThreeDots
+              height="100"
+              width="100"
+              radius="9"
+              color="#000000"
+              ariaLabel="three-dots-loading"
+              visible={true}
+            />
+          </div>
         ) : error ? (
-          <div className="text-red-600 font-semibold">
+          <div className="flex justify-center text-red-600 text-2xl font-semibold">
             Please Try Again Later
           </div>
         ) : orders && orders.length === 0 ? (
@@ -37,7 +39,8 @@ const Orders = () => {
             No Orders avilable, make a purchase
           </div>
         ) : (
-          orders && orders.map((o:OrderProps) => <Order order={o} key={o._id} />)
+          orders &&
+          orders.map((o: OrderProps) => <Order order={o} key={o._id} />)
         )}
       </div>
     </section>
