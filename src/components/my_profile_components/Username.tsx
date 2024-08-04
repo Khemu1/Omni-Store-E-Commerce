@@ -1,5 +1,3 @@
-import React from "react";
-
 const Username = () => {
   return (
     <div className="inputfield_container ">

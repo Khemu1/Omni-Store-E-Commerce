@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { ThreeDots } from "react-loader-spinner";
-import { OrderProps, ProductProps } from "../../../types";
+import { OrderProps } from "../../../types";
 import { useGetOrders } from "../../hooks/order";
 import { Order } from "../index";
 const Orders = () => {

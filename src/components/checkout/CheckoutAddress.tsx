@@ -1,4 +1,3 @@
-import React from "react";
 import { AddressProps } from "../../../types";
 
 interface A {

@@ -1,4 +1,3 @@
-import { Description } from "@headlessui/react";
 import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({

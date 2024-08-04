@@ -1,13 +1,7 @@
 import Product from "../models/product";
 import WishList from "../models/wishlist";
-import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import { ProductProps, SortQuery } from "../types/index";
-import User from "../models/accounts";
-import Cart from "../models/cart";
-
-const accessTokenSecret =
-  process.env.JWT_ACCESS_SECRET || "your-access-token-secret";
 
 interface ProductWithHave extends ProductProps {
   have: boolean;

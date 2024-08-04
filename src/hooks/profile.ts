@@ -8,7 +8,7 @@ import {
   updateAddress,
 } from "../../utils/ProfileAPIs";
 import { useDispatch } from "react-redux";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { logout, setUser } from "../store/authSlice";
 import { useNavigate } from "react-router-dom";
 import {
@@ -17,27 +17,16 @@ import {
   updateMobileNumber,
   updatePassword,
 } from "../../utils/ProfileAPIs";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 import { useValidateUser } from "./authHooks";
 import {
   AddressFormProps,
   AddressProps,
-  CardFormProps,
-  CardProps,
-  Cards,
   UpdatePasswordProps,
 } from "../../types";
 import { validateUser } from "../../utils/auth";
 import { getAddresses } from "../../utils/ProfileAPIs";
-import {
-  addCard,
-  getCards,
-  setCardDefault,
-  getCard,
-  updateCard,
-  deleteCard,
-} from "../../utils/Card";
 
 export const useAccountInfo = () => {
   const dispatch = useDispatch();
@@ -219,8 +208,6 @@ export const useUpdateMobileNumber = () => {
   return { loading, error, handleUpdateMobileNumber, success };
 };
 
-
-
 export const useAddAddress = () => {
   const navigateTo = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
@@ -390,5 +377,3 @@ export const useDeleteAddress = () => {
   };
   return { loading, error, handleDeleteAddress, success };
 };
-
-

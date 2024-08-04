@@ -92,7 +92,7 @@ const EditPassword = () => {
             )}
             {apiError && (
               <p className="text-sm font-semibold text-red-600">
-                {apiError.message}
+                {apiError}
               </p>
             )}
             {success && (

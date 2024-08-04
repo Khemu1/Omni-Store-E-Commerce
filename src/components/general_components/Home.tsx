@@ -24,7 +24,6 @@ const Home = () => {
     data: allProducts,
     isLoading: productsLoading,
     isError: productsError,
-    error,
   } = useQuery({
     queryKey: [
       "products",

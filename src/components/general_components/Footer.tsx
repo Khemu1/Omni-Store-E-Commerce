@@ -1,4 +1,4 @@
-import { FooterProps, Footer as f } from "../../../types/index";
+import { FooterProps} from "../../../types/index";
 import { footerLinks } from "../../../constants/index";
 import { Link } from "react-router-dom";
 

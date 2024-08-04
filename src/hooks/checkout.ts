@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { getAllCheckoutData } from "../../utils/checkout";
-import { CheckOutProps, CreateOrderProps } from "../../types";
+import { CheckOutProps } from "../../types";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { validateUser } from "../../utils/auth";
-import { createOrder } from "../../utils/checkout";
 
 export const useGetCheckoutData = () => {
   const navigateTo = useNavigate();
@@ -14,6 +13,7 @@ export const useGetCheckoutData = () => {
   const [error, setError] = useState<string | null>(null);
   const handleGetCheckoutData = async () => {
     try {
+      await validateUser();
       setLoading(true);
       setError(null);
       setData(await getAllCheckoutData());
@@ -33,4 +33,3 @@ export const useGetCheckoutData = () => {
   }, [error]);
   return { loading, error, handleGetCheckoutData, data };
 };
-

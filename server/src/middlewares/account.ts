@@ -8,7 +8,6 @@ import {
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import User from "../models/accounts";
-import { nextTick } from "process";
 const accessTokenSecret =
   process.env.JWT_ACCESS_SECRET || "your-access-token-secret";
 
