@@ -251,7 +251,6 @@ footer {
   width: 95%;
   height: 100%;
   border-radius: 10px;
-
 }
 
 .swiper-pagination {
@@ -351,4 +350,30 @@ footer {
 }
 .sidebar_filter_menu_hidden {
   display: none;
+}
+
+/* Add to your global styles or tailwind.css */
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: #007bff;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: #007bff;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.slider::-ms-thumb {
+  width: 20px;
+  height: 20px;
+  background: #007bff;
+  cursor: pointer;
+  border-radius: 50%;
 }
