@@ -50,7 +50,9 @@ My first ever E-Commerce site, featuring a full-featured shopping experience wit
 4. **Create a `.env` file in the root directory** and add the following environment variables:
     ```env
     MONGODB_URI=your_mongodb_uri
-    JWT_SECRET=your_jwt_secret
+    JWT_ACCESS_SECRET=your_jwt_secret
+    JWT_REFRESH_TOKEN=your_jwt_secret
+
     ```
 
 5. **Start the development server**:
@@ -95,8 +97,3 @@ My first ever E-Commerce site, featuring a full-featured shopping experience wit
 - **JWT (JSON Web Tokens):** Used for secure user authentication.
 - **Redux:** A predictable state container for JavaScript apps.
 - **Axios:** A promise-based HTTP client for making requests to the server.
-
-
-
-Replace placeholders like `your_mongodb_uri`, `your_jwt_secret`, and `yourname@example.com` with your actual information. Adjust the sections and content as needed to fit your project details.
-
