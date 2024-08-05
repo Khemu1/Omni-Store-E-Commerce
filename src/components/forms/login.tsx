@@ -5,7 +5,7 @@ import { LoginProps } from "../../../types";
 import "react-phone-input-2/lib/style.css";
 import { getValidateLoginSchema } from "../../../utils/formValidations";
 import { useLogin } from "../../hooks/authHooks";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ErrorResponse } from "../../../types";
 
 const Login = () => {
@@ -65,10 +65,16 @@ const Login = () => {
         </div>
         <button
           type="submit"
-          className="bg-blue-500 text-white rounded-lg py-2 mt-8 w-[75%] m-auto"
+          className="bg-blue-500 text-white rounded-lg py-2 mt-8 w-[75%] m-auto font-semibold"
         >
-          Login
+          Sign In
         </button>
+        <Link
+          className="font-semibold font-lato transition-all m-auto text-sm text-gray-600 hover:text-blue-700"
+          to="/register"
+        >
+          Don't Have an Account ?
+        </Link>
         {error && (
           <div className="text-red-500 text-sm flex justify-center">
             {(error as AxiosError<ErrorResponse>)?.response?.data?.errors

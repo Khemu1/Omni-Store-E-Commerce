@@ -8,7 +8,7 @@ const Order: React.FC<{ order: OrderProps }> = ({ order }) => {
     <div className="flex  flex-col gap-2">
       <div className="flex flex-col gap-2 border-b-2 py-2">
         <div className="font-extrabold">
-          Create At : {formatISODate(order.orderDate)}
+          Created At : {formatISODate(order.orderDate)}
         </div>
         <div className="font-semibold">Order Id : {order._id}</div>
         <h2 className="font-semibold text-xl">Buyer Info</h2>

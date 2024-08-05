@@ -7,7 +7,7 @@ import { useState } from "react";
 import "react-phone-input-2/lib/style.css";
 import { getValidateRegisterSchema } from "../../../utils/formValidations";
 import { useRegister } from "../../hooks/authHooks";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ErrorResponse } from "../../../types";
 
 const Register = () => {
@@ -133,6 +133,12 @@ const Register = () => {
         >
           Register
         </button>
+        <Link
+          className="font-semibold font-lato transition-all m-auto text-sm text-gray-600 hover:text-blue-700"
+          to="/login"
+        >
+          Already Have an Account ?
+        </Link>
         {error && (
           <div className="text-red-500 text-sm flex justify-center">
             {(error as AxiosError<ErrorResponse>)?.response?.data?.errors
