@@ -28,7 +28,7 @@ const WishListView = () => {
   useEffect(() => {
     if (clearSuccess) {
       setTimeout(() => {
-        handleClearWishList();
+        handleDisplayWithList();
       }, 500);
     }
   }, [clearSuccess]);
@@ -56,7 +56,9 @@ const WishListView = () => {
           Please Try Again Later
         </div>
       ) : products.length === 0 ? (
-        <div>Start adding products to your wishlist</div>
+        <div className="text-xl font-semibold">
+          Start adding products to your wishlist
+        </div>
       ) : (
         products.map((product) => (
           <List
@@ -68,7 +70,7 @@ const WishListView = () => {
         ))
       )}
       <button
-        className="text-sm bg-blue-600 text-white p-2 rounded-xl w-[85px] h-[36px] flex justify-center items-center mt-3 font-semibold"
+        className="text-sm bg-blue-600 text-white p-2 rounded-xl w-[120px] h-[36px] flex justify-center items-center mt-3 font-semibold"
         type="button"
         onClick={clearWishList}
       >
@@ -88,7 +90,7 @@ const WishListView = () => {
             className="w-[30px] h-[30px] object-contain"
           />
         ) : (
-          "Clear Cart"
+          "Clear Wishlist"
         )}
       </button>
       <br />
