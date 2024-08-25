@@ -1,30 +1,99 @@
-# React + TypeScript + Vite
+# Omni Store Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+My first ever E-Commerce site, featuring a full-featured shopping experience with user authentication, product listings, shopping cart, wishlist, and responsive design.
 
-Currently, two official plugins are available:
+## Features
+- **User Authentication**
+  - Secure user registration and login using JWT.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Product Listing**
+  - Display a list of products with details such as name, description, price, and specifications.
 
-## Expanding the ESLint configuration
+- **Shopping Cart**
+  - Add products to the cart and manage them.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Filters**
+  - Filter products by various criteria to refine search results.
 
-- Configure the top-level `parserOptions` property like this:
+- **Wishlist**
+  - Add products to a wishlist for future reference.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- **Responsive Design**
+  - Optimized for desktop, tablet, and mobile devices to provide a seamless user experience.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Installation
+
+### Prerequisites
+
+- Node.js
+- npm or Yarn
+- MongoDB
+
+### Steps
+
+1. **Clone the repository**:
+    ```bash
+    git clone https://github.com/Khemu1/Omni-Store-E-Commerce
+    ```
+
+2. **Navigate to the project directory**:
+    ```bash
+    cd Omni-Store-E-Commerce
+    ```
+
+3. **Install dependencies**:
+    ```bash
+    npm install
+    ```
+    
+4. **Create a `.env` file in the root directory** and add the following environment variables:
+    ```env
+    MONGODB_URI=your_mongodb_uri
+    JWT_ACCESS_SECRET=your_jwt_secret
+    JWT_REFRESH_TOKEN=your_jwt_secret
+
+    ```
+
+5. **Start the development server**:
+    ```bash
+    npm run dev
+    ```
+
+6. **Start the backend server**:
+    ```bash
+    npm run serve
+    ```
+
+7. **Access the application**:
+   Open your browser and navigate to `http://localhost:5173`.
+
+## Usage
+
+### Running the project
+
+1. Start the frontend development server
+   ```bash
+   npm run dev
+2. Start the frontend development server
+   ```bash
+   npm run serve
+
+## Technologies Used
+
+### Frontend:
+- **React:** A JavaScript library for building user interfaces.
+- **TypeScript:** A typed superset of JavaScript that compiles to plain JavaScript.
+- **Vite:** A fast build tool and development server for modern web projects.
+- **Tailwind CSS:** A utility-first CSS framework for rapidly building custom user interfaces.
+
+### Backend:
+- **Node.js:** A JavaScript runtime built on Chrome's V8 JavaScript engine.
+- **Express:** A minimal and flexible Node.js web application framework.
+- **MongoDB:** A NoSQL database for modern applications.
+- **Mongoose:** An ODM (Object Data Modeling) library for MongoDB and Node.js.
+
+### Other:
+- **JWT (JSON Web Tokens):** Used for secure user authentication.
+- **Redux:** A predictable state container for JavaScript apps.
+- **Axios:** A promise-based HTTP client for making requests to the server.
