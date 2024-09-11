@@ -48,7 +48,7 @@ export const getValidateRegisterSchema = () => {
     mobileNumber: Yup.string()
       .required("Phone number is required")
       .test("valid-phone", "Invalid phone number", function (value) {
-        const { countryCode } = this.parent;
+        const { countryCode } = this.parent; // this accesses the formData to get countryCode
         if (!value || !countryCode) return false;
         const isValid = validatePhoneNumber(value, countryCode);
         return isValid;
