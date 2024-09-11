@@ -27,8 +27,7 @@ const validatePhoneNumber = (value: string, countryCode: string): boolean => {
     return false;
   }
 };
-
-export const getValidateRegisterSchema = (countryCode: string) => {
+export const getValidateRegisterSchema = () => {
   return Yup.object().shape({
     email: Yup.string()
       .email("Please enter a valid email")
@@ -48,13 +47,12 @@ export const getValidateRegisterSchema = (countryCode: string) => {
       .label("Confirm Password"),
     mobileNumber: Yup.string()
       .required("Phone number is required")
-      .test("valid-phone", "Invalid phone number", (value) => {
-        if (!value) return false;
-        console.log("MobileNumber:", value);
+      .test("valid-phone", "Invalid phone number", function (value) {
+        const { countryCode } = this.parent;
+        if (!value || !countryCode) return false;
         const isValid = validatePhoneNumber(value, countryCode);
         return isValid;
       }),
-    countryCode: Yup.string().required("Country Code is required"),
   });
 };
 

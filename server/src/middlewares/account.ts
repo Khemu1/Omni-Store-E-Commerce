@@ -45,6 +45,7 @@ export async function validateRegister(
   try {
     const { email, password, username, mobileNumber, countryCode } =
       req.body.data;
+
     await getValidateRegisterSchema(countryCode, mobileNumber).validate(
       {
         password,

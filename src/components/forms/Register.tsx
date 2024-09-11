@@ -1,130 +1,141 @@
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useState } from "react";
+import * as Yup from "yup";
 import { AxiosError } from "axios";
 import ReactPhoneInput from "react-phone-input-2";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { RegisterProps, CountryProps } from "../../../types";
-import { useState } from "react";
 import "react-phone-input-2/lib/style.css";
-import { getValidateRegisterSchema } from "../../../utils/formValidations";
 import { useRegister } from "../../hooks/authHooks";
-import { Link, useNavigate } from "react-router-dom";
+import { RegisterProps, CountryProps } from "../../../types";
+import { Link } from "react-router-dom";
 import { ErrorResponse } from "../../../types";
+import {
+  getValidateRegisterSchema,
+  transformYupErrorsIntoObject,
+} from "../../../utils/formValidations";
 
 const Register = () => {
-  type errors = any;
-
-  const navigateTo = useNavigate();
-  const [countryCode, setCountryCode] = useState("eg");
-  const validationSchema = getValidateRegisterSchema(countryCode);
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<RegisterProps>({
-    resolver: yupResolver(validationSchema),
+  const [formData, setFormData] = useState<RegisterProps>({
+    email: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+    mobileNumber: "",
+    countryCode: "EG",
   });
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const { error, handleUseRegister, success } = useRegister();
 
-  const { mutate: registerUser, error, isSuccess } = useRegister();
-  const onSubmit: SubmitHandler<RegisterProps> = (data) => {
-    registerUser(
-      { ...data, countryCode: countryCode },
-      {
-        onSuccess: () => {
-          navigateTo("/");
-        },
+  const validationSchema = getValidateRegisterSchema();
+
+  const validateForm = () => {
+    try {
+      validationSchema.validateSync(formData, { abortEarly: false });
+      setFormErrors({});
+      return true;
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        setFormErrors(transformYupErrorsIntoObject(err));
       }
-    );
+      return false;
+    }
   };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (validateForm()) {
+      try {
+        await handleUseRegister(formData);
+      } catch (error) {
+        console.log("Error during registration:", error);
+      }
+    }
+  };
+
   return (
     <section className="flex justify-center bg-white rounded-3xl shadow-[0px_0px_15px_rgba(0,0,0,.3)] m-auto py-8 w-[300px] sm:w-[400px]">
-      <form
-        className="flex flex-col w-[75%] gap-4"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div className="input_field_conatiner ">
+      <form className="flex flex-col w-[75%] gap-4" onSubmit={handleSubmit}>
+        <div className="input_field_container">
           <label htmlFor="email">Email</label>
           <input
-            {...register("email")}
-            className="input_field"
             type="text"
-            name="email"
             id="email"
+            className="input_field"
+            value={formData.email}
+            onChange={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
           />
-          {errors.email && (
-            <p className="text-red-500 text-sm">{errors.email.message}</p>
+          {formErrors.email && (
+            <p className="text-red-500 text-sm">{formErrors.email}</p>
           )}
         </div>
-        <div className="input_field_conatiner">
+        <div className="input_field_container">
           <label htmlFor="username">Username</label>
           <input
-            {...register("username")}
-            className="input_field"
             type="text"
-            name="username"
             id="username"
+            className="input_field"
+            value={formData.username}
+            onChange={(e) =>
+              setFormData({ ...formData, username: e.target.value })
+            }
           />
-          {errors.username && (
-            <p className="text-red-500 text-sm">{errors.username.message}</p>
+          {formErrors.username && (
+            <p className="text-red-500 text-sm">{formErrors.username}</p>
           )}
         </div>
-        <div className="input_field_conatiner">
+        <div className="input_field_container">
           <label htmlFor="password">Password</label>
           <input
-            {...register("password")}
-            className="input_field"
             type="password"
-            name="password"
             id="password"
+            className="input_field"
+            value={formData.password}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
           />
-          {errors.password && (
-            <p className="text-red-500 text-sm">{errors.password.message}</p>
+          {formErrors.password && (
+            <p className="text-red-500 text-sm">{formErrors.password}</p>
           )}
         </div>
-        <div className="input_field_conatiner">
+        <div className="input_field_container">
           <label htmlFor="confirmPassword">Confirm Password</label>
           <input
-            {...register("confirmPassword")}
-            className="input_field"
             type="password"
-            name="confirmPassword"
             id="confirmPassword"
+            className="input_field"
+            value={formData.confirmPassword}
+            onChange={(e) =>
+              setFormData({ ...formData, confirmPassword: e.target.value })
+            }
           />
-          {errors.confirmPassword && (
-            <p className="text-red-500 text-sm">
-              {errors.confirmPassword.message}
-            </p>
+          {formErrors.confirmPassword && (
+            <p className="text-red-500 text-sm">{formErrors.confirmPassword}</p>
           )}
         </div>
-        <div className="input_field_conatiner">
+        <div className="input_field_container">
           <label htmlFor="mobileNumber">Mobile Number</label>
-          <Controller
-            control={control}
-            name="mobileNumber"
-            render={({ field: { onChange, value, ref } }) => (
-              <ReactPhoneInput
-                inputProps={{
-                  ref,
-                  name: "mobileNumber",
-                  required: true,
-                  className: "input_field",
-                }}
-                country={"eg"}
-                value={value}
-                onChange={(phoneValue, countryData: CountryProps) => {
-                  setCountryCode(countryData.countryCode.toUpperCase());
-                  onChange(phoneValue);
-                }}
-                inputStyle={{
-                  paddingLeft: "45px",
-                }}
-              />
-            )}
+          <ReactPhoneInput
+            inputProps={{
+              name: "mobileNumber",
+              required: true,
+              className: "input_field",
+            }}
+            country={formData.countryCode}
+            value={formData.mobileNumber}
+            onChange={(phoneValue, countryData: CountryProps) => {
+              setFormData({
+                ...formData,
+                mobileNumber: phoneValue,
+                countryCode: countryData.countryCode.toUpperCase(),
+              });
+            }}
+            inputStyle={{
+              paddingLeft: "45px",
+            }}
           />
-          {errors.mobileNumber && (
-            <p className="text-red-500 text-sm">
-              {errors.mobileNumber.message}
-            </p>
+          {formErrors.mobileNumber && (
+            <p className="text-red-500 text-sm">{formErrors.mobileNumber}</p>
           )}
         </div>
         <button
@@ -141,16 +152,14 @@ const Register = () => {
         </Link>
         {error && (
           <div className="text-red-500 text-sm flex justify-center">
-            {(error as AxiosError<ErrorResponse>)?.response?.data?.errors
-              ?.email ||
-              (error as AxiosError<ErrorResponse>)?.response?.data?.errors
-                ?.mobileNumber ||
+            {(error as unknown as AxiosError<ErrorResponse>)?.response?.data
+              ?.errors?.email ||
+              (error as unknown as AxiosError<ErrorResponse>)?.response?.data
+                ?.errors?.mobileNumber ||
               "An unexpected error occurred."}
           </div>
         )}
-        {isSuccess && (
-          <p className="text-green-500 ">Registration successful!</p>
-        )}
+        {success && <p className="text-green-500">Registration successful!</p>}
       </form>
     </section>
   );

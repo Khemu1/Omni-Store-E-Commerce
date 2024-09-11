@@ -24,15 +24,22 @@ const refreshTokenOptions: CookieOptions = {
 };
 
 export async function registerUser(req: Request, res: Response) {
-  const { email, password, username, mobileNumber } = req.body.data;
-  try {
-    const findUser = await User.findOne({ email });
-    if (findUser) {
-      return res
+  const { email, password, username, mobileNumber, countryCode } =
+    req.body.data;
+    try {
+      const findUser = await User.findOne({ email });
+      if (findUser) {
+        return res
         .status(400)
         .json({ errors: { email: "Email already exists" } });
-    }
-    const user = new User({ username, email, password, mobileNumber });
+      }
+    const user = new User({
+      username,
+      email,
+      password,
+      mobileNumber,
+      countryCode,
+    });
     const newUser = await user.save();
     const token = jwt.sign(
       {
@@ -54,8 +61,8 @@ export async function registerUser(req: Request, res: Response) {
     return res.status(201).json({
       username: newUser.username,
       id: newUser._id,
-      email: findUser.email,
-      mobileNumber: findUser.mobileNumber,
+      email: newUser.email,
+      mobileNumber: newUser.mobileNumber,
     });
   } catch (error) {
     console.error(error);
